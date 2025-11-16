@@ -4,9 +4,9 @@
   box-sizing: border-box;
 }
 :root {
-  --primary-color: #134e5e;
-  --secondary-color: #0b3037;
-  --background-color: #eaf2ef;
+  --primary-color: #525333;
+  --secondary-color: #cf8852;
+  --background-color: #e8e7e3;
   --divider: #dddfe2;
 }
 
@@ -16,6 +16,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #f7f9ec;
 }
 .container {
   display: grid;
@@ -28,6 +29,8 @@
   gap: 0;
   background-color: var(--background-color);
   box-shadow: 0 0 10px;
+  border-radius: 14px;
+  overflow: hidden;
 }
 /* ---------------Overlay container---------------*/
 .overlay-container {
@@ -56,8 +59,8 @@
   cursor: pointer;
 }
 .overlay-container button:hover {
-  background-color: var(--background-color);
-  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  color: var(--background-color);
   border: 1px solid var(--primary-color);
 }
 .overlay-container button:active {
@@ -71,7 +74,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: transform 0.6s ease}
+  transition: transform 0.6s ease;
+}
 
 .login-active .overlay-container {
   transform: translateX(0);
@@ -86,7 +90,6 @@
 .signup-active .forms-container {
   transform: translateX(-100%);
 }
-
 
 /* ---------------- Forms container---------------- */
 
@@ -105,7 +108,6 @@
   justify-content: center;
   align-items: center;
   padding: 40px 10px;
- 
 }
 .signIn {
   width: 100%;
@@ -116,10 +118,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px 10px;
-
 }
-
-
 
 form {
   width: 100%;
@@ -138,27 +137,44 @@ p {
   cursor: pointer;
   text-decoration: none;
 }
-.password-wrapper {
-  position: relative;
-  width: 80%;
-}
-.password-wrapper input {
-  width: 100%;
-}
 
-.toggle-visibility {
+.password-visibility {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 45%;
   transform: translateY(-50%);
   cursor: pointer;
-  font-size: 16px;
   color: var(--primary-color);
+    opacity: 0;              /* invisible */
 }
+.password-visibility:focus {
+  outline: none; 
+}
+.box:focus-within .password-visibility {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .box {
   width: 80%;
   position: relative;
 }
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 1rem;
+  width: 100%; 
+}
+
+.row .box {
+  position: relative;
+  width: 100%;
+}
+
+.row .box:only-child {
+  grid-column: span 2; 
+}
+
 input {
   width: 100%;
   height: 40px;
@@ -167,9 +183,10 @@ input {
   background-color: var(--background-color);
   border-radius: 6px;
   border: 2px solid var(--divider);
-  color: #1d2129;
   padding: 10px;
   margin-bottom: 20px;
+  color: #1d2129;
+
 }
 
 label {
@@ -183,9 +200,12 @@ label {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.moved {
+
+.box:focus-within label,
+.box input:not(:placeholder-shown) + label {
   transform: translateY(-20px);
-  color: var(--primary-color);
+  color: var(--secondary-color);
+  font-size: 14px;
 }
 
 input:hover {
@@ -199,29 +219,7 @@ input:focus {
   border-color: var(--secondary-color);
   outline: none;
 }
-#google {
-  display: flex;
-  justify-content: space-between;
-}
-#hiddenButton {
-  background-color: #2ebf91;
-}
-#hiddenAnchor {
-  text-decoration: none;
-}
-#google i {
-  font-size: 16px;
-}
 
-.personalDetails {
-  width: 80%;
-  display: flex;
-  gap: 10px;
-}
-.personalDetails label i {
-  font-size: 20px;
-  color: var(--primary-color);
-}
 
 .signUp button,
 .signIn button {
@@ -243,6 +241,7 @@ input:focus {
 .signUp button:hover,
 .signIn button:hover {
   background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
 }
 .signUp button:active,
 .signIn button:active {
@@ -258,20 +257,18 @@ input:focus {
   width: 80%;
 }
 
-.visible {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-.hidden {
-  opacity: 0;
-  transform: scale(1);
-  pointer-events: none;
-}
 #password-strength {
-  color: red;
+  color: crimson;
   font-size: 0.8em;
 }
+
+
 input::placeholder {
+  color: transparent;
   font-size: 1em;
+
+}
+
+input:focus::placeholder {
+  color: #999;  
 }
