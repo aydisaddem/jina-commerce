@@ -6,15 +6,24 @@ const Authentication = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showSignUpPassword, setShowSignUpPassword] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(null);
-  const [phone, setPhone] = useState("");
-  const [signUpPassword, setSignUpPassword] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+
   const [showStrength, setShowStrength] = useState(false);
   const [strength, setStrength] = useState({
     length: false,
     uppercase: false,
     specialChar: false,
   });
+  const [email, setEmail] = useState("");
+  const [password, setPassword]= useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [signUpConfirmPassword, setSignUpConfirmPassword] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [errors, setErrors] = useState({});
 
   const toggleForm = () => setIsLogin(!isLogin);
   const togglePassword = () => setShowPassword(!showPassword);
@@ -162,23 +171,38 @@ const Authentication = () => {
     if (strength.specialChar) score++;
     return score;
   };
-  function login(e) {
+  function handleLogin(e) {
     e.preventDefault();
     console.log("Login submitted");
   }
+  function validateForm() {
+    const result = {};
+   
+    result.firstName = firstName.trim() !== "";
+    result.lastName = lastName.trim() !== "";
+    result.signUpEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signUpEmail);
+    result.signUpPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(
+      signUpPassword
+    );
+    result.signUpConfirmPassword = signUpPassword === signUpConfirmPassword;
+    result.phone = /\d{2}[-.\s]?\d{3}[-.\s]?\d{3}/.test(phone);
+    result.selectedCity = selectedCity.value !== undefined;
+    result.address = address.trim() !== "";
 
-  function signup(e) {
-    e.preventDefault();
-    console.log(e.target.signUpPassword.value);
-    const password = e.target.signUpPassword.value;
-    const confirmPassword = e.target.confirmPassword.value;
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-    console.log("Sign Up submitted");
+    return result;
   }
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    const validation = validateForm();
+    setErrors(validation);
+
+    if (Object.values(validation).every(Boolean)) {
+      console.log("Form is valid, submit data");
+    } else {
+      console.log("Validation failed:", validation);
+    }
+  };
 
   return (
     <div className={`container ${isLogin ? "login-active" : "signup-active"}`}>
@@ -200,13 +224,26 @@ const Authentication = () => {
       <div className="forms-container">
         {isLogin ? (
           <div className="signIn">
-            <form onSubmit={login}>
+            <form onSubmit={handleLogin}>
               <div className="box">
                 <input
                   type="email"
                   id="email"
                   placeholder="you@example.com"
-                  required
+                  value={email}
+                    onChange={(e) => {
+      setEmail(e.target.value);
+
+      // basic email regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(e.target.value)) {
+        e.target.setCustomValidity("Please enter a valid email address");
+      } else {
+        e.target.setCustomValidity(""); // clear error
+      }
+    }}
+    required
                 />
                 <label htmlFor="email">Email</label>
               </div>
@@ -215,6 +252,8 @@ const Authentication = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   placeholder=" "
+                  value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   required
                 />
                 <label htmlFor="password">Password</label>
@@ -235,14 +274,28 @@ const Authentication = () => {
           </div>
         ) : (
           <div className="signUp">
-            <form onSubmit={signup}>
+            <form onSubmit={handleSignup}>
               <div className="row">
                 <div className="box">
-                  <input type="text" id="firstName" placeholder=" " required />
+                  <input
+                    type="text"
+                    id="firstName"
+                    placeholder=" "
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
                   <label htmlFor="firstName">First name</label>
                 </div>
                 <div className="box">
-                  <input type="text" id="lastName" placeholder=" " required />
+                  <input
+                    type="text"
+                    id="lastName"
+                    placeholder=" "
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
                   <label htmlFor="lastName">Last name</label>
                 </div>
               </div>
@@ -252,6 +305,18 @@ const Authentication = () => {
                     type="email"
                     id="signUpEmail"
                     placeholder="you@example.com"
+                    value={signUpEmail}
+                    onChange={(e) => {
+                      setSignUpEmail(e.target.value);
+
+                      if (!errors.signUpEmail) {
+                        e.target.setCustomValidity(
+                          "Please enter a valid email address"
+                        );
+                      } else {
+                        e.target.setCustomValidity("");
+                      }
+                    }}
                     required
                   />
                   <label htmlFor="signUpEmail">Email</label>
@@ -287,6 +352,17 @@ const Authentication = () => {
                     type="password"
                     id="confirmPassword"
                     placeholder=" "
+                    value={signUpConfirmPassword}
+                    onChange={(e) => {
+                      setSignUpConfirmPassword(e.target.value);
+
+                      // check match and set custom validity
+                      if (!errors.signUpConfirmPassword) {
+                        e.target.setCustomValidity("Passwords do not match");
+                      } else {
+                        e.target.setCustomValidity(""); // clear error
+                      }
+                    }}
                     required
                   />
                   <label htmlFor="confirmPassword">Confirm password</label>
@@ -318,19 +394,18 @@ const Authentication = () => {
 
                 <div className="strength-rules">
                   <p className={strength.length ? "valid" : "invalid"}>
-                    {strength.length ? "✔" : "✖"} Minimum 8 characters
+                    {strength.length ? "✔" : "✖"} 8 characters
                   </p>
                   <p className={strength.uppercase ? "valid" : "invalid"}>
                     {strength.uppercase ? "✔" : "✖"} 1 uppercase
                   </p>
                   <p className={strength.specialChar ? "valid" : "invalid"}>
-                    {strength.specialChar ? "✔" : "✖"} at least 1 special
-                    character
+                    {strength.specialChar ? "✔" : "✖"} 1 special character
                   </p>
                 </div>
               </div>
 
-              <div className="row2">
+              <div className="row-contact">
                 <div className="box">
                   <input
                     type="tel"
@@ -352,12 +427,20 @@ const Authentication = () => {
                     onChange={setSelectedCity}
                     placeholder="city..."
                     styles={selectStyle}
+                    required
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="box">
-                  <input id="address" type="text" placeholder=" " />
+                  <input
+                    id="address"
+                    type="text"
+                    placeholder=" "
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    required
+                  />
                   <label htmlFor="address">Address</label>
                 </div>
               </div>
