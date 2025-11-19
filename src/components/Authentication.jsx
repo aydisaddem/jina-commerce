@@ -15,7 +15,7 @@ const Authentication = () => {
     specialChar: false,
   });
   const [email, setEmail] = useState("");
-  const [password, setPassword]= useState("");
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [signUpEmail, setSignUpEmail] = useState("");
@@ -55,13 +55,16 @@ const Authentication = () => {
   const selectStyle = {
     control: (styles, { isFocused }) => ({
       ...styles,
-      backgroundColor: "#f5f2e7",
+      backgroundColor: "#fff",
       height: "40px",
       margin: "12px 0",
-      borderColor: isFocused ? "#525333" : "#dddfe2",
-      boxShadow: isFocused ? "0 0 0 1px #525333" : "none",
+      borderColor: isFocused ? "#708090" : "#dddfe2",
+      boxShadow: isFocused ? "0 0 0 1px #708090" : "none",
       "&:hover": {
-        borderColor: "#525333",
+        borderColor: "#708090",
+      },
+      "&:active": {
+        borderColor: "#000",
       },
       display: "flex",
       alignItems: "center",
@@ -69,13 +72,15 @@ const Authentication = () => {
     }),
     option: (styles, { isFocused, isSelected }) => ({
       ...styles,
-      backgroundColor: isSelected
-        ? "#525333"
-        : isFocused
-        ? "#cf8852"
-        : "#f5f2e7",
-      color: isSelected ? "#f5f2e7" : isFocused ? "#f5f2e7" : "#1d2129",
+      backgroundColor: isSelected ? "#000" : isFocused ? "#ef0200" : "#fff",
+
+      color: isSelected ? "#fff" : isFocused ? "#fff" : "#1d2129",
       cursor: "pointer",
+      "&:active": {
+
+    backgroundColor: isSelected ? "#333" : "#000" ,
+    color: "#fff",
+  },
     }),
     indicatorsContainer: (styles) => ({
       ...styles,
@@ -88,13 +93,12 @@ const Authentication = () => {
     }),
     singleValue: (styles) => ({
       ...styles,
-      color: "#525333",
-      fontWeight: "bold",
+      color: "#1d2129",
       textAlign: "center",
       width: "100%",
       display: "flex",
       alignItems: "center",
-      justifyContent: "center",
+      padding: "0 5px",
     }),
     placeholder: (styles) => ({
       ...styles,
@@ -106,28 +110,28 @@ const Authentication = () => {
     }),
     menu: (styles) => ({
       ...styles,
-      backgroundColor: "#525333",
-      border: "1px solid #525333",
+      backgroundColor: "#ef0200",
+      border: "1px solid #708090",
       borderRadius: "6px",
       marginTop: "4px",
     }),
     menuList: (styles) => ({
       ...styles,
       padding: 0,
-      backgroundColor: "#f5f2e7",
+      backgroundColor: "#fff",
       "&::-webkit-scrollbar": {
         width: "8px",
       },
       "&::-webkit-scrollbar-track": {
-        background: "#f5f2e7",
+        background: "#fff",
         borderRadius: "4px",
       },
       "&::-webkit-scrollbar-thumb": {
-        background: "#525333", // slider color
+        background: "#000", // slider color
         borderRadius: "4px",
       },
       "&::-webkit-scrollbar-thumb:hover": {
-        background: "#525333", // hover color
+        background: "#000", // hover color
       },
     }),
   };
@@ -177,7 +181,7 @@ const Authentication = () => {
   }
   function validateForm() {
     const result = {};
-   
+
     result.firstName = firstName.trim() !== "";
     result.lastName = lastName.trim() !== "";
     result.signUpEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signUpEmail);
@@ -231,19 +235,21 @@ const Authentication = () => {
                   id="email"
                   placeholder="you@example.com"
                   value={email}
-                    onChange={(e) => {
-      setEmail(e.target.value);
+                  onChange={(e) => {
+                    setEmail(e.target.value);
 
-      // basic email regex
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    // basic email regex
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (!emailRegex.test(e.target.value)) {
-        e.target.setCustomValidity("Please enter a valid email address");
-      } else {
-        e.target.setCustomValidity(""); // clear error
-      }
-    }}
-    required
+                    if (!emailRegex.test(e.target.value)) {
+                      e.target.setCustomValidity(
+                        "Please enter a valid email address"
+                      );
+                    } else {
+                      e.target.setCustomValidity(""); // clear error
+                    }
+                  }}
+                  required
                 />
                 <label htmlFor="email">Email</label>
               </div>
@@ -253,7 +259,7 @@ const Authentication = () => {
                   id="password"
                   placeholder=" "
                   value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
                 <label htmlFor="password">Password</label>
@@ -271,6 +277,25 @@ const Authentication = () => {
               </div>
               <button type="submit">Login</button>
             </form>
+
+            <div className="social-connect">
+              <div className="divider">
+                <hr />
+                <p>Or connect with</p>
+                <hr />
+              </div>
+              <div className="social-icons">
+                <button type="button" className="social-btn google">
+                  <i className="fa-brands fa-google"></i>
+                </button>
+                <button type="button" className="social-btn instagram">
+                  <i className="fa-brands fa-instagram"></i>
+                </button>
+                <button type="button" className="social-btn facebook">
+                  <i className="fa-brands fa-facebook"></i>
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="signUp">
