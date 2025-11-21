@@ -14,12 +14,11 @@
   text-transform: uppercase;
   font-weight: bold;
   font-family: "Josefin Sans", sans-serif;
- 
 }
-.subscribe i{
-    color: var(--primary-color);
-    font-size: 30px ;
-    margin-right: 20px;
+.subscribe i {
+  color: var(--primary-color);
+  font-size: 30px;
+  margin-right: 20px;
 }
 
 .news-form {
@@ -43,13 +42,13 @@
   border-radius: 6px 0 0 6px;
   width: 300px;
   background-color: var(--background-main-color);
+  color: var(--input-color);
 }
 .news-form input::placeholder {
-  color: #999;
+  color: var(--grey-color);
   opacity: 1;
   font-size: 12px;
 }
-
 
 .news-form button {
   display: flex;
@@ -67,11 +66,11 @@
   cursor: pointer;
 }
 .news-form button:hover {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
   border: 1px solid var(--secondary-color);
 }
 .news-form button:active {
-      transform: scale(0.95);
+  transform: scale(0.95);
 }
 
 .footer {
@@ -81,44 +80,148 @@
   padding: 1rem;
   position: relative;
   width: 100%;
-  height: 200px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
-}
-.copyright {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.copyright hr {
-  width: 80%;
-  border: none;
-  margin: 20px 0;
-  border-top: 1px solid var(--grey-color);
 }
 
 .footer p {
   margin: 0;
   font-size: 0.9rem;
 }
-
-.footer-title {
-  font-size: 1.3em;
-  font-weight: 600;
+.footer-main-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.footer-contact, .footer-services,
+.personel-account, .footer-social {
+  color: var(--grey-color);
+  padding: 20px;
 }
 
-.footer-container .social-icons a {
-  font-size: 1.3em;
-  padding: 0 12px 0 0;
+.footer-contact ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-.footer-social-icons a {
+
+.footer-contact li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 15px;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-contact li i {
+  margin-right: 10px;
+  font-size: 18px;
   color: var(--primary-color);
-  font-size: 1.7em;
-  padding-right: 30px;
+  transition: transform 0.3s ease;
+}
+
+.footer-contact li:hover {
+  color: var(--background-color);
+  padding-left: 2px;
+}
+
+.footer-contact li:hover i {
+  transform: scale(1.2);
+}
+
+
+
+.footer-services h3,
+.footer-contact h3,
+.personel-account h3,
+.footer-social h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-services ul,
+.personel-account ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-services li,
+.personel-account li {
+  margin-bottom: 10px;
+}
+
+.footer-services a,
+.personel-account a {
+  text-decoration: none;
+  color: var(--grey-color);
+  font-size: 15px;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-services a:hover,
+.personel-account a:hover {
+  color: var(--background-color);
+  padding-left: 5px;
+}
+
+.footer-social p {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.footer-social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.footer-social-icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #f1f1f1;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+.facebook {
+  background: #1877f2;
+}
+.instagram {
+  background-color: #e1306c;
+}
+
+.footer-social-icons a:hover {
+  transform: scale(1.1);
+}
+
+.copyright {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.copyright p {
+  color: var(--grey-color);
+}
+.copyright hr {
+  width: 80%;
+  border: none;
+  margin: 20px 0;
+  border-top: 1px solid var(--grey-color);
 }
 
 input:-webkit-autofill {
