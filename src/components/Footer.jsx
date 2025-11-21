@@ -1,4 +1,4 @@
-import "./footer.css";
+import "../styles/footer.css";
 const Footer = () => {
   function handleSubscribe(e) {
     e.preventDefault();
@@ -27,7 +27,7 @@ const Footer = () => {
             <h3>Contact</h3>
             <ul>
               <li>
-                <i className="fa-solid fa-location-dot"></i>ROUTE MAHDIA KM 9
+                <i className="fa-solid fa-location-dot"></i>Route Mahdia KM 9
                 -3054 SFAX{" "}
               </li>
               <li>
