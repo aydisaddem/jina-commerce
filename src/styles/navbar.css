@@ -28,7 +28,11 @@
 }
 
 /*------------------------Navbar Logo------------------------------*/
-
+.navbar-logo{
+  display: flex;
+  flex-direction: row;
+  gap:10px
+}
 .logo {
   margin: 0;
   height: auto;
@@ -61,16 +65,99 @@
   width: 100%;
   filter: drop-shadow(0 0 23px var(--primary-color));
 }
+/*-------------------------slide-nav--------------------------*/
+
+
+/* Drawer base */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 80%;
+  height: 100%;
+  background: #fff;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.mobile-nav.open {
+  left: 0;
+}
+
+/* Hamburger + Close */
+.hamburger {
+  font-size: 24px;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.close-btn {
+  font-size: 20px;
+  background: white !important;
+  color: var(--secondary-color);
+  border: none;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Nav Items */
+.nav-list {
+  list-style: none;
+  margin-top: 50px;
+  padding: 0;
+}
+.nav-item {
+  border-bottom: 1px solid #eee;
+  color: black;
+}
+.nav-label {
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Solo Items */
+.solo-list {
+  list-style: none;
+  padding-left: 20px;
+}
+.solo-item {
+  padding: 8px 0;
+}
+
+/* Columns */
+.columns {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+.column h4 {
+  margin: 10px 0 5px;
+  font-size: 14px;
+  color: #555;
+}
+.column ul {
+  list-style: none;
+  padding-left: 10px;
+}
+.column li {
+  padding: 5px 0;
+  font-size: 13px;
+}
+
 
 /*------------------------Navbar Search input-------------------------*/
 
-.navbar-search {
+.navbar-search,.mobile-search {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 .navbar-search input,
-.navbar-search button {
+.navbar-search button,.mobile-search input,.mobile-search button {
   box-sizing: border-box;
   height: 40px;
   margin: 0;
@@ -79,19 +166,19 @@
   line-height: 1;
   border: 2px solid var(--divider);
 }
-.navbar-search input {
+.navbar-search input ,.mobile-search input {
   border-right: none;
   border-radius: 6px 0 0 6px;
-  width: 300px;
+  width: 400px;
   background-color: var(--background-main-color);
   color: var(--input-color);
 }
-.navbar-search input::placeholder {
+.navbar-search input::placeholder ,.mobile-search input::placeholder {
   color: var(--grey-color);
   opacity: 1;
   font-size: 12px;
 }
-.navbar-search button {
+.navbar-search button, .mobile-search button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,17 +194,17 @@
   font-weight: bold;
   cursor: pointer;
 }
-.navbar-search button:hover {
+.navbar-search button:hover,.mobile-search button:hover{
   border: 1px solid var(--secondary-color);
 }
-.navbar-search button:active {
+.navbar-search button:active, .mobile-search button:active {
   transform: scale(0.98);
 }
-.navbar-search i {
+.navbar-search i ,.mobile-search i {
   font-size: 16px;
   color: var(--background-main-color);
 }
-.navbar-search i:hover {
+.navbar-search i:hover ,.mobile-search i:hover {
   transform: scale(1.5);
 }
 
@@ -136,6 +223,19 @@
 
 .navbar-actions a:hover {
   color: var(--primary-color);
+}
+.responsive-search{
+  display: none;
+}
+/*--------------------------mobile Search----------------------------*/
+.mobile-search{
+  height: auto;
+  width:  80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }
 
 /*--------------------------- Account--------------------------------------*/
@@ -553,6 +653,39 @@
 }
 .column ul li:hover {
   color: orangered;
+}
+
+/* Tablet breakpoint */
+@media (max-width: 768px) {
+
+}
+/* Mobile breakpoint */
+@media (max-width: 480px) {
+  .main-nav{
+    justify-content: space-between;
+  }
+  .navbar-search{
+    display: none;
+  }
+  .navbar-actions{
+    justify-content: flex-end;
+    gap:0
+  }
+  .logo{
+      font-size: 1em;
+  }
+  .responsive-search{
+    display: block;
+  }
+  .slide-nav{
+    display: block;
+  }
+  .sub-nav {
+    display: none;
+    
+  }
+ 
+  
 }
 
 

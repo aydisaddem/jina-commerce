@@ -1,13 +1,221 @@
 import "../styles/navbar.css";
 import SubNAv from "./SubNav.jsx";
+import SlideNav from "./SlideNav.jsx";
 import React, { useState } from "react";
 const Navbar = () => {
   const [isVisible, setIsVisble] = useState(false);
-  const handlePanel = () => setIsVisble(!isVisible);
+  const [isVisibleSearch, setIsVisbleSearch] =useState(false);
   const [qty, setQty] = useState(1);
   const [search, setSearch] = useState("");
   const [total, setTotal] = "0";
 
+  const navItems = [
+    {
+      label: "Computers",
+      solo: ["Laptop", "Gaming Laptop", "Professional Laptop"],
+      columns: [
+        {
+          title: "Laptop",
+          items: ["Laptop", "Gaming Laptop", "Professional Laptop"],
+        },
+        {
+          title: "Desktop PCs",
+          items: ["Gaming Desktop PCs", "All-in-One PCs", "Full Gaming Setups"],
+        },
+        {
+          title: "Accessories",
+          items: [
+            "Headsets & Earphones",
+            "Bags & Backpacks",
+            "Mouse",
+            "Keyboards",
+            "Mouse Pads",
+            "Coolers",
+            "Webcams",
+            "Monitors",
+          ],
+        },
+        {
+          title: "Computer Components",
+          items: [
+            "Internal Hard Drive",
+            "Fan & Cooler",
+            "Processor",
+            "Motherboard",
+            "Graphics Card",
+            "Laptop Keyboard",
+            "Laptop Battery",
+            "Laptop Charger",
+          ],
+        },
+      ],
+    },
+    {
+      label: "Phones & Tablets",
+      solo: ["Mobile Phones", "Smartphones", "Landline Phones", "Smartwatches"],
+
+      columns: [
+        {
+          title: "Tablets",
+          items: [
+            "Touchscreen Tablets",
+            "Graphic Tablets",
+            "Tablet Protective Cases",
+            "Tablet Chargers & Cables",
+            "Tablet Screen Protectors",
+            "Miscellaneous Tablet Accessories",
+          ],
+        },
+        {
+          title: "Phone Accessories",
+          items: [
+            "Phone Protective Cases",
+            "Smartphone Screen Protectors",
+            "Phone Chargers & Cables",
+            "Power Banks",
+            "Miscellaneous Phone Accessories",
+          ],
+        },
+      ],
+    },
+
+    {
+      label: "Storage",
+      solo: [
+        "External Hard Drives",
+        "Storage Servers",
+        "Storage Accessories",
+        "USB Flash Drives",
+        "Memory Cards",
+      ],
+      columns: [
+        {
+          title: "Internal Drives",
+          items: [
+            "Standard Internal",
+            "Drives",
+            "SSD Drives",
+            "Internal Drives for Storage Servers",
+            "Internal Drives for Video Surveillance",
+          ],
+        },
+      ],
+    },
+    {
+      label: "Impression",
+      solo: ["Fax", "Scanners machines"],
+      columns: [
+        {
+          title: "Printers",
+          items: [
+            "Integrated ink tank printers",
+            "Inkjet printers and multifunction printers",
+            "Laser printers and multifunction printers",
+            "Professional printers",
+            "Printer accessories",
+          ],
+        },
+        {
+          title: "Copiers",
+          items: [
+            "A4 | A3 copiers",
+            "Copier accessories",
+            "A4 paper",
+            "A3 paper",
+            "Envelopes",
+            "Photo paper",
+          ],
+        },
+      ],
+    },
+    {
+      label: "TV-Sound-Photos",
+      columns: [
+        {
+          title: "Video Projectors",
+          items: ["Video Projectors", "Video Projector Accessories"],
+        },
+        {
+          title: "Consoles & Games",
+          items: ["Consoles", "Game Controllers", "Console Accessories"],
+        },
+        {
+          title: "Televisions",
+          items: ["Televisions", "TV Accessories"],
+        },
+        {
+          title: "Sound",
+          items: [
+            "Home Theater",
+            "Systems",
+            "Soundbars",
+            "Headphones & Earphones",
+            "Speakers",
+            "Radio - Alarm Clock",
+            "Stereo System",
+            "Microphone",
+          ],
+        },
+      ],
+    },
+    {
+      label: "Security",
+      columns: [
+        {
+          title: "Alarm System",
+          items: ["Wired Alarm", "Wireless Alarm", "Accessories"],
+        },
+        {
+          title: "Security Equipment",
+          items: [
+            "Surveillance Cameras",
+            "Security Kits",
+            "Recorders",
+            "Security Accessories",
+            "Detectors and Sensors",
+          ],
+        },
+      ],
+    },
+    {
+      label: "Network & Connections",
+      columns: [
+        {
+          title: "Network",
+          items: [
+            "Switches / Routers / Access Points",
+            "Network Cards",
+            "Wi-Fi - Bluetooth Adapters",
+            "Powerline Adapters",
+            "Network Cabinets and Enclosures",
+            "Power Strips",
+            "Network Accessories",
+          ],
+        },
+        {
+          title: "Cables and Connectors",
+          items: [
+            "HDMI Cables",
+            "USB Cables",
+            "Network Cables",
+            "FireWire Cables",
+            "TV/Audio/DVD Screen Cables",
+            "Power Cables",
+            "Adapters/Converters",
+          ],
+        },
+        {
+          title:"Enclosures and Accessories",
+          items:["Network Enclosures and Cabinets","Accessories"]
+        }
+      ],
+    },
+  ];
+  const handlePanel = (e) =>  setIsVisble(!isVisible);
+  const handleSearch= (e) =>{
+    e.preventDefault()
+    setIsVisbleSearch(!isVisibleSearch)
+  } ;
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
@@ -27,8 +235,11 @@ const Navbar = () => {
   };
 
   return (
+    <>
     <nav className="navbar">
       <div className="main-nav">
+          
+        <SlideNav data={navItems}/>
         <div className="navbar-logo">
           <a className="logo" data-text="Awesome">
             <span className="actual-text">&nbsp;JINAshop&nbsp;</span>
@@ -50,12 +261,14 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-actions">
-          <a href="/settings">
-            <i className="fa-solid fa-gear"></i> Settings
-          </a>
+          <div onClick={handleSearch} className="responsive-search">
+            <a href="/search">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </a>
+          </div>
           <div className="dropdown">
-            <a href="/account" className="dropdown-toggle">
-              <i className="fa-regular fa-user"></i> Account
+            <a href="#" className="dropdown-toggle">
+              <i className="fa-regular fa-user"></i>
             </a>
             <ul className="dropdown-menu">
               <li>
@@ -71,7 +284,7 @@ const Navbar = () => {
           </div>
           <div className="panel" onClick={handlePanel}>
             <a href="#">
-              <i className="fa-solid fa-box"></i> Panel
+              <i className="fa-solid fa-box"></i>
             </a>
           </div>
           <div
@@ -142,8 +355,24 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-     <SubNAv/>
+      <SubNAv data={navItems}/>
+
     </nav>
+    <div className={`mobile-search ${isVisibleSearch?"" :"hidden"}`}>
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={handleSearchChange}
+          />
+          <button type="submit">
+            <i className="fa-solid fa-search"></i>
+          </button>
+    </div>
+    <div
+            className={`overlay ${isVisibleSearch ? "" : "hidden"}`}
+            onClick={handleSearch}
+          ></div>
+</>
   );
 };
 

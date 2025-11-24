@@ -391,6 +391,7 @@ input:focus::placeholder {
   max-width: 320px;
   display: flex;
   padding: 0.5rem 1.4rem;
+  margin-top: 10px;
   font-size: 0.7rem;
   line-height: 1.25rem;
   font-weight: 600;
@@ -417,9 +418,8 @@ input:focus::placeholder {
   transform: scale(1.02);
 }
 #google:active {
-    background-color: var(--secondary-color);
-    color: var(--background-color);
-
+  background-color: var(--secondary-color);
+  color: var(--background-color);
 }
 .mobile-authentication-toggle {
   display: none;
@@ -448,20 +448,13 @@ input:focus::placeholder {
 
 /* Tablet breakpoint */
 @media (max-width: 768px) {
-   .container {
+  .container {
     width: 80%;
     height: auto;
     min-height: 70vh;
     padding: 0;
     margin: 120px 0 50px 0;
   }
-
-  form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .row {
     display: flex;
     flex-direction: column;
@@ -508,28 +501,6 @@ input:focus::placeholder {
     padding: 10 px;
     margin: 0;
   }
-  .signIn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  .social-connect {
-    position: relative;
-  }
-  form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .box {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .row {
     display: flex;
     flex-direction: column;
@@ -538,3 +509,4 @@ input:focus::placeholder {
     gap: 0;
   }
 }
+
