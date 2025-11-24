@@ -42,10 +42,9 @@ const SubNAv = () => {
     },
     {
       label: "Phones & Tablets",
-            solo: ["Mobile Phones", "Smartphones", "Landline Phones","Smartwatches"],
+      solo: ["Mobile Phones", "Smartphones", "Landline Phones", "Smartwatches"],
 
       columns: [
-     
         {
           title: "Tablets",
           items: [
@@ -67,33 +66,55 @@ const SubNAv = () => {
             "Miscellaneous Phone Accessories",
           ],
         },
-    
       ],
     },
 
     {
       label: "Storage",
+      solo: [
+        "External Hard Drives",
+        "Storage Servers",
+        "Storage Accessories",
+        "USB Flash Drives",
+        "Memory Cards",
+      ],
       columns: [
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
-        },
-        {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Internal Drives",
+          items: [
+            "Standard Internal",
+            "Drives",
+            "SSD Drives",
+            "Internal Drives for Storage Servers",
+            "Internal Drives for Video Surveillance",
+          ],
         },
       ],
     },
     {
       label: "Impression",
+      solo: ["Fax", "Scanners machines"],
       columns: [
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Printers",
+          items: [
+            "Integrated ink tank printers",
+            "Inkjet printers and multifunction printers",
+            "Laser printers and multifunction printers",
+            "Professional printers",
+            "Printer accessories",
+          ],
         },
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Copiers",
+          items: [
+            "A4 | A3 copiers",
+            "Copier accessories",
+            "A4 paper",
+            "A3 paper",
+            "Envelopes",
+            "Photo paper",
+          ],
         },
       ],
     },
@@ -101,12 +122,29 @@ const SubNAv = () => {
       label: "TV-Sound-Photos",
       columns: [
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Video Projectors",
+          items: ["Video Projectors", "Video Projector Accessories"],
         },
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Consoles & Games",
+          items: ["Consoles", "Game Controllers", "Console Accessories"],
+        },
+        {
+          title: "Televisions",
+          items: ["Televisions", "TV Accessories"],
+        },
+        {
+          title: "Sound",
+          items: [
+            "Home Theater",
+            "Systems",
+            "Soundbars",
+            "Headphones & Earphones",
+            "Speakers",
+            "Radio - Alarm Clock",
+            "Stereo System",
+            "Microphone",
+          ],
         },
       ],
     },
@@ -114,12 +152,18 @@ const SubNAv = () => {
       label: "Security",
       columns: [
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Alarm System",
+          items: ["Wired Alarm", "Wireless Alarm", "Accessories"],
         },
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Security Equipment",
+          items: [
+            "Surveillance Cameras",
+            "Security Kits",
+            "Recorders",
+            "Security Accessories",
+            "Detectors and Sensors",
+          ],
         },
       ],
     },
@@ -127,13 +171,33 @@ const SubNAv = () => {
       label: "Network & Connections",
       columns: [
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Network",
+          items: [
+            "Switches / Routers / Access Points",
+            "Network Cards",
+            "Wi-Fi - Bluetooth Adapters",
+            "Powerline Adapters",
+            "Network Cabinets and Enclosures",
+            "Power Strips",
+            "Network Accessories",
+          ],
         },
         {
-          title: "Imprimantes",
-          items: ["À Réservoir Intégré", "Jet D'encre"],
+          title: "Cables and Connectors",
+          items: [
+            "HDMI Cables",
+            "USB Cables",
+            "Network Cables",
+            "FireWire Cables",
+            "TV/Audio/DVD Screen Cables",
+            "Power Cables",
+            "Adapters/Converters",
+          ],
         },
+        {
+          title:"Enclosures and Accessories",
+          items:["Network Enclosures and Cabinets","Accessories"]
+        }
       ],
     },
   ];
@@ -146,12 +210,12 @@ const SubNAv = () => {
             {item.label}
             <div className="mega-dropdown">
               {item.solo?.length > 0 && (
-  <div className="solo">
-    {item.solo.map((solo, soloIdx) => (
-      <h5 key={soloIdx}>{solo}</h5>
-    ))}
-  </div>
-)}
+                <div className="solo">
+                  {item.solo.map((solo, soloIdx) => (
+                    <h5 key={soloIdx}>{solo}</h5>
+                  ))}
+                </div>
+              )}
 
               {item.columns.map((col, colIdx) => (
                 <div key={colIdx} className="column">

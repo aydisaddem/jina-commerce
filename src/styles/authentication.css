@@ -17,6 +17,8 @@
 .overlay-container {
   background-color: var(--secondary-color);
   color: var(--background-color);
+  padding: 10px;
+  text-align: center;
 }
 
 .overlay-container h1 {
@@ -105,7 +107,7 @@
 
 form {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,12 +155,9 @@ p {
   grid-template-columns: 2fr 1fr;
   gap: 1rem;
   width: 100%;
+  padding: 0;
 }
-.row-contact .box {
-  position: relative;
-  width: 100%;
-}
-
+.row-contact .box,
 .row .box {
   position: relative;
   width: 100%;
@@ -283,8 +282,8 @@ input:-moz-autofill {
 
 label {
   position: absolute;
-  left: 13px;
-  top: 22px;
+  left: 15px;
+  top: 35%;
   font-size: 14px;
   padding: 0 5px;
   background-color: var(--background-color);
@@ -317,8 +316,7 @@ input:focus {
   outline: none;
 }
 
-.signUp button,
-.signIn button {
+form button {
   background-color: var(--primary-color);
   color: var(--background-color);
   font-family: sans-serif;
@@ -328,36 +326,32 @@ input:focus {
   font-size: 10px;
   font-weight: bold;
   border-radius: 10px;
-  padding: 12px 45px;
+  text-align: center;
   margin: 10px 0;
   cursor: pointer;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
-.signUp button:hover,
-.signIn button:hover {
+form button:hover {
   background-color: var(--secondary-color);
   border: 1px solid var(--secondary-color);
 }
-.signUp button:active,
-.signIn button:active {
+
+form button:active {
   transform: scale(0.95);
 }
-.signUp button:focus,
-.signIn button:focus {
+
+form button:focus {
   outline: none;
 }
 
-.social-connect{
-  position:absolute;
-bottom: 60px;
-width: 100%;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+.social-connect {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
-
 }
 .divider {
   display: grid;
@@ -373,9 +367,8 @@ align-items: center;
   width: 100%;
 }
 
-
 .divider p {
-  margin:0 5px;
+  margin: 0 5px;
   text-align: center;
   padding: 0 10px;
 }
@@ -422,4 +415,126 @@ input:focus::placeholder {
 
 #google:hover {
   transform: scale(1.02);
+}
+#google:active {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+
+}
+.mobile-authentication-toggle {
+  display: none;
+}
+.mobile-authentication-toggle button {
+  background-color: var(--background-color);
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  font-family: sans-serif;
+  width: 60%;
+  height: 40px;
+  border: 1px solid var(--secondary-color);
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px 0;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.mobile-authentication-toggle button:active {
+  background-color: var(--secondary-color) !important;
+  color: var(--background-color) !important;
+}
+
+/* Tablet breakpoint */
+@media (max-width: 768px) {
+   .container {
+    width: 80%;
+    height: auto;
+    min-height: 70vh;
+    padding: 0;
+    margin: 120px 0 50px 0;
+  }
+
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 480px) {
+  .container {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0;
+    padding: 10px;
+    margin: 100px 0 20px 0;
+    height: auto;
+    min-height: 80vh;
+  }
+  .overlay-container {
+    display: none;
+  }
+  .mobile-authentication-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .mobile-authentication-toggle button:hover {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+  }
+  .signup-active .forms-container {
+    transform: translateX(0px);
+    padding: 10 px;
+    margin: 0;
+  }
+  .signIn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .social-connect {
+    position: relative;
+  }
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
 }

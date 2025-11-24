@@ -443,6 +443,8 @@
 .has-dropdown {
   position: relative;
   padding: 10px 20px;
+    letter-spacing: 1px;
+
   cursor: pointer;
 }
 .has-dropdown:hover {
@@ -457,7 +459,7 @@
   top: 100px;
   left: 0;
   width: 100vw;
-  height: 60vh;
+  min-height: 30vh;
   background: var(--background-color);
   color: var(--secondary-color);
   padding: 30px 40px;
@@ -505,27 +507,28 @@
   font-weight: 400;
   font-family: "Poppins", sans-serif !important;
   margin-bottom: 10px;
-  position:relative;
+  letter-spacing: 1px;
+  position: relative;
   color: var(--secondary-color);
   cursor: pointer;
 }
 
-.column h5::after, .solo h5::after {
+.column h5::after,
+.solo h5::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -5px; 
+  bottom: -5px;
   width: 0%;
   height: 2px;
-  background-color: var(--primary-color); 
+  background-color: var(--primary-color);
   transition: width 0.3s ease;
 }
 
-.column h5:hover::after, .solo h5:hover::after {
-  width: 100%; 
+.column h5:hover::after,
+.solo h5:hover::after {
+  width: 100%;
 }
-
-
 
 .column h5:hover,
 .solo h5:hover {
@@ -544,9 +547,12 @@
 .column ul li {
   margin-bottom: 10px;
   font-size: 16px;
+  letter-spacing: 1px;
   cursor: pointer;
   color: var(--grey-color);
 }
 .column ul li:hover {
   color: orangered;
 }
+
+
