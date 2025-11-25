@@ -2,18 +2,20 @@ import React, { useState } from "react";
 const SlideNav = (props) => {
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
+  const [activeColumn, setActiveColumn] = useState(null);
   const toggleMenu = (index) => {
     setActiveMenu(activeMenu === index ? null : index);
   };
+  const toggleColumn = (index) => {
+  setActiveColumn(activeColumn === index ? null : index);
+};
 
   return (
     <>
-      {/* Hamburger Button */}
       <button className="hamburger" onClick={() => setOpen(!open)}>
         ☰
       </button>
-
-      {/* Slide Navbar */}
+      {open && <div className={`overlay-sidebar ${open ? "open" : ""}`} onClick={() => setOpen(false)} />}
       <div className={`mobile-nav ${open ? "open" : ""}`}>
         <button className="close-btn" onClick={() => setOpen(false)}>✕</button>
 
@@ -25,6 +27,9 @@ const SlideNav = (props) => {
                 onClick={() => toggleMenu(idx)}
               >
                 {item.label}
+                 <span className={`arrow ${activeMenu === idx ? "down" : "right"}`}>
+    {activeMenu === idx ? "▼" : "▶"}
+  </span>
               </div>
 
               {/* Solo Items */}
@@ -41,12 +46,22 @@ const SlideNav = (props) => {
                 <div className="columns">
                   {item.columns.map((col, cIdx) => (
                     <div key={cIdx} className="column">
-                      <h4>{col.title}</h4>
-                      <ul>
-                        {col.items.map((colItem, ci) => (
-                          <li key={ci}>{colItem}</li>
-                        ))}
-                      </ul>
+                      <div
+          className="column-label"
+          onClick={() => toggleColumn(cIdx)}
+        >
+          {col.title}
+          <span className={`arrow ${activeColumn === cIdx ? "down" : "right"}`}>
+            {activeColumn === cIdx ? "▼" : "▶"}
+          </span>
+        </div>
+                      {activeColumn === cIdx && (
+          <ul className="column-list">
+            {col.items.map((colItem, ci) => (
+              <li key={ci}>{colItem}</li>
+            ))}
+          </ul>
+        )}
                     </div>
                   ))}
                 </div>

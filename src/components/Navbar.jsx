@@ -12,7 +12,6 @@ const Navbar = () => {
   const navItems = [
     {
       label: "Computers",
-      solo: ["Laptop", "Gaming Laptop", "Professional Laptop"],
       columns: [
         {
           title: "Laptop",
@@ -261,7 +260,7 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-actions">
-          <div onClick={handleSearch} className="responsive-search">
+          <div onClick={handleSearch} className="mobile-search-icon">
             <a href="/search">
               <i className="fa-solid fa-magnifying-glass"></i>
             </a>
@@ -293,7 +292,7 @@ const Navbar = () => {
           ></div>
           <div className={`panel-menu ${isVisible ? "" : "hidden"}`}>
             <div className="panel-header">
-              <button className="close-btn" onClick={handlePanel}>
+              <button className="close-panel-btn" onClick={handlePanel}>
                 <span className="X"></span>
                 <span className="Y"></span>
                 <div className="close">Close</div>
