@@ -133,8 +133,6 @@ const SignUp = ({ toggleForm }) => {
       },
     }),
   };
-
-
   const showPasswordStrength = () => {
     setShowStrength(true);
   };
@@ -144,29 +142,24 @@ const SignUp = ({ toggleForm }) => {
     }
   };
 
-
-
   const checkPasswordStrength = (password) => {
     return {
-      length: formData.password.length >= 8,
-      uppercase: /[A-Z]/.test(formData.password),
-      specialChar: /[^A-Za-z0-9]/.test(formData.password),
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      specialChar: /[^A-Za-z0-9]/.test(password),
     };
   };
-  const handlePasswordStrength = (e) => {
-    const value = e.target.value;
-    setStrength(checkPasswordStrength(value));
-  };
-
-  const calculateStrengthScore = (strength) => {
+    const calculateStrengthScore = (strength) => {
     let score = 0;
     if (strength.length) score++;
     if (strength.uppercase) score++;
     if (strength.specialChar) score++;
     return score;
   };
-
-
+   const handlePasswordChange = (e) => {
+    handleChange(e); 
+    setStrength(checkPasswordStrength(e.target.value));
+  };
 
 
   function validateForm() {
@@ -244,7 +237,7 @@ const SignUp = ({ toggleForm }) => {
               placeholder=" "
               name="password"
               value={formData.password}
-              onChange={handleChange}
+              onChange={handlePasswordChange}
               onFocus={showPasswordStrength}
               onBlur={hidePasswordStrength}
               required
