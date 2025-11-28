@@ -1,4 +1,4 @@
-import "../styles/navbar.css";
+import "../../styles/navbar.css";
 import SubNAv from "./SubNav.jsx";
 import SlideNav from "./SlideNav.jsx";
 import React, { useState } from "react";
@@ -250,8 +250,9 @@ const Navbar = () => {
 
         <div className="navbar-search">
           <input
-            type="text"
+            type="search"
             placeholder="Search..."
+            value={search}
             onChange={handleSearchChange}
           />
           <button type="submit">
@@ -359,8 +360,9 @@ const Navbar = () => {
     </nav>
     <div className={`mobile-search ${isVisibleSearch?"" :"hidden"}`}>
           <input
-            type="text"
+            type="search"
             placeholder="Search..."
+            value={search}
             onChange={handleSearchChange}
           />
           <button type="submit">
