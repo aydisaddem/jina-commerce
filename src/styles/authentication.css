@@ -143,6 +143,7 @@ p {
 .box {
   width: 80%;
   position: relative;
+  margin-bottom: 0.8rem
 }
 .row {
   display: grid;
@@ -262,8 +263,23 @@ input {
   background-color: var(--background-color);
   border-radius: 6px;
   border: 2px solid var(--divider);
-  margin-bottom: 20px;
   color: var(--input-color);
+}
+.error {
+  position: absolute;
+  bottom: -12px; /* sits below input */
+  left: 0;
+  color: red;
+  font-size: 0.8rem;
+  opacity: 0;
+  transform: translateY(-4px); /* slight lift */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none; /* avoids blocking clicks */
+}
+
+.error.show {
+  opacity: 1;
+  transform: translateY(0); /* settles into place */
 }
 
 /* Chrome, Safari, Edge */
@@ -294,14 +310,26 @@ label {
 .box:focus-within label,
 .box input:not(:placeholder-shown) + label {
   transform: translateY(-20px);
-  color: var(--primary-color);
+  color: var(--grey-color);
   font-size: 14px;
 }
-.box:focus-within label::after,
+/*.box:focus-within label::after,
 .box input:not(:placeholder-shown) + label::after {
   content: "*";
   color: red;
   margin-left: 2px;
+}*/
+.box label span {
+  opacity:0
+}
+.box:focus-within label span, .box input:not(:placeholder-shown) + label span {
+  opacity:1
+}
+.error-star {
+  color: red;
+}
+.valid-star {
+  color: green;
 }
 
 input:hover {
@@ -445,6 +473,9 @@ input:focus::placeholder {
   background-color: var(--secondary-color) !important;
   color: var(--background-color) !important;
 }
+
+
+
 
 /* Tablet breakpoint */
 @media (max-width: 768px) {

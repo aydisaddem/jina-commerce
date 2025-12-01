@@ -3,16 +3,16 @@ import Select from "react-select";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
 
 const SignUp = ({ toggleForm }) => {
- const { formData, handleChange } = useAuthForm({
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-  phone: "",
-  address: "",
-  city: "",
-});
+  const { formData, handleChange } = useAuthForm({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+    address: "",
+    city: "",
+  });
 
   const [errors, setErrors] = useState({});
   const [showSignUpPassword, setShowSignUpPassword] = useState(false);
@@ -149,40 +149,56 @@ const SignUp = ({ toggleForm }) => {
       specialChar: /[^A-Za-z0-9]/.test(password),
     };
   };
-    const calculateStrengthScore = (strength) => {
+  const calculateStrengthScore = (strength) => {
     let score = 0;
     if (strength.length) score++;
     if (strength.uppercase) score++;
     if (strength.specialChar) score++;
     return score;
   };
-   const handlePasswordChange = (e) => {
-    handleChange(e); 
+  const handlePasswordChange = (e) => {
+    handleChange(e);
     setStrength(checkPasswordStrength(e.target.value));
   };
 
-
   function validateForm() {
-    const result = {};
-    result.firstName = formData.firstName.trim() !== "";
-    result.lastName = formData.lastName.trim() !== "";
-    result.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-    result.password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(formData.password);
-    result.confirmPassword = formData.password === formData.confirmPassword;
-    result.phone = /\d{2}[-.\s]?\d{3}[-.\s]?\d{3}/.test(formData.phone);
-    result.selectedCity = formData.city.value !== undefined;
-    result.address = formData.address.trim() !== "";
-    return result;
-  }
-    const handleSignup = (e) => {
-    e.preventDefault();
-    const validation = validateForm();
-    setErrors(validation);
+    const errors = {};
 
-    if (Object.values(validation).every(Boolean)) {
-      console.log("Form is valid, submit data", formData);
-    } else {
-      console.log("Validation failed:", validation);
+    errors.firstName =
+      formData.firstName.trim() === "" ? "First name is required" : null;
+    errors.lastName =
+      formData.lastName.trim() === "" ? "Last name is required" : null;
+    errors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+      ? null
+      : "Invalid email format";
+    errors.password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(
+      formData.password
+    )
+      ? null
+      : "Password must be 8+ chars, include uppercase, lowercase, and a number";
+    errors.confirmPassword =
+      formData.password === formData.confirmPassword
+        ? null
+        : "Passwords do not match";
+    errors.phone = /\d{2}[-.\s]?\d{3}[-.\s]?\d{3}/.test(formData.phone)
+      ? null
+      : "Phone must match format 12-345-678";
+    errors.selectedCity = formData.city?.value ? null : "Please select a city";
+    errors.address =
+      formData.address.trim() === "" ? "Address is required" : null;
+
+    return errors;
+  }
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm(formData);
+    setErrors(validationErrors);
+    const hasErrors = Object.values(validationErrors).some(
+      (err) => err !== null
+    );
+    if (!hasErrors) {
+      console.log("Form submitted successfully!", formData);
     }
   };
 
@@ -200,8 +216,13 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="firstName">First name</label>
+            <label htmlFor="firstName">First name <span className={
+    errors.firstName ? "error-star" : "valid-star"}>*</span></label>
+            <span className={`error ${errors.firstName ? "show" : ""}`}>
+   ! {errors.firstName}
+  </span>
           </div>
+
           <div className="box">
             <input
               type="text"
@@ -212,7 +233,12 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="lastName">Last name</label>
+            <label htmlFor="lastName">Last name <span className={
+    errors.lastName ? "error-star" : "valid-star"}>*</span></label>
+
+            <span className={`error ${errors.lastName ? "show" : ""}`}>
+   ! {errors.lastName}
+  </span>
           </div>
         </div>
         <div className="row">
@@ -226,7 +252,11 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="signUpEmail">Email</label>
+            <label htmlFor="signUpEmail">Email <span className={
+    errors.email ? "error-star" : "valid-star"}>*</span></label>
+             <span className={`error ${errors.email ? "show" : ""}`}>
+   ! {errors.email}
+  </span>
           </div>
         </div>
         <div className="row">
@@ -242,7 +272,12 @@ const SignUp = ({ toggleForm }) => {
               onBlur={hidePasswordStrength}
               required
             />
-            <label htmlFor="signUpPassword">Password</label>
+
+            <label htmlFor="signUpPassword">Password <span className={
+    errors.password ? "error-star" : "valid-star"}>*</span></label>
+             <span className={`error ${errors.password ? "show" : ""}`}>
+    {errors.password}
+  </span>
             <span
               className="password-visibility"
               onClick={toggleSignUpPassword}
@@ -265,7 +300,12 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="confirmPassword">Confirm password</label>
+
+            <label htmlFor="confirmPassword">Confirm password <span className={
+    errors.confirmPassword ? "error-star" : "valid-star"}>*</span></label>
+             <span className={`error ${errors.confirmPassword ? "show" : ""}`}>
+   ! {errors.confirmPassword}
+  </span>
           </div>
         </div>
         <div
@@ -314,9 +354,14 @@ const SignUp = ({ toggleForm }) => {
               value={formData.phone}
               onChange={handleChange}
             />
+
             <label htmlFor="tel" id="telLabel">
-              Phone number
+              Phone number <span className={
+    errors.phone ? "error-star" : "valid-star"}>*</span>
             </label>
+             <span className={`error ${errors.phone ? "show" : ""}`}>
+   ! {errors.phone}
+  </span>
           </div>
           <div className="box">
             <Select
@@ -342,7 +387,12 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="address">Address</label>
+
+            <label htmlFor="address">Address <span className={
+    errors.address ? "error-star" : "valid-star"}>*</span></label>
+             <span className={`error ${errors.address ? "show" : ""}`}>
+    ! {errors.address}
+  </span>
           </div>
         </div>
 
