@@ -247,18 +247,22 @@ letter-spacing: 2px;
 
 /*--------------------------Navbar actions-----------------------------*/
 
-.navbar-actions {
+#navbar-actions {
   display: flex;
   gap: 20px;
 }
-.navbar-actions a {
+.actions {
+  position: relative;
+  display: inline-block;
+   cursor: pointer;
+}
+.actions i {
   color: var(--background-color);
   text-decoration: none;
   font-size: 15px;
   transition: color 0.3s ease;
 }
-
-.navbar-actions a:hover {
+.actions i:hover {
   color: var(--primary-color);
 }
 .mobile-search-icon{
@@ -274,23 +278,8 @@ letter-spacing: 2px;
   transform: translate(-50%, -50%);
   z-index: 1000;
 }
-
-
 /*--------------------------- Account--------------------------------------*/
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-.dropdown-toggle {
-  text-decoration: none;
-  color: var(--background-color);
-  padding: 8px 12px;
-  transition: color 0.3s ease;
-}
-.dropdown-toggle:hover {
-  color: var(--primary-color);
-}
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -323,10 +312,6 @@ letter-spacing: 2px;
 
 /*--------------------------------Panel---------------------------------------*/
 
-.panel {
-  position: relative;
-  display: inline-block;
-}
 .panel-menu {
   position: absolute;
   top: 0;
@@ -577,14 +562,14 @@ letter-spacing: 2px;
   margin: 0;
   padding: 0;
 }
-
 .has-dropdown {
   position: relative;
   padding: 10px 20px;
-    letter-spacing: 1px;
-
+   letter-spacing: 1px;
   cursor: pointer;
+  text-decoration: none;
 }
+
 .has-dropdown:hover {
   border-bottom: 3px solid var(--secondary-color);
 }
@@ -692,6 +677,29 @@ letter-spacing: 2px;
 .column ul li:hover {
   color: orangered;
 }
+
+.nav-link {
+  position: relative;
+  color: var(--secobdary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+.nav-sub-link{
+  position: relative;
+  color: var(--grey-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.nav-sub-link:hover {
+    color: var(--primary-color);
+
+}
+
+
 
 @media (max-width: 768px) {
 .main-nav{

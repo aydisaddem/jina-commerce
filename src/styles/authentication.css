@@ -1,3 +1,10 @@
+#auth{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -5,7 +12,7 @@
   align-items: stretch;
   justify-items: stretch;
   width: 60vw;
-  height: 80vh;
+  min-height: 80vh;
   gap: 0;
   background-color: var(--background-color);
   box-shadow: 0 0 10px;
@@ -126,10 +133,10 @@ p {
 .password-visibility {
   position: absolute;
   right: 12px;
-  top: 45%;
+  top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: var(--secondary-color);
+  color: var(--grey-color);
   opacity: 0;
 }
 .password-visibility:focus {
@@ -143,7 +150,7 @@ p {
 .box {
   width: 80%;
   position: relative;
-  margin-bottom: 0.8rem
+  margin-bottom: 0.8rem;
 }
 .row {
   display: grid;
@@ -184,9 +191,10 @@ p {
 }
 .password-strength.row {
   display: flex;
-  flex-direction: column; /* stack meter and rules vertically */
-  align-items: center; /* center the meter horizontally */
-  gap: 15px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
 }
 
 .strength-meter {
@@ -248,7 +256,7 @@ p {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: flex-start;
-  gap: 5px;
+  gap: 10px;
 }
 
 .strength-rules p {
@@ -264,6 +272,18 @@ input {
   border-radius: 6px;
   border: 2px solid var(--divider);
   color: var(--input-color);
+  letter-spacing: 1px;
+}
+input:hover {
+  border: 2px solid var(--grey-color);
+}
+input:active {
+  transform: scale(0.95);
+  border-color: var(--grey-color);
+}
+input:focus {
+  border-color: var(--grey-color);
+  outline: none;
 }
 .error {
   position: absolute;
@@ -283,14 +303,17 @@ input {
 }
 
 /* Chrome, Safari, Edge */
-input:-webkit-autofill {
-  background-color: var(--background-color) !important;
-  -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset !important;
   -webkit-text-fill-color: var(--input-color) !important;
-  transition: background-color 5000s ease-in-out 0s;
+  background-color: var(--background-color) !important;
+  transition: background-color 5000s ease-in-out 0s !important;
 }
 
-/* Firefox */
+/* Firefox (limited support) */
 input:-moz-autofill {
   background-color: var(--background-color) !important;
   color: var(--input-color) !important;
@@ -310,38 +333,24 @@ label {
 .box:focus-within label,
 .box input:not(:placeholder-shown) + label {
   transform: translateY(-20px);
-  color: var(--grey-color);
-  font-size: 14px;
+  color: #3a4f7a;
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: 700;
 }
-/*.box:focus-within label::after,
-.box input:not(:placeholder-shown) + label::after {
-  content: "*";
-  color: red;
-  margin-left: 2px;
-}*/
+
 .box label span {
-  opacity:0
+  opacity: 0;
 }
-.box:focus-within label span, .box input:not(:placeholder-shown) + label span {
-  opacity:1
+.box:focus-within label span,
+.box input:not(:placeholder-shown) + label span {
+  opacity: 1;
 }
 .error-star {
   color: red;
 }
 .valid-star {
   color: green;
-}
-
-input:hover {
-  border: 2px solid var(--grey-color);
-}
-input:active {
-  transform: scale(0.95);
-  border-color: var(--secondary-color);
-}
-input:focus {
-  border-color: var(--secondary-color);
-  outline: none;
 }
 
 form button {
@@ -399,11 +408,6 @@ form button:focus {
   margin: 0 5px;
   text-align: center;
   padding: 0 10px;
-}
-
-#password-strength {
-  color: crimson;
-  font-size: 0.8em;
 }
 
 input::placeholder {
@@ -474,9 +478,6 @@ input:focus::placeholder {
   color: var(--background-color) !important;
 }
 
-
-
-
 /* Tablet breakpoint */
 @media (max-width: 768px) {
   .container {
@@ -540,4 +541,3 @@ input:focus::placeholder {
     gap: 0;
   }
 }
-

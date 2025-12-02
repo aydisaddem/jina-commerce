@@ -12,6 +12,7 @@ const Authentication = () => {
   };
 
   return (
+    <div id="auth">
     <div className={`container ${isLogin ? "login-active" : "signup-active"}`}>
       <div className="overlay-container">
         {isLogin ? (
@@ -29,6 +30,7 @@ const Authentication = () => {
       </div>
 
       <div className="forms-container">{isLogin ? <SignIn toggleForm={toggleForm} /> : <SignUp toggleForm={toggleForm} />}</div>
+    </div>
     </div>
   );
 };

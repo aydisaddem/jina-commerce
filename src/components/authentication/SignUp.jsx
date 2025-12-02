@@ -20,7 +20,7 @@ const SignUp = ({ toggleForm }) => {
   const [strength, setStrength] = useState({
     length: false,
     uppercase: false,
-    specialChar: false,
+    number: false,
   });
 
   const toggleSignUpPassword = () => setShowSignUpPassword(!showSignUpPassword);
@@ -146,14 +146,14 @@ const SignUp = ({ toggleForm }) => {
     return {
       length: password.length >= 8,
       uppercase: /[A-Z]/.test(password),
-      specialChar: /[^A-Za-z0-9]/.test(password),
+      number: /\d/.test(password),
     };
   };
   const calculateStrengthScore = (strength) => {
     let score = 0;
     if (strength.length) score++;
     if (strength.uppercase) score++;
-    if (strength.specialChar) score++;
+    if (strength.number) score++;
     return score;
   };
   const handlePasswordChange = (e) => {
@@ -175,7 +175,7 @@ const SignUp = ({ toggleForm }) => {
       formData.password
     )
       ? null
-      : "Password must be 8+ chars, include uppercase, lowercase, and a number";
+      : "Poor password ";
     errors.confirmPassword =
       formData.password === formData.confirmPassword
         ? null
@@ -276,7 +276,7 @@ const SignUp = ({ toggleForm }) => {
             <label htmlFor="signUpPassword">Password <span className={
     errors.password ? "error-star" : "valid-star"}>*</span></label>
              <span className={`error ${errors.password ? "show" : ""}`}>
-    {errors.password}
+   ! {errors.password}
   </span>
             <span
               className="password-visibility"
@@ -337,8 +337,8 @@ const SignUp = ({ toggleForm }) => {
             <p className={strength.uppercase ? "valid" : "invalid"}>
               {strength.uppercase ? "✔" : "✖"} 1 uppercase
             </p>
-            <p className={strength.specialChar ? "valid" : "invalid"}>
-              {strength.specialChar ? "✔" : "✖"} 1 special character
+            <p className={strength.number ? "valid" : "invalid"}>
+              {strength.number ? "✔" : "✖"} 1 number
             </p>
           </div>
         </div>

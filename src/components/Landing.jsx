@@ -1,7 +1,10 @@
+import '../styles/landing.css'
 const Landing = () => {
   return (
     <>
-      <div className="container"></div>
+      <div id="landing">
+        <p>hello landing</p>
+      </div>
     </>
   );
 };
