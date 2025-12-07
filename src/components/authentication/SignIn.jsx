@@ -1,13 +1,41 @@
 import { useState } from "react";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
+import { useLocation, useNavigate } from "react-router-dom";
+
 const SignIn = ({ toggleForm }) => {
   const { formData, handleChange } = useAuthForm();
   const [showPassword, setShowPassword] = useState(false);
-  const togglePassword = () => setShowPassword(!showPassword);
+  const [errors, setErrors] = useState({});
 
-  function handleLogin(e) {
+  const togglePassword = () => setShowPassword(!showPassword);
+  const navigate = useNavigate();
+
+  async function handleLogin(e) {
     e.preventDefault();
     console.log("Login submitted", formData);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData), // { email, password }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Login failed:", data.error);
+        setErrors({ login: data.error });
+        return;
+      }
+
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      navigate(-1);
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setErrors({ login: "Something went wrong. Please try again." });
+    }
   }
 
   const handleGoogleConnect = (e) => {
@@ -50,6 +78,9 @@ const SignIn = ({ toggleForm }) => {
                 !showPassword ? "fa-eye-slash" : "fa-eye"
               }`}
             />
+          </span>
+          <span className={`error ${errors.login ? "show" : ""}`}>
+            ! {errors.login}
           </span>
         </div>
         <button type="submit">Login</button>

@@ -296,14 +296,16 @@ letter-spacing: 2px;
 }
 .dropdown-menu li {
   padding: 6px 12px;
+  list-style: none;
 }
-.dropdown-menu li a {
+.dropdown-menu li > * {
   color: var(--background-color);
   text-decoration: none;
   display: block;
   transition: color 0.3s ease;
 }
-.dropdown-menu li a:hover {
+
+.dropdown-menu li > *:hover {
   color: var(--primary-color);
 }
 .dropdown:hover .dropdown-menu {

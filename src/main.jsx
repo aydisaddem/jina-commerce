@@ -7,20 +7,23 @@ import Authentication from "./components/authentication/Authentication.jsx";
 import Landing from "./components/Landing.jsx";
 import Products from "./components/Products.jsx";
 import Category from "./components/Category.jsx";
+import { AuthProvider } from "./context/AuthContext"; 
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route index element={<Landing />} />
-          <Route path="auth" element={<Authentication />} />
-          <Route path="products">
-            <Route index element={<Products />} />
-            <Route path=":category" element={<Category />} />
+    <AuthProvider> 
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<Landing />} />
+            <Route path="auth" element={<Authentication />} />
+            <Route path="products">
+              <Route index element={<Products />} />
+              <Route path=":category" element={<Category />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </StrictMode>
 );

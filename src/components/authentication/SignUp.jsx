@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Select from "react-select";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SignUp = ({ toggleForm }) => {
   const { formData, handleChange } = useAuthForm({
@@ -8,12 +8,13 @@ const SignUp = ({ toggleForm }) => {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
     phone: "",
     address: "",
     city: "",
+    panel: [],
+    orders: [],
   });
-
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [showSignUpPassword, setShowSignUpPassword] = useState(false);
   const [showStrength, setShowStrength] = useState(false);
@@ -22,117 +23,11 @@ const SignUp = ({ toggleForm }) => {
     uppercase: false,
     number: false,
   });
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   const toggleSignUpPassword = () => setShowSignUpPassword(!showSignUpPassword);
 
-  const options = [
-    { value: "tunis", label: "Tunis" },
-    { value: "sfax", label: "Sfax" },
-    { value: "sousse", label: "Sousse" },
-    { value: "kairouan", label: "Kairouan" },
-    { value: "gabès", label: "Gabès" },
-    { value: "bizerte", label: "Bizerte" },
-    { value: "ariana", label: "Ariana" },
-    { value: "gafsa", label: "Gafsa" },
-    { value: "monastir", label: "Monastir" },
-    { value: "mahdia", label: "Mahdia" },
-    { value: "nabeul", label: "Nabeul" },
-    { value: "zarzis", label: "Zarzis" },
-    { value: "tozeur", label: "Tozeur" },
-    { value: "kebili", label: "Kebili" },
-    { value: "tataouine", label: "Tataouine" },
-    { value: "medenine", label: "Medenine" },
-    { value: "siliana", label: "Siliana" },
-    { value: "jendouba", label: "Jendouba" },
-    { value: "béja", label: "Béja" },
-    { value: "le Kef", label: "Le Kef" },
-    { value: "ben Arous", label: "Ben Arous" },
-    { value: "manouba", label: "Manouba" },
-  ];
-  const selectStyle = {
-    control: (styles, { isFocused }) => ({
-      ...styles,
-      backgroundColor: "#fff",
-      height: "40px",
-      width: "100%",
-      margin: "12px 0",
-      border: "2px solid #dddfe2",
-      borderColor: isFocused ? "#708090" : "#dddfe2",
-      boxShadow: isFocused ? "0 0 0 1px #708090" : "none",
-      "&:hover": {
-        borderColor: "#708090",
-      },
-      "&:active": {
-        borderColor: "#000",
-      },
-      display: "flex",
-      alignItems: "center",
-      overflow: "hidden",
-    }),
-    option: (styles, { isFocused, isSelected }) => ({
-      ...styles,
-      backgroundColor: isSelected ? "#000" : isFocused ? "#ef0200" : "#fff",
-
-      color: isSelected ? "#fff" : isFocused ? "#fff" : "#1d2129",
-      cursor: "pointer",
-      "&:active": {
-        backgroundColor: isSelected ? "#333" : "#000",
-        color: "#fff",
-      },
-    }),
-    indicatorsContainer: (styles) => ({
-      ...styles,
-      alignItems: "center",
-    }),
-    dropdownIndicator: (styles) => ({
-      ...styles,
-      padding: "4px",
-      display: "flex",
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: "#1d2129",
-      textAlign: "center",
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      padding: "0 5px",
-    }),
-    placeholder: (styles) => ({
-      ...styles,
-      textAlign: "center",
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }),
-    menu: (styles) => ({
-      ...styles,
-      backgroundColor: "#ef0200",
-      border: "1px solid #708090",
-      borderRadius: "6px",
-      marginTop: "4px",
-    }),
-    menuList: (styles) => ({
-      ...styles,
-      padding: 0,
-      backgroundColor: "#fff",
-      "&::-webkit-scrollbar": {
-        width: "8px",
-      },
-      "&::-webkit-scrollbar-track": {
-        background: "#fff",
-        borderRadius: "4px",
-      },
-      "&::-webkit-scrollbar-thumb": {
-        background: "#000",
-        borderRadius: "4px",
-      },
-      "&::-webkit-scrollbar-thumb:hover": {
-        background: "#000",
-      },
-    }),
-  };
   const showPasswordStrength = () => {
     setShowStrength(true);
   };
@@ -177,30 +72,51 @@ const SignUp = ({ toggleForm }) => {
       ? null
       : "Poor password ";
     errors.confirmPassword =
-      formData.password === formData.confirmPassword
-        ? null
-        : "Passwords do not match";
+      formData.password === confirmPassword ? null : "Passwords do not match";
     errors.phone = /\d{2}[-.\s]?\d{3}[-.\s]?\d{3}/.test(formData.phone)
       ? null
       : "Phone must match format 12-345-678";
-    errors.selectedCity = formData.city?.value ? null : "Please select a city";
-    errors.address =
-      formData.address.trim() === "" ? "Address is required" : null;
 
     return errors;
   }
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm(formData);
-    setErrors(validationErrors);
-    const hasErrors = Object.values(validationErrors).some(
-      (err) => err !== null
-    );
-    if (!hasErrors) {
-      console.log("Form submitted successfully!", formData);
+ const handleSignup = async (e) => {
+  e.preventDefault();
+  setErrors({});
+  const validationErrors = validateForm(formData);
+  setErrors(validationErrors);
+
+  const hasErrors = Object.values(validationErrors).some(err => err !== null);
+
+  if (!hasErrors) {
+    try {
+      const response = await fetch("http://localhost:5000/api/users/signUp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error(data.error);
+        setErrors({ email: data.error });
+        return;
+      }
+      localStorage.setItem("accessToken", data.accessToken);
+      setSuccessMessage(
+        `Welcome, ${data.firstName}! Your account has been created successfully.`
+      );
+
+      setTimeout(() => {
+        navigate(-1);
+      }, 3000);
+    } catch (error) {
+      console.error("Error creating user:", error);
     }
-  };
+  }
+};
+
 
   return (
     <div className="signUp">
@@ -216,11 +132,15 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="firstName">First name <span className={
-    errors.firstName ? "error-star" : "valid-star"}>*</span></label>
+            <label htmlFor="firstName">
+              First name{" "}
+              <span className={errors.firstName ? "error-star" : "valid-star"}>
+                *
+              </span>
+            </label>
             <span className={`error ${errors.firstName ? "show" : ""}`}>
-   ! {errors.firstName}
-  </span>
+              ! {errors.firstName}
+            </span>
           </div>
 
           <div className="box">
@@ -233,12 +153,16 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="lastName">Last name <span className={
-    errors.lastName ? "error-star" : "valid-star"}>*</span></label>
+            <label htmlFor="lastName">
+              Last name{" "}
+              <span className={errors.lastName ? "error-star" : "valid-star"}>
+                *
+              </span>
+            </label>
 
             <span className={`error ${errors.lastName ? "show" : ""}`}>
-   ! {errors.lastName}
-  </span>
+              ! {errors.lastName}
+            </span>
           </div>
         </div>
         <div className="row">
@@ -252,11 +176,15 @@ const SignUp = ({ toggleForm }) => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="signUpEmail">Email <span className={
-    errors.email ? "error-star" : "valid-star"}>*</span></label>
-             <span className={`error ${errors.email ? "show" : ""}`}>
-   ! {errors.email}
-  </span>
+            <label htmlFor="signUpEmail">
+              Email{" "}
+              <span className={errors.email ? "error-star" : "valid-star"}>
+                *
+              </span>
+            </label>
+            <span className={`error ${errors.email ? "show" : ""}`}>
+              ! {errors.email}
+            </span>
           </div>
         </div>
         <div className="row">
@@ -273,11 +201,15 @@ const SignUp = ({ toggleForm }) => {
               required
             />
 
-            <label htmlFor="signUpPassword">Password <span className={
-    errors.password ? "error-star" : "valid-star"}>*</span></label>
-             <span className={`error ${errors.password ? "show" : ""}`}>
-   ! {errors.password}
-  </span>
+            <label htmlFor="signUpPassword">
+              Password{" "}
+              <span className={errors.password ? "error-star" : "valid-star"}>
+                *
+              </span>
+            </label>
+            <span className={`error ${errors.password ? "show" : ""}`}>
+              ! {errors.password}
+            </span>
             <span
               className="password-visibility"
               onClick={toggleSignUpPassword}
@@ -296,16 +228,22 @@ const SignUp = ({ toggleForm }) => {
               id="confirmPassword"
               placeholder=" "
               name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
 
-            <label htmlFor="confirmPassword">Confirm password <span className={
-    errors.confirmPassword ? "error-star" : "valid-star"}>*</span></label>
-             <span className={`error ${errors.confirmPassword ? "show" : ""}`}>
-   ! {errors.confirmPassword}
-  </span>
+            <label htmlFor="confirmPassword">
+              Confirm password{" "}
+              <span
+                className={errors.confirmPassword ? "error-star" : "valid-star"}
+              >
+                *
+              </span>
+            </label>
+            <span className={`error ${errors.confirmPassword ? "show" : ""}`}>
+              ! {errors.confirmPassword}
+            </span>
           </div>
         </div>
         <div
@@ -356,54 +294,34 @@ const SignUp = ({ toggleForm }) => {
             />
 
             <label htmlFor="tel" id="telLabel">
-              Phone number <span className={
-    errors.phone ? "error-star" : "valid-star"}>*</span>
+              Phone number{" "}
+              <span className={errors.phone ? "error-star" : "valid-star"}>
+                *
+              </span>
             </label>
-             <span className={`error ${errors.phone ? "show" : ""}`}>
-   ! {errors.phone}
-  </span>
-          </div>
-          <div className="box">
-            <Select
-              options={options}
-              inputId="city"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              placeholder="city..."
-              styles={selectStyle}
-              required
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="box">
-            <input
-              id="address"
-              type="text"
-              placeholder=" "
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="address">Address <span className={
-    errors.address ? "error-star" : "valid-star"}>*</span></label>
-             <span className={`error ${errors.address ? "show" : ""}`}>
-    ! {errors.address}
-  </span>
+            <span className={`error ${errors.phone ? "show" : ""}`}>
+              ! {errors.phone}
+            </span>
           </div>
         </div>
 
         <button type="submit">SIGN UP</button>
       </form>
+
       <div className="mobile-authentication-toggle">
         <p>Already have an account?</p>
         <button type="button" onClick={toggleForm}>
           Sign In
         </button>
       </div>
+      {successMessage && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>{successMessage}</h2>
+            <small>You’ll be redirected shortly...</small>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
