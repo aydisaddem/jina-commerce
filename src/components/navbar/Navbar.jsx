@@ -2,8 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import "../../styles/navbar.css";
 import SubNAv from "./SubNav.jsx";
 import SlideNav from "./SlideNav.jsx";
-import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
 const Navbar = () => {
@@ -13,9 +12,6 @@ const Navbar = () => {
   const [search, setSearch] = useState("");
   const [total, setTotal] = "0";
   const { isLoggedIn, logout } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-  
 
   const navItems = [
     {
@@ -240,7 +236,6 @@ const Navbar = () => {
       setQty(value);
     }
   };
- 
 
   return (
     <>
@@ -284,11 +279,13 @@ const Navbar = () => {
                   <NavLink to="/orders">Orders</NavLink>
                 </li>
                 <li>
-                       {isLoggedIn ? (
-        <NavLink to="/" onClick={logout}>Logout</NavLink>
-      ) : (
-        <NavLink to="/auth">Login</NavLink>
-      )}
+                  {isLoggedIn ? (
+                    <NavLink to="/auth" onClick={logout}>
+                      Logout
+                    </NavLink>
+                  ) : (
+                    <NavLink to="/auth">Login</NavLink>
+                  )}
                 </li>
               </ul>
             </div>

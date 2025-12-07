@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 const SignIn = ({ toggleForm }) => {
   const { formData, handleChange } = useAuthForm();
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const {login} = useContext(AuthContext);
 
   const togglePassword = () => setShowPassword(!showPassword);
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const SignIn = ({ toggleForm }) => {
       const response = await fetch("http://localhost:5000/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData), // { email, password }
+        body: JSON.stringify(formData), 
       });
 
       const data = await response.json();
@@ -29,8 +31,9 @@ const SignIn = ({ toggleForm }) => {
         return;
       }
 
-      localStorage.setItem("accessToken", data.accessToken);
+       login(data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+
       navigate(-1);
     } catch (error) {
       console.error("Error logging in:", error);

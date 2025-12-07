@@ -7,11 +7,11 @@ import Authentication from "./components/authentication/Authentication.jsx";
 import Landing from "./components/Landing.jsx";
 import Products from "./components/Products.jsx";
 import Category from "./components/Category.jsx";
-import { AuthProvider } from "./context/AuthContext"; 
+import { AuthProvider } from "./context/AuthContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider> 
+    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
