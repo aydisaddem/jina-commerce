@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import api from "../../utils/api.js"
 
 const SignUp = ({ toggleForm }) => {
   const { formData, handleChange } = useAuthForm({
@@ -80,42 +81,43 @@ const SignUp = ({ toggleForm }) => {
     return errors;
   }
 
- const handleSignup = async (e) => {
+
+
+const handleSignup = async (e) => {
   e.preventDefault();
   setErrors({});
   const validationErrors = validateForm(formData);
   setErrors(validationErrors);
 
-  const hasErrors = Object.values(validationErrors).some(err => err !== null);
+  const hasErrors = Object.values(validationErrors).some((err) => err !== null);
 
   if (!hasErrors) {
     try {
-      const response = await fetch("http://localhost:5000/api/users/signUp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await api.post("/users/signUp", formData);
+      const data = response.data;
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error(data.error);
-        setErrors({ email: data.error });
-        return;
-      }
+      // Save access token
       localStorage.setItem("accessToken", data.accessToken);
+
       setSuccessMessage(
         `Welcome, ${data.firstName}! Your account has been created successfully.`
       );
-
       setTimeout(() => {
         navigate(-1);
       }, 3000);
     } catch (error) {
-      console.error("Error creating user:", error);
+      if (error.response) {
+        console.error("Signup failed:", error.response.data.error);
+        setErrors({ email: error.response.data.error });
+      } else {
+        console.error("Error creating user:", error.message);
+        setErrors({ email: "Something went wrong. Please try again." });
+      }
     }
   }
 };
+
+
 
 
   return (

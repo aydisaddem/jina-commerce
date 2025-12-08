@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 const SubNAv = (props) => {
   return (
     <div className="sub-nav">
