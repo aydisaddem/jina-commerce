@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
 import { useNavigate } from "react-router-dom";
-import api from "../../utils/api.js"
+import { AuthContext } from "../../context/AuthContext.jsx";
+import api from "../../utils/api.js";
+import Swal from "sweetalert2";
 
 const SignUp = ({ toggleForm }) => {
   const { formData, handleChange } = useAuthForm({
@@ -14,6 +16,7 @@ const SignUp = ({ toggleForm }) => {
     city: "",
     panel: [],
     orders: [],
+    wishlist : [],
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -24,8 +27,8 @@ const SignUp = ({ toggleForm }) => {
     uppercase: false,
     number: false,
   });
-  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const toggleSignUpPassword = () => setShowSignUpPassword(!showSignUpPassword);
 
@@ -81,48 +84,51 @@ const SignUp = ({ toggleForm }) => {
     return errors;
   }
 
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setErrors({});
+    const validationErrors = validateForm(formData);
+    setErrors(validationErrors);
 
+    const hasErrors = Object.values(validationErrors).some(
+      (err) => err !== null
+    );
 
-const handleSignup = async (e) => {
-  e.preventDefault();
-  setErrors({});
-  const validationErrors = validateForm(formData);
-  setErrors(validationErrors);
+    if (!hasErrors) {
+      try {
+        const response = await api.post("/users/signUp", formData);
+        const data = response.data;
 
-  const hasErrors = Object.values(validationErrors).some((err) => err !== null);
+        // Save access token
+        localStorage.setItem("accessToken", data.accessToken);
 
-  if (!hasErrors) {
-    try {
-      const response = await api.post("/users/signUp", formData);
-      const data = response.data;
-
-      // Save access token
-      localStorage.setItem("accessToken", data.accessToken);
-
-      setSuccessMessage(
-        `Welcome, ${data.firstName}! Your account has been created successfully.`
-      );
-      setTimeout(() => {
+        const toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        toast.fire({
+          icon: "success",
+          title: `Welcome, ${data.firstName}! Your account has been created successfully.`,
+        });
+        login(data.accessToken);
         navigate(-1);
-      }, 3000);
-    } catch (error) {
-      if (error.response) {
-        console.error("Signup failed:", error.response.data.error);
-        setErrors({ email: error.response.data.error });
-      } else {
-        console.error("Error creating user:", error.message);
-        setErrors({ email: "Something went wrong. Please try again." });
+      } catch (error) {
+        if (error.response) {
+          console.error("Signup failed:", error.response.data.error);
+          setErrors({ email: error.response.data.error });
+        } else {
+          console.error("Error creating user:", error.message);
+          setErrors({ email: "Something went wrong. Please try again." });
+        }
       }
     }
-  }
-};
-
-
-
+  };
 
   return (
     <div className="signUp">
-      <form onSubmit={handleSignup}>
+      <form className="auth-form" onSubmit={handleSignup}>
         <div className="row">
           <div className="box">
             <input
@@ -316,14 +322,6 @@ const handleSignup = async (e) => {
           Sign In
         </button>
       </div>
-      {successMessage && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <h2>{successMessage}</h2>
-            <small>You’ll be redirected shortly...</small>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

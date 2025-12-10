@@ -2,6 +2,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import Swal from "sweetalert2";
 
 function GoogleAuthButton() {
   const { loginWithGoogle } = useContext(AuthContext);
@@ -12,6 +13,16 @@ function GoogleAuthButton() {
 
     try {
       await loginWithGoogle(credential);
+      const toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              timer: 3000,
+              showConfirmButton: false,
+            });
+            toast.fire({
+              icon: "success",
+              title: `Signed in successfully`,
+            });
       navigate(-1);
     } catch (error) {
       console.error("Google login failed:", error);

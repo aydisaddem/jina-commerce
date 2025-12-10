@@ -2,8 +2,9 @@ import { useState, useContext } from "react";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext.jsx";
-import api from "../../utils/api.js"
+import api from "../../utils/api.js";
 import GoogleAuthButton from "./GoogleAuthButton.jsx";
+import Swal from "sweetalert2";
 
 const SignIn = ({ toggleForm }) => {
   const { formData, handleChange } = useAuthForm();
@@ -14,35 +15,43 @@ const SignIn = ({ toggleForm }) => {
   const togglePassword = () => setShowPassword(!showPassword);
   const navigate = useNavigate();
 
+  async function handleLogin(e) {
+    e.preventDefault();
 
-async function handleLogin(e) {
-  e.preventDefault();
+    try {
+      const response = await api.post("/users/login", formData); 
+      const data = response.data;
 
-  try {
-    const response = await api.post("/users/login", formData); // no need for headers, api.js handles it
-    const data = response.data;
+      // Save tokens
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
 
-    // Save tokens
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
-
-    login(data.accessToken);
-    navigate(-1);
-  } catch (error) {
-    if (error.response) {
-      console.error("Login failed:", error.response.data.error);
-      setErrors({ login: error.response.data.error });
-    } else {
-      console.error("Error logging in:", error.message);
-      setErrors({ login: "Something went wrong. Please try again." });
+      const toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        showConfirmButton: false,
+      });
+      toast.fire({
+        icon: "success",
+        title: `Signed in successfully`,
+      });
+      login(data.accessToken);
+      navigate(-1);
+    } catch (error) {
+      if (error.response) {
+        console.error("Login failed:", error.response.data.error);
+        setErrors({ login: error.response.data.error });
+      } else {
+        console.error("Error logging in:", error.message);
+        setErrors({ login: "Something went wrong. Please try again." });
+      }
     }
   }
-}
-
 
   return (
     <div className="signIn">
-      <form onSubmit={handleLogin}>
+      <form className="auth-form" onSubmit={handleLogin}>
         <div className="box">
           <input
             type="email"

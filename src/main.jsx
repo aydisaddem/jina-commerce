@@ -1,14 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
+import { AuthProvider } from "./context/AuthContext";
 import { GoogleOAuthProvider } from "@react-oauth/google"; 
 import "./index.css";
 import App from "./App.jsx";
 import Authentication from "./components/authentication/Authentication.jsx";
 import Landing from "./components/Landing.jsx";
-import Products from "./components/Products.jsx";
+import Products from "./components/products/Products.jsx";
 import Category from "./components/Category.jsx";
-import { AuthProvider } from "./context/AuthContext";
+import Admin from "./Admin.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")).render(
                 <Route index element={<Products />} />
                 <Route path=":category" element={<Category />} />
               </Route>
+              <Route path="admin" element={<Admin />} />
             </Route>
           </Routes>
         </BrowserRouter>
