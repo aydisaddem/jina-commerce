@@ -9,8 +9,10 @@ import { PanelContext } from "../../context/PanelContext.jsx";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
-  const { isLoggedIn } = useContext(AuthContext);
-  const { panel, setPanel } = useContext(PanelContext);
+  const [newPanelShow, setNewPanelShow] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const { isLoggedIn, user } = useContext(AuthContext);
+  const { panel,total, addItem } = useContext(PanelContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -27,28 +29,28 @@ const Products = () => {
   const handleAlert = () => {
     setIsHidden(!isHidden);
   };
-  const handleWishlist = () => {
-    if (!isLoggedIn) {
+  const handleWishlist = async (item) => {
+    const userId = user._id;
+    try {
+      const response = await api.put(`/users/${userId}/addToWishlist`, {
+        id: item._id,
+        name: item.name,
+        reference: item.reference,
+        picture: item.pictures[0],
+        price: item.price,
+      });
       handleAlert();
+    } catch (err) {
+      console.error("Failed to update wishlist:", err);
     }
-    console.log("test");
+    handleAlert();
   };
-
-const handleAddToPanel = (item) => {
-  const exists = panel.some((p) => p._id === item._id);
-
-  let updatedPanel;
-  if (exists) {
-    updatedPanel = panel;
-  } else {
-    updatedPanel = [...panel, { ...item, purshaseQty: 1 }];
-  }
-
-  setPanel(updatedPanel);
-  localStorage.setItem("panel", JSON.stringify(updatedPanel));
-};
-
-
+  const handleAddToPanel = (item) => {
+    addItem(item);
+    console.log(item);
+    setSelectedItem(item);
+    setNewPanelShow(!newPanelShow);
+  };
 
   return (
     <div className="products-container">
@@ -77,13 +79,21 @@ const handleAddToPanel = (item) => {
               {item.quantity ? "In stock" : "On order"}
             </span>
             <div className="item-actions">
+              {item.quantity ? (
+                <button
+                  className="icon-button"
+                  onClick={() => handleAddToPanel(item)}
+                >
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </button>
+              ) : (
+                ""
+              )}
+
               <button
                 className="icon-button"
-                onClick={() => handleAddToPanel(item)}
+                onClick={() => handleWishlist(item)}
               >
-                <i className="fa-solid fa-cart-shopping"></i>
-              </button>
-              <button className="icon-button" onClick={handleWishlist}>
                 <i className="fa-regular fa-heart"></i>
               </button>
             </div>
@@ -110,6 +120,38 @@ const handleAddToPanel = (item) => {
             </span>
           </>
         )}
+      </div>
+      <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
+        <div className="cart-confirmation-panel">
+          <p>Product successfully added to panel</p>
+          {selectedItem && (
+            <div className="cart-product-details">
+              <div className="product-image-wrapper">
+                <img
+                src={selectedItem.pictures?.[0]}
+                alt={selectedItem.name}
+                className="item-picture"
+              />
+              </div>
+             
+
+              <div className="product-info-block" >
+                <h6>{selectedItem.name}</h6>
+                <p>
+                  [{selectedItem.reference}]
+                </p>
+                <p>{selectedItem.price},000 DT</p>
+              </div>
+            </div>
+            
+          )}
+          <hr />
+          <p className="panel-length"><i className="fa-solid fa-basket-shopping"></i>  There are {panel.length} items in your cart.</p>
+          <div className="total-Panel">
+            <p>TOTAL:</p>
+            <p>{total},000 DT TTC</p>
+          </div>
+        </div>
       </div>
     </div>
   );

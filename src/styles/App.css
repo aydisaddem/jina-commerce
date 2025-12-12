@@ -9,6 +9,7 @@
   --background-color: #ffffff;
   --background-main-color: #f6f6f6;
   --grey-color: #999999;
+  --blue-color: #2470BC;
   --divider: #dddfe2;
   --input-color: #1d2129;
 }
@@ -34,7 +35,7 @@ body {
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 998;
 }
 .hidden {

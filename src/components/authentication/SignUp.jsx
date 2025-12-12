@@ -14,7 +14,6 @@ const SignUp = ({ toggleForm }) => {
     phone: "",
     address: "",
     city: "",
-    panel: [],
     orders: [],
     wishlist : [],
   });
@@ -112,8 +111,7 @@ const SignUp = ({ toggleForm }) => {
           icon: "success",
           title: `Welcome, ${data.firstName}! Your account has been created successfully.`,
         });
-        login(data.accessToken);
-        navigate(-1);
+        await login({ email: formData.email, password: formData.password });        navigate(-1);
       } catch (error) {
         if (error.response) {
           console.error("Signup failed:", error.response.data.error);

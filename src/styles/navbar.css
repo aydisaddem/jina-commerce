@@ -436,10 +436,11 @@ letter-spacing: 2px;
   align-items: start;
   background: var(--background-color);
   border: 1px solid var(--divider);
-  border-radius: 14px;
+  border-radius: 10px;
   box-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
-  padding: 10px;
+  padding: 25px 10px 5px 10px;
   max-width: 560px;
+  position: relative;
 }
 .product-image {
   display: block;
@@ -480,7 +481,7 @@ letter-spacing: 2px;
 .qty-btn,
 .qty-input {
   box-sizing: border-box;
-  height: 40px;
+  height: 20px;
   margin: 0;
   padding: 0 12px;
   font-size: 1rem;
@@ -491,7 +492,7 @@ letter-spacing: 2px;
   align-items: center;
   justify-content: center;
   width: 40px;
-  background: var(--secondary-color);
+  background: var(--grey-color);
   color: var(--text);
   font-size: 1rem;
   border: none;
@@ -499,7 +500,7 @@ letter-spacing: 2px;
   transition: background 0.2s ease;
 }
 .qty-btn:hover {
-  background: var(--primary-color);
+  background: var(--secondary-color);
 }
 .qty-btn:first-child {
   border-radius: 6px 0 0 6px;
@@ -562,6 +563,72 @@ letter-spacing: 2px;
   top: 50%;
   transform: translate(-50%, -50%);
   color: black;
+}
+/* From Uiverse.io by aaronross1 */ 
+.delete-button {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  opacity: 0.5;
+}
+
+.delete-svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.delete-svgIcon path {
+  fill: white;
+}
+
+.delete-button:hover {
+  width: 90px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: var(--primary-color);
+  align-items: center;
+  opacity: 1;
+}
+
+.delete-button:hover .delete-svgIcon {
+  width: 15px;
+  transition-duration: 0.3s;
+  transform: translateY(60%);
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.delete-button::before {
+  display: none;
+  content: "Delete";
+  color: white;
+  transition-duration: 0.3s;
+  font-size: 2px;
+}
+
+.delete-button:hover::before {
+  display: block;
+  padding-right: 10px;
+  font-size: 12px;
+  opacity: 1;
+  transform: translateY(0px);
+  transition-duration: 0.3s;
 }
 
 /*------------------------------ Sub-nav --------------------------*/

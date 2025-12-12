@@ -32,13 +32,13 @@ export function AuthProvider({ children }) {
   const loginWithGoogle = async (googleToken) => {
     try {
       const { data } = await api.post("/users/google-login", {
-        token: googleToken, // backend expects "token"
+        token: googleToken,
       });
 
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       setIsLoggedIn(true);
-      setUser(data.user); // optional: store user info
+      setUser(data.user);
     } catch (error) {
       console.error(
         "Google login failed:",
@@ -46,24 +46,6 @@ export function AuthProvider({ children }) {
       );
     }
   };
-
-  // Refresh token flow
-const refresh = useCallback(async () => {
-  const refreshToken = localStorage.getItem("refreshToken");
-  if (!refreshToken) return null;
-
-  try {
-    const { data } = await api.post("/users/refresh", { token: refreshToken });
-    localStorage.setItem("accessToken", data.accessToken); // ✅ only update access token
-    return data.accessToken;
-  } catch (err) {
-    console.error("Refresh failed", err);
-    logout();
-    return null;
-  }
-}, []);
-
-
   // Logout
   const logout = useCallback(() => {
     localStorage.removeItem("accessToken");
@@ -71,6 +53,24 @@ const refresh = useCallback(async () => {
     setIsLoggedIn(false);
     setUser(null);
   }, []);
+
+  const refresh = useCallback(async () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (!refreshToken) return null;
+
+    try {
+      const { data } = await api.post("/users/refresh", {
+        token: refreshToken,
+      });
+      localStorage.setItem("accessToken", data.accessToken);
+      setUser(data.user);
+      return data.accessToken;
+    } catch (err) {
+      console.error("Refresh failed", err);
+      logout();
+      return null;
+    }
+  }, [logout]);
 
   // Auto-refresh on mount
   useEffect(() => {

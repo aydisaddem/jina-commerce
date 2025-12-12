@@ -4,15 +4,19 @@ import SubNAv from "./SubNav.jsx";
 import SlideNav from "./SlideNav.jsx";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
+import { PanelContext } from "../../context/PanelContext.jsx";
 
 const Navbar = () => {
   const [isVisible, setIsVisble] = useState(false);
   const [isVisibleSearch, setIsVisbleSearch] = useState(false);
   const [search, setSearch] = useState("");
-  const [total, setTotal] = useState(0);
-  const [panel, setPanel] = useState([]);
+  const { panel, total, removeItem, updateQty } = useContext(PanelContext);
   const { isLoggedIn, logout } = useContext(AuthContext);
-  const navItems = [
+ 
+
+ 
+
+ const navItems = [
     {
       label: "Computers",
       columns: [
@@ -213,41 +217,7 @@ const Navbar = () => {
       ],
     },
   ];
-
-  useEffect(() => {
-    const stored = localStorage.getItem("panel");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setPanel(parsed);
-      } catch (err) {
-        console.error("Failed to parse panel from localStorage", err);
-        setPanel([]);
-      }
-    } else {
-      setPanel([]);
-    }
-  }, [isVisible]);
-
-  useEffect(() => {
-    const sum = panel.reduce(
-      (acc, item) => acc + item.price * item.purshaseQty,
-      0
-    );
-    setTotal(sum);
-  }, [panel]);
-
   const showPanel = (e) => setIsVisble(!isVisible);
-
-  const updateQty = (_id, newQty) => {
-    setPanel((prev) => {
-      const updated = prev.map((item) =>
-        item._id === _id ? { ...item, purshaseQty: newQty } : item
-      );
-      localStorage.setItem("panel", JSON.stringify(updated));
-      return updated;
-    });
-  };
 
   const handleQtyDecrease = (id, currentQty) => {
     if (currentQty > 1) updateQty(id, currentQty - 1);
@@ -325,8 +295,8 @@ const Navbar = () => {
               </ul>
             </div>
             <div className="panel actions" onClick={showPanel}>
-              <i className="fa-solid fa-cart-shopping"></i><span className="cart-count"> {panel.length}</span>
-            
+              <i className="fa-solid fa-cart-shopping"></i>
+              <span className="cart-count"> {panel.length}</span>
             </div>
             <div
               className={`overlay ${isVisible ? "" : "hidden"}`}
@@ -355,7 +325,7 @@ const Navbar = () => {
                         />
 
                         <div className="product-info">
-                          <h2 className="product-title">{item.name}</h2>
+                          <h4 className="product-title">{item.name}</h4>
 
                           <p
                             className="product-price"
@@ -390,6 +360,14 @@ const Navbar = () => {
                             </button>
                           </div>
                         </div>
+                        <button
+                          className="delete-button"
+                          onClick={() => removeItem(item._id)}
+                        >
+                          <svg className="delete-svgIcon" viewBox="0 0 448 512">
+                            <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
+                          </svg>
+                        </button>
                       </article>
                     ))}
                     <p className="total">Total : {total} TND</p>
