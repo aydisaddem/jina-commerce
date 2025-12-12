@@ -19,12 +19,7 @@ const SignIn = ({ toggleForm }) => {
     e.preventDefault();
 
     try {
-      const response = await api.post("/users/login", formData); 
-      const data = response.data;
-
-      // Save tokens
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+const data = await login(formData);
 
       const toast = Swal.mixin({
         toast: true,
@@ -36,7 +31,6 @@ const SignIn = ({ toggleForm }) => {
         icon: "success",
         title: `Signed in successfully`,
       });
-      login(data.accessToken);
       navigate(-1);
     } catch (error) {
       if (error.response) {

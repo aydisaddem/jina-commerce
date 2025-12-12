@@ -259,14 +259,25 @@ letter-spacing: 2px;
 .actions i {
   color: var(--background-color);
   text-decoration: none;
-  font-size: 15px;
+  font-size: 18px;
   transition: color 0.3s ease;
+  position: relative;
 }
 .actions i:hover {
   color: var(--primary-color);
 }
 .mobile-search-icon{
   display: none;
+}
+.cart-count {
+  background-color: var(--primary-color);
+  color: white;
+  position: absolute;
+  top:-5px;
+  left:20px;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 8px;
 }
 /*--------------------------mobile Search----------------------------*/
 .mobile-search{
@@ -544,6 +555,13 @@ letter-spacing: 2px;
   background-color: var(--secondary-color);
   color: var(--background-color);
   border: 1px solid var(--secondary-color);
+}
+.empty-panel{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
 }
 
 /*------------------------------ Sub-nav --------------------------*/

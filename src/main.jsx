@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "./context/AuthContext";
+import { PanelProvider } from "./context/PanelContext.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google"; 
 import "./index.css";
 import App from "./App.jsx";
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <AuthProvider>
+        <PanelProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />}>
@@ -28,6 +30,7 @@ createRoot(document.getElementById("root")).render(
             </Route>
           </Routes>
         </BrowserRouter>
+        </PanelProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
   </StrictMode>

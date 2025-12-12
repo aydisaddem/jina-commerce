@@ -2,17 +2,16 @@ import { Link, NavLink } from "react-router-dom";
 import "../../styles/navbar.css";
 import SubNAv from "./SubNav.jsx";
 import SlideNav from "./SlideNav.jsx";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
 const Navbar = () => {
   const [isVisible, setIsVisble] = useState(false);
   const [isVisibleSearch, setIsVisbleSearch] = useState(false);
-  const [qty, setQty] = useState(1);
   const [search, setSearch] = useState("");
-  const [total, setTotal] = "0";
+  const [total, setTotal] = useState(0);
+  const [panel, setPanel] = useState([]);
   const { isLoggedIn, logout } = useContext(AuthContext);
-
   const navItems = [
     {
       label: "Computers",
@@ -214,27 +213,63 @@ const Navbar = () => {
       ],
     },
   ];
-  const handlePanel = (e) => setIsVisble(!isVisible);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("panel");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setPanel(parsed);
+      } catch (err) {
+        console.error("Failed to parse panel from localStorage", err);
+        setPanel([]);
+      }
+    } else {
+      setPanel([]);
+    }
+  }, [isVisible]);
+
+  useEffect(() => {
+    const sum = panel.reduce(
+      (acc, item) => acc + item.price * item.purshaseQty,
+      0
+    );
+    setTotal(sum);
+  }, [panel]);
+
+  const showPanel = (e) => setIsVisble(!isVisible);
+
+  const updateQty = (_id, newQty) => {
+    setPanel((prev) => {
+      const updated = prev.map((item) =>
+        item._id === _id ? { ...item, purshaseQty: newQty } : item
+      );
+      localStorage.setItem("panel", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const handleQtyDecrease = (id, currentQty) => {
+    if (currentQty > 1) updateQty(id, currentQty - 1);
+  };
+
+  const handleQtyIncrease = (id, currentQty) => {
+    updateQty(id, currentQty + 1);
+  };
+
+  const handleQtyChange = (id, e) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value >= 1) {
+      updateQty(id, value);
+    }
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     setIsVisbleSearch(!isVisibleSearch);
   };
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
-  };
-
-  const handleQtyDecrease = () => {
-    if (qty > 1) setQty(qty - 1);
-  };
-
-  const handleQtyIncrease = () => {
-    setQty(qty + 1);
-  };
-  const handleQtyChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value >= 1) {
-      setQty(value);
-    }
   };
 
   return (
@@ -289,16 +324,17 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-            <div className="panel actions" onClick={handlePanel}>
-              <i className="fa-solid fa-box"></i>
+            <div className="panel actions" onClick={showPanel}>
+              <i className="fa-solid fa-cart-shopping"></i><span className="cart-count"> {panel.length}</span>
+            
             </div>
             <div
               className={`overlay ${isVisible ? "" : "hidden"}`}
-              onClick={handlePanel}
+              onClick={showPanel}
             ></div>
             <div className={`panel-menu ${isVisible ? "" : "hidden"}`}>
               <div className="panel-header">
-                <button className="close-panel-btn" onClick={handlePanel}>
+                <button className="close-panel-btn" onClick={showPanel}>
                   <span className="X"></span>
                   <span className="Y"></span>
                   <div className="close">Close</div>
@@ -306,56 +342,63 @@ const Navbar = () => {
                 <h3>Mini panel</h3>
               </div>
               <div className="panel-body">
-                <article
-                  className="product-card"
-                  aria-label="Sweat oversize- grey"
-                >
-                  <img
-                    className="product-image"
-                    src="https://celio.tn/media/catalog/product/cache/48fcea1b01216d36f3119b07a85f18aa/1/8/184438-2545-MEBISLOCK_GREYGRANIT-WEB3-1_5.jpg"
-                    alt="sweat oversize grey"
-                    width="140"
-                    height="160"
-                    loading="lazy"
-                  />
+                {panel.length ? (
+                  <>
+                    {panel.map((item, idx) => (
+                      <article key={idx} className="product-card">
+                        <img
+                          className="product-image"
+                          src={item.pictures[0]}
+                          width="140"
+                          height="160"
+                          loading="lazy"
+                        />
 
-                  <div className="product-info">
-                    <h2 className="product-title">
-                      Sweat oversize à capuche - gris
-                    </h2>
+                        <div className="product-info">
+                          <h2 className="product-title">{item.name}</h2>
 
-                    <p className="product-price" aria-label="Product price">
-                      169,90 TND
-                    </p>
+                          <p
+                            className="product-price"
+                            aria-label="Product price"
+                          >
+                            {item.price * item.purshaseQty},000 DT
+                          </p>
 
-                    <div className="qty-row">
-                      <button
-                        type="button"
-                        className="qty-btn"
-                        onClick={handleQtyDecrease}
-                      >
-                        −
-                      </button>
-                      <input
-                        type="number"
-                        className="qty-input"
-                        value={qty}
-                        onChange={handleQtyChange}
-                        min="1"
-                      />
-                      <button
-                        type="button"
-                        className="qty-btn"
-                        onClick={handleQtyIncrease}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </article>
-                <p className="total">Total : {total} TND</p>
-                <button className="toPanel">to Panel</button>
-                <button className="toOrder">process order</button>
+                          <div key={item._id} className="qty-row">
+                            <button
+                              onClick={() =>
+                                handleQtyDecrease(item._id, item.purshaseQty)
+                              }
+                              className="qty-btn"
+                            >
+                              −
+                            </button>
+                            <input
+                              type="number"
+                              value={item.purshaseQty}
+                              className="qty-input"
+                              onChange={(e) => handleQtyChange(item._id, e)}
+                              min="1"
+                            />
+                            <button
+                              onClick={() =>
+                                handleQtyIncrease(item._id, item.purshaseQty)
+                              }
+                              className="qty-btn"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                    <p className="total">Total : {total} TND</p>
+                    <button className="toPanel">to Panel</button>
+                    <button className="toOrder">process order</button>
+                  </>
+                ) : (
+                  <p className="empty-panel">Empty panel</p>
+                )}
               </div>
             </div>
           </div>

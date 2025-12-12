@@ -29,36 +29,40 @@ export function AuthProvider({ children }) {
   }, []);
 
   // Google login
-const loginWithGoogle = async (googleToken) => {
-  try {
-    const { data } = await api.post("/users/google-login", {
-      token: googleToken, // backend expects "token"
-    });
+  const loginWithGoogle = async (googleToken) => {
+    try {
+      const { data } = await api.post("/users/google-login", {
+        token: googleToken, // backend expects "token"
+      });
 
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
-    setIsLoggedIn(true);
-    setUser(data.user); // optional: store user info
-  } catch (error) {
-    console.error("Google login failed:", error.response?.data || error.message);
-  }
-};
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      setIsLoggedIn(true);
+      setUser(data.user); // optional: store user info
+    } catch (error) {
+      console.error(
+        "Google login failed:",
+        error.response?.data || error.message
+      );
+    }
+  };
 
   // Refresh token flow
-  const refresh = useCallback(async () => {
-    const refreshToken = localStorage.getItem("refreshToken");
-    if (!refreshToken) return null;
+const refresh = useCallback(async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) return null;
 
-    try {
-      const { data } = await api.post("/users/refresh", { token: refreshToken });
-      saveTokens(data.accessToken, data.refreshToken);
-      return data.accessToken;
-    } catch (err) {
-      console.error("Refresh failed", err);
-      logout();
-      return null;
-    }
-  }, []);
+  try {
+    const { data } = await api.post("/users/refresh", { token: refreshToken });
+    localStorage.setItem("accessToken", data.accessToken); // ✅ only update access token
+    return data.accessToken;
+  } catch (err) {
+    console.error("Refresh failed", err);
+    logout();
+    return null;
+  }
+}, []);
+
 
   // Logout
   const logout = useCallback(() => {
