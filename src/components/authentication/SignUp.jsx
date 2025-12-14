@@ -106,6 +106,12 @@ const SignUp = ({ toggleForm }) => {
           position: "top-end",
           timer: 3000,
           showConfirmButton: false,
+          showClass: {
+          popup: "",
+        },
+        hideClass: {
+          popup: "",
+        },
         });
         toast.fire({
           icon: "success",

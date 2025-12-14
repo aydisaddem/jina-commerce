@@ -1,5 +1,5 @@
 import "./styles/App.css";
-import Layout from "./layout.jsx";
+import Layout from "./components/layout/Layout";
 import { Outlet } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 function App() {

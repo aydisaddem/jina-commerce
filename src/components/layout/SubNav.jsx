@@ -6,7 +6,6 @@ const SubNAv = (props) => {
         {props.data.map((item, idx) => (
           <li key={idx} className="has-dropdown">
             {item.label}
-
             <div className="mega-dropdown">
               {item.solo?.length > 0 && (
                 <div className="solo">

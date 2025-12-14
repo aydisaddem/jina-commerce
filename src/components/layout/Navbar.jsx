@@ -5,18 +5,17 @@ import SlideNav from "./SlideNav.jsx";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { PanelContext } from "../../context/PanelContext.jsx";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const [isVisible, setIsVisble] = useState(false);
   const [isVisibleSearch, setIsVisbleSearch] = useState(false);
   const [search, setSearch] = useState("");
-  const { panel, total, removeItem, updateQty } = useContext(PanelContext);
+  const { panel, total, count, removeItem, updateQty } =
+    useContext(PanelContext);
   const { isLoggedIn, logout } = useContext(AuthContext);
- 
 
- 
-
- const navItems = [
+  const navItems = [
     {
       label: "Computers",
       columns: [
@@ -242,17 +241,38 @@ const Navbar = () => {
     setSearch(e.target.value);
   };
 
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This item will be permanently removed from your panel.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef0200",
+      cancelButtonColor: "#121117",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeItem(_id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "The product has been removed from your panel.",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
+
   return (
     <>
       <nav className="navbar">
         <div className="main-nav">
           <SlideNav data={navItems} />
           <div className="navbar-logo">
-            <NavLink to="/" className="logo" data-text="Awesome">
-              <span className="actual-text">&nbsp;JINAshop&nbsp;</span>
-              <span aria-hidden="true" className="hover-text">
-                &nbsp;JINAshop&nbsp;
-              </span>
+            <NavLink to="/"  data-text="Awesome">
+              <span className="logo">JINA SHOP</span>
+            
             </NavLink>
           </div>
 
@@ -277,12 +297,14 @@ const Navbar = () => {
                 <i className="fa-regular fa-user"></i>
               </div>
               <ul className="dropdown-menu">
-                <li>
-                  <NavLink to="/profile">Profile</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/orders">Orders</NavLink>
-                </li>
+                {isLoggedIn && (
+                  <>
+                    <li>
+                      <NavLink to="/account/profile">Account</NavLink>
+                    </li>
+                  </>
+                )}
+
                 <li>
                   {isLoggedIn ? (
                     <NavLink to="/auth" onClick={logout}>
@@ -296,7 +318,8 @@ const Navbar = () => {
             </div>
             <div className="panel actions" onClick={showPanel}>
               <i className="fa-solid fa-cart-shopping"></i>
-              <span className="cart-count"> {panel.length}</span>
+              <span className="cart-count"> {count}</span>{" "}
+              <span className="total-span">{total},000 DT</span>
             </div>
             <div
               className={`overlay ${isVisible ? "" : "hidden"}`}
@@ -362,7 +385,7 @@ const Navbar = () => {
                         </div>
                         <button
                           className="delete-button"
-                          onClick={() => removeItem(item._id)}
+                          onClick={() => handleDelete(item._id)}
                         >
                           <svg className="delete-svgIcon" viewBox="0 0 448 512">
                             <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
@@ -371,7 +394,7 @@ const Navbar = () => {
                       </article>
                     ))}
                     <p className="total">Total : {total} TND</p>
-                    <button className="toPanel">to Panel</button>
+                    <button className="toPanel" onClick={showPanel}><NavLink to="/account/panel">to Panel</NavLink></button>
                     <button className="toOrder">process order</button>
                   </>
                 ) : (

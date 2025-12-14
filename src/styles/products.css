@@ -1,7 +1,7 @@
 .products-container {
   min-height: 100vh;
   width: 100vw;
-  margin: 150px 0;
+  margin: 50px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,7 +55,7 @@
   padding: 8px 12px;
   cursor: pointer;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 12px;
 }
 .arrow.left {
   left: 10px;
@@ -91,7 +91,7 @@
 }
 
 .item-description p:hover {
-  color: orange;
+  color: var(--blue-color);
 }
 
 /*------------------item status bar-------------------*/
@@ -130,9 +130,9 @@
 
 .icon-button {
   display: flex;
-  justify-content: center; /* centers horizontally */
-  align-items: center; /* centers vertically */
-  width: 40px; /* fixed size for square buttons */
+  justify-content: center;
+  align-items: center;
+  width: 40px;
   height: 40px;
   background: var(--background-main-color);
   border: 1px solid var(--divider);
@@ -142,9 +142,13 @@
   color: var(--text-color);
 }
 
-.icon-button:hover i {
-  transform: scale(1.1);
+.icon-button:hover {
+  background: var(--secondary-color);
 }
+.icon-button:hover i {
+  color: var(--background-color);
+}
+
 
 .auth-alert,
 .newPanelContainer {
@@ -176,7 +180,7 @@
 /*-------------------------New Panel Item -----------------------*/
 .cart-confirmation-panel {
   width: 40%;
-  height: 60%;
+  min-height: 60%;
   position: fixed;
   top: 10%;
   left: 50%;
@@ -191,7 +195,7 @@
   gap:10px;
   background-color: var(--background-color);
 }
-.cart-confirmation-panel p:first-of-type {
+.successCartMsg {
   font-size: 16px;
   color: var(--blue-color);
   letter-spacing: 1.5px;
@@ -204,7 +208,7 @@
 
 .cart-product-details {
   width: 100%;
-  height: 150px;
+  min-height: 150px;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -221,6 +225,7 @@
 .product-info-block {
   display: flex;
   width: 100%;
+  height: auto;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
@@ -237,14 +242,19 @@
     letter-spacing: 0.5px;
     line-height: 24px;
 }
-.product-info-block p:first-of-type {
+.cartItem-reference {
   font-size: 12px;
   color: var(--grey-color);
 }
-.product-info-block p:nth-of-type(2) {
+.cartItem-price {
   font-weight: bold;
   font-size: 18px;
   color: var(--primary-color);
+}
+.cartItem-qty{
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--secondary-color);
 }
 .panel-length{
   font-size: 16px;
@@ -265,4 +275,101 @@
   font-size: 18px;
   letter-spacing: 1.5px;
 }
+.confirm-buttons{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  gap:20px;
+}
+.confirm-buttons button{
+  height: 40px;
+  flex: 1;
+  border: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.confirm-buttons button:first-of-type{
+  background-color: var(--background-color);
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+}
+.confirm-buttons button:nth-child(2){
+  background-color: var(--primary-color);
+    color: var(--background-color);
+}
 
+.confirm-buttons button:hover{
+  background-color: var(--secondary-color);
+    color: var(--background-color);
+
+}
+.close-cart{
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  background-color: var(--background-color);
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .cart-confirmation-panel {
+    width: 95%;
+    top: 20%;
+    padding: 10px;
+    height: auto;
+
+  }
+
+  .cart-product-details {
+    flex-direction: column;   
+    align-items: center;
+    text-align: center;
+    height: auto;
+  }
+
+  .product-image-wrapper {
+    width: 100%;
+    height: 200px;
+  }
+
+  .product-info-block {
+    width: 100%;
+    align-items: center;
+  }
+
+  .confirm-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .confirm-buttons button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-confirmation-panel {
+    font-size: 14px;
+  }
+ 
+  .product-info-block h6 {
+    font-size: 14px !important;
+  }
+
+  .product-info-block p:nth-of-type(2) {
+    font-size: 16px;
+  }
+
+  .cartItem-price {
+    font-size: 16px;
+  }
+
+  .close-cart {
+    font-size: 20px;
+  }
+}

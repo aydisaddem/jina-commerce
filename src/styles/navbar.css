@@ -2,9 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
+ 
   z-index: 5;
 }
 .main-nav,
@@ -28,43 +26,28 @@
 }
 
 /*------------------------Navbar Logo------------------------------*/
-.navbar-logo{
+.navbar-logo {
   display: flex;
-  flex-direction: row;
-  gap:10px
+  align-items: center;
+  gap: 12px;
+  padding: 0.5rem 1rem;
 }
+
 .logo {
-  margin: 0;
-  height: auto;
-  background: transparent;
-  padding: 0;
-  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
   cursor: pointer;
-  letter-spacing: 3px;
-  text-decoration: none;
-  font-size: 2em;
-  font-family: "Arial";
-  position: relative;
-  text-transform: uppercase;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+  font-size: 1.6em;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  transition: color 0.3s ease, transform 0.3s ease;
 }
-.hover-text {
-  position: absolute;
-  box-sizing: border-box;
-  content: attr(data-text);
+.logo:hover {
   color: var(--primary-color);
-  width: 0%;
-  inset: 0;
-  border-right: 6px solid var(--primary-color);
-  overflow: hidden;
-  transition: 0.5s;
-  -webkit-text-stroke: 1px var(--primary-color);
+  transform: scale(1.05);
 }
-.logo:hover .hover-text {
-  width: 100%;
-  filter: drop-shadow(0 0 23px var(--primary-color));
-}
+
+
 /*-------------------------slide-nav--------------------------*/
 
 .mobile-nav {
@@ -75,7 +58,7 @@
   width: 80%;
   height: 100%;
   background: #fff;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
   transition: left 0.3s ease;
   overflow-y: auto;
   z-index: 1000;
@@ -100,7 +83,7 @@
   border: none;
   cursor: pointer;
   position: relative;
-  top:10px;
+  top: 10px;
   left: 10px;
 }
 .nav-list {
@@ -120,8 +103,7 @@
   padding: 15px;
   font-weight: bold;
   cursor: pointer;
-letter-spacing: 2px;
-
+  letter-spacing: 2px;
 }
 .arrow {
   transition: transform 0.3s ease;
@@ -134,8 +116,8 @@ letter-spacing: 2px;
 }
 .solo-item {
   padding: 8px 0;
-    color: var(--grey-color);
-letter-spacing: 2px;
+  color: var(--grey-color);
+  letter-spacing: 2px;
 }
 /* Columns */
 .columns {
@@ -151,7 +133,6 @@ letter-spacing: 2px;
   padding: 6px 0;
   color: var(--grey-color);
   letter-spacing: 2px;
-
 }
 .column-list {
   margin-left: 12px;
@@ -167,7 +148,6 @@ letter-spacing: 2px;
   padding: 5px 0;
   font-size: 13px;
   letter-spacing: 2px;
-
 }
 .overlay-sidebar {
   position: fixed;
@@ -175,7 +155,7 @@ letter-spacing: 2px;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -188,13 +168,16 @@ letter-spacing: 2px;
 
 /*------------------------Navbar Search input-------------------------*/
 
-.navbar-search,.mobile-search {
+.navbar-search,
+.mobile-search {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 .navbar-search input,
-.navbar-search button,.mobile-search input,.mobile-search button {
+.navbar-search button,
+.mobile-search input,
+.mobile-search button {
   box-sizing: border-box;
   height: 40px;
   margin: 0;
@@ -203,19 +186,22 @@ letter-spacing: 2px;
   line-height: 1;
   border: 2px solid var(--divider);
 }
-.navbar-search input ,.mobile-search input {
+.navbar-search input,
+.mobile-search input {
   border-right: none;
   border-radius: 6px 0 0 6px;
   width: 400px;
   background-color: var(--background-main-color);
   color: var(--input-color);
 }
-.navbar-search input::placeholder ,.mobile-search input::placeholder {
+.navbar-search input::placeholder,
+.mobile-search input::placeholder {
   color: var(--grey-color);
   opacity: 1;
   font-size: 12px;
 }
-.navbar-search button, .mobile-search button {
+.navbar-search button,
+.mobile-search button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,17 +217,21 @@ letter-spacing: 2px;
   font-weight: bold;
   cursor: pointer;
 }
-.navbar-search button:hover,.mobile-search button:hover{
+.navbar-search button:hover,
+.mobile-search button:hover {
   border: 1px solid var(--secondary-color);
 }
-.navbar-search button:active, .mobile-search button:active {
+.navbar-search button:active,
+.mobile-search button:active {
   transform: scale(0.98);
 }
-.navbar-search i ,.mobile-search i {
+.navbar-search i,
+.mobile-search i {
   font-size: 16px;
   color: var(--background-main-color);
 }
-.navbar-search i:hover ,.mobile-search i:hover {
+.navbar-search i:hover,
+.mobile-search i:hover {
   transform: scale(1.5);
 }
 
@@ -254,7 +244,7 @@ letter-spacing: 2px;
 .actions {
   position: relative;
   display: inline-block;
-   cursor: pointer;
+  cursor: pointer;
 }
 .actions i {
   color: var(--background-color);
@@ -266,23 +256,26 @@ letter-spacing: 2px;
 .actions i:hover {
   color: var(--primary-color);
 }
-.mobile-search-icon{
+.mobile-search-icon {
   display: none;
 }
 .cart-count {
   background-color: var(--primary-color);
   color: white;
   position: absolute;
-  top:-5px;
-  left:20px;
+  top: -5px;
+  left: 20px;
   border-radius: 50%;
   padding: 2px 6px;
   font-size: 8px;
 }
+.total-span {
+  margin-left: 12px;
+}
 /*--------------------------mobile Search----------------------------*/
-.mobile-search{
+.mobile-search {
   height: auto;
-  width:  60%;
+  width: 60%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -536,6 +529,7 @@ letter-spacing: 2px;
 .toPanel,
 .toOrder {
   height: 40px;
+  cursor: pointer;
 }
 .toPanel {
   border-radius: 4px;
@@ -557,14 +551,13 @@ letter-spacing: 2px;
   color: var(--background-color);
   border: 1px solid var(--secondary-color);
 }
-.empty-panel{
+.empty-panel {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   color: black;
 }
-/* From Uiverse.io by aaronross1 */ 
 .delete-button {
   width: 25px;
   height: 25px;
@@ -643,7 +636,7 @@ letter-spacing: 2px;
 .has-dropdown {
   position: relative;
   padding: 10px 20px;
-   letter-spacing: 1px;
+  letter-spacing: 1px;
   cursor: pointer;
   text-decoration: none;
 }
@@ -766,34 +759,37 @@ letter-spacing: 2px;
 .nav-link:hover {
   color: var(--primary-color);
 }
-.nav-sub-link{
+.nav-sub-link {
   position: relative;
   color: var(--grey-color);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 .nav-sub-link:hover {
-    color: var(--primary-color);
-
+  color: var(--primary-color);
 }
 
-
-
 @media (max-width: 768px) {
-.main-nav{
+  .main-nav {
     justify-content: space-between;
   }
-  .navbar-search,.sub-nav{
+  .navbar-search,
+  .sub-nav {
     display: none;
   }
-  .navbar-actions{
+  .navbar-actions {
     justify-content: flex-end;
-    gap:0
+    gap: 0;
   }
-  .logo{
-      font-size: 1.5em;
+  .logo {
+    font-size: 1.5em;
   }
-  .mobile-nav, .hamburger,.mobile-search-icon{
+  .mobile-nav,
+  .hamburger,
+  .mobile-search-icon {
     display: block;
+  }
+  .total-span {
+    display: none;
   }
 }

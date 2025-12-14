@@ -1,0 +1,106 @@
+#account {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+/*------------------- account aside--------------*/
+#account-aside {
+  width: 220px;
+  background: var(--background-color);
+  border-right: 2px solid #ddd;
+  padding: 20px 0;
+}
+
+#account-aside ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#account-aside li {
+  background: var(--background-color); 
+  color: var(--input-color);
+  padding: 12px 20px;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+#account-aside li:hover {
+  background: var(--grey-color);
+  color: var(--background-color);
+}
+
+#account-aside li.active {
+  background: black; 
+  color: white;
+}
+
+#account-aside li a {
+  display: block;
+  text-decoration: none;
+
+  color: inherit; /* inherits from li */
+}
+
+/*---------------------------account-component-------------------------*/
+.account-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+
+/* ------------------- RESPONSIVE ------------------- */
+
+/* Tablet screens */
+@media (max-width: 992px) {
+  #account {
+    flex-direction: column; /* stack sidebar on top */
+  }
+
+  #account-aside {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid #ddd;
+    display: flex;
+    justify-content: center;
+  }
+
+  #account-aside ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  #account-aside li {
+    margin-bottom: 0;
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 576px) {
+  #account {
+    margin-top: 60px; /* reduce spacing */
+  }
+
+  #account-aside {
+    padding: 10px 0;
+  }
+
+  #account-aside li {
+    font-size: 0.9em;
+    padding: 10px;
+    letter-spacing: 1px;
+  }
+
+  .account-container {
+    padding: 10px;
+  }
+}

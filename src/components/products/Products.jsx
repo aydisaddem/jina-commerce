@@ -1,6 +1,7 @@
 import "../../styles/products.css";
 import ItemCarousel from "./itemCarousel";
 import { useState, useEffect, useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
 import api from "../../utils/api";
 import { brands } from "../../data/brands";
 import { AuthContext } from "../../context/AuthContext.jsx";
@@ -12,7 +13,7 @@ const Products = () => {
   const [newPanelShow, setNewPanelShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const { isLoggedIn, user } = useContext(AuthContext);
-  const { panel,total, addItem } = useContext(PanelContext);
+  const { panel, total,count, addItem } = useContext(PanelContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,6 +31,10 @@ const Products = () => {
     setIsHidden(!isHidden);
   };
   const handleWishlist = async (item) => {
+    if (!user || !user._id) {
+      handleAlert();
+      return;
+    }
     const userId = user._id;
     try {
       const response = await api.put(`/users/${userId}/addToWishlist`, {
@@ -45,12 +50,15 @@ const Products = () => {
     }
     handleAlert();
   };
-  const handleAddToPanel = (item) => {
-    addItem(item);
-    console.log(item);
-    setSelectedItem(item);
+  const showCart = () => {
     setNewPanelShow(!newPanelShow);
   };
+
+  const handleAddToPanel = (item) => {
+  const updatedItem = addItem(item);
+  setSelectedItem(updatedItem);
+  showCart();
+};
 
   return (
     <div className="products-container">
@@ -114,7 +122,7 @@ const Products = () => {
           </>
         ) : (
           <>
-            <p>The product has been added to your list. View your list. </p>
+            <p>The product has been added to your list. <NavLink to="/account/wishlist"><strong>View your list</strong></NavLink>. </p>
             <span onClick={handleAlert}>
               <i className="fa-solid fa-xmark"></i>
             </span>
@@ -123,34 +131,41 @@ const Products = () => {
       </div>
       <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
         <div className="cart-confirmation-panel">
-          <p>Product successfully added to panel</p>
+          <p className="successCartMsg">Product successfully added to panel</p>
           {selectedItem && (
             <div className="cart-product-details">
               <div className="product-image-wrapper">
                 <img
-                src={selectedItem.pictures?.[0]}
-                alt={selectedItem.name}
-                className="item-picture"
-              />
+                  src={selectedItem.pictures?.[0]}
+                  alt={selectedItem.name}
+                  className="item-picture"
+                />
               </div>
-             
 
-              <div className="product-info-block" >
+              <div className="product-info-block">
                 <h6>{selectedItem.name}</h6>
-                <p>
-                  [{selectedItem.reference}]
-                </p>
-                <p>{selectedItem.price},000 DT</p>
+                <p className="cartItem-reference">[{selectedItem.reference}]</p>
+                <p className="cartItem-price">{selectedItem.price},000 DT</p>
+                <p className="cartItem-qty">QTY: {selectedItem.purshaseQty}</p>
               </div>
             </div>
-            
           )}
           <hr />
-          <p className="panel-length"><i className="fa-solid fa-basket-shopping"></i>  There are {panel.length} items in your cart.</p>
+          <p className="panel-length">
+            <i className="fa-solid fa-basket-shopping"></i> There are{" "}
+            {count} items in your cart.
+          </p>
           <div className="total-Panel">
             <p>TOTAL:</p>
             <p>{total},000 DT TTC</p>
           </div>
+          <div className="confirm-buttons">
+            <button onClick={showCart}>continue shopping</button>
+            <button>order now</button>
+          </div>
+          <button className="close-cart" onClick={showCart}>
+            ✕
+          </button>
         </div>
       </div>
     </div>

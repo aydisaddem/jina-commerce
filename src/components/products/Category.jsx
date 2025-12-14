@@ -1,4 +1,4 @@
-import '../styles/products.css'
+import '../../styles/products.css'
 
 const Category = () =>{
     return (
