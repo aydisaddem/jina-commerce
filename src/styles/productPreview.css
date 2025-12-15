@@ -1,0 +1,125 @@
+#product-container {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 20px 80px;
+  background-color: var(--background-color);
+}
+.product-name h2{
+    color: var(--blue-color);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+/*----------------------product-info--------------------*/
+.product-info {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+
+}
+.carousel {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 12px;
+}
+.main-image {
+  position: relative;
+}
+.bg-arrow {
+  position: absolute;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  color: var(--grey-color);
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 30px;
+  transition: background 0.2s ease;
+}
+.bg-arrow:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--background-color);
+}
+.bg-arrow.leftSide {
+  left: 20px;
+}
+.bg-arrow.rightSide {
+  right: 20px;
+}
+.main-image img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.thumb {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 4px;
+  outline: none;
+}
+.thumb img {
+  max-width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: border 0.2s ease;
+}
+.thumb.active img {
+  border: 2px solid var(--divider);
+}
+
+
+.product-desc{
+ width: 400px;
+ padding: 0 20px;
+}
+.product-desc p:first-child{
+    color: var(--secondary-color);
+    font-size: 16px;
+}
+.product-desc p:nth-child(2){
+font-family: 'Inter', sans-serif; /* clean, modern font */
+  font-size: 1rem;                  /* base size */
+  line-height: 1.5;                 /* readability */
+  color: #333;                      /* accessible contrast */
+  max-width: 65ch
+}
+
+/* Responsive breakpoints */
+
+@media (max-width: 768px) {
+  #product-container {
+    padding: 20px;
+  }
+   .product-info {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+   .carousel {
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  #product-container {
+    padding: 10px;
+  }
+  .bg-arrow.leftSide {
+  left: -20px;
+}
+.bg-arrow.rightSide {
+  right: -20px;
+}
+ 
+ 
+}

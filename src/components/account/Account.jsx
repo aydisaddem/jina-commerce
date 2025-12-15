@@ -1,27 +1,31 @@
 import "../../styles/account.css";
-import React from "react";
 import { useParams, NavLink } from "react-router-dom";
+import { useState, useContext } from "react";
 import Panel from "./Panel";
 import Orders from "./Orders";
 import Profile from "./Profile";
 import Wishlist from "./Wishlist";
+import { AuthContext } from "../../context/AuthContext.jsx";
+
 
 const Account = () => {
   const { section } = useParams(); 
   const items = ["Profile", "Wishlist", "Panel", "Orders"];
+  useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
   const renderComponent = () => {
     switch (section?.toLowerCase()) {
       case "profile":
-        return <Profile />;
+        return <Profile user={user}/>;
       case "panel":
         return <Panel />;
       case "wishlist":
         return <Wishlist />;
       case "orders":
-        return <Orders />;
+        return <Orders user={user} />;
       default:
-        return <Profile />; // fallback
+        return <Profile user={user} />; // fallback
     }
   };
 

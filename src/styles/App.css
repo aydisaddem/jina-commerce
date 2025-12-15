@@ -9,7 +9,7 @@
   --background-color: #ffffff;
   --background-main-color: #f6f6f6;
   --grey-color: #999999;
-  --blue-color: #2470BC;
+  --blue-color: #2470bc;
   --divider: #dddfe2;
   --input-color: #1d2129;
 }
@@ -47,4 +47,11 @@ a {
 
 a.active {
   text-decoration: none;
+}
+
+hr {
+  color: var(--divider);
+  background-color: var(--divider);
+  height: 2px;
+  border: none;
 }

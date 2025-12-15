@@ -9,8 +9,9 @@ import App from "./App.jsx";
 import Authentication from "./components/authentication/Authentication.jsx";
 import Landing from "./components/Landing.jsx";
 import Products from "./components/products/Products.jsx";
-import Category from "./components/products/Category.jsx";
+import ProductPreview from "./components/products/ProductPreview.jsx";
 import Account from "./components/account/Account.jsx";
+import Loading from "./components/Loading.jsx";
 import Admin from "./Admin.jsx";
 
 
@@ -23,11 +24,12 @@ createRoot(document.getElementById("root")).render(
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<App />}>
+                <Route path="loading" element= {<Loading/>}/>
                 <Route index element={<Landing />} />
                 <Route path="auth" element={<Authentication />} />
                 <Route path="products">
                   <Route index element={<Products />} />
-                  <Route path=":category" element={<Category />} />
+                  <Route path=":id" element={<ProductPreview />} />
                 </Route>
                 <Route path="admin" element={<Admin />} />
                 <Route

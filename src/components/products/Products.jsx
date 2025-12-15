@@ -12,7 +12,7 @@ const Products = () => {
   const [isHidden, setIsHidden] = useState(true);
   const [newPanelShow, setNewPanelShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const { isLoggedIn, user } = useContext(AuthContext);
+  const { isLoggedIn, user, setUser } = useContext(AuthContext);
   const { panel, total,count, addItem } = useContext(PanelContext);
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const Products = () => {
         picture: item.pictures[0],
         price: item.price,
       });
+      setUser(response.data);
       handleAlert();
     } catch (err) {
       console.error("Failed to update wishlist:", err);

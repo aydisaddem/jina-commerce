@@ -1,4 +1,4 @@
-const Profile = () => {
+const Profile = ({user}) => {
     return (
         <div className="account-component">
             <p>Hello Profile</p>

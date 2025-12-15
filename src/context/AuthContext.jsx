@@ -87,6 +87,7 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         isLoggedIn,
         loading,
         login,

@@ -1,4 +1,5 @@
-const Orders = () => {
+const Orders = ({user}) => {
+  
   return (
     <div className="account-component">
       <p>Hello Orders</p>
