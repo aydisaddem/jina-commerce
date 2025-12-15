@@ -1,15 +1,29 @@
 import "../../styles/productPreview.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import api from "../../utils/api";
 import Loading from "../Loading";
+import { brands } from "../../data/brands";
+import { PanelContext } from "../../context/PanelContext.jsx";
+import AddToPanel from "./addToPanel.jsx";
+import { AuthContext } from "../../context/AuthContext.jsx";
+
 
 const ProductPreview = () => {
+  const { addItem } = useContext(PanelContext);
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const [newPanelShow, setNewPanelShow] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
+  const { isLoggedIn, user, setUser } = useContext(AuthContext);
+  
+
   const { id } = useParams();
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,12 +48,63 @@ const ProductPreview = () => {
       </div>
     );
 
+  const handleQtyDecrease = () => {
+    if (qty > 1) {
+      setQty(qty - 1);
+    }
+  };
+
+  const handleQtyIncrease = () => {
+    setQty(qty + 1);
+  };
+
+  const handleQtyChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value >= 1) {
+      setQty(value);
+    }
+  };
+
+  const showCart = () => {
+    setNewPanelShow(!newPanelShow);
+  };
+
+  const handleAddToPanel = (qty) => {
+    showCart();
+    addItem(data, qty);
+  };
+
+  const handleAlert = () => {
+    setIsHidden(!isHidden);
+  };
+  const handleWishlist = async () => {
+    if (!user || !user._id) {
+      handleAlert();
+      return;
+    }
+    const userId = user._id;
+    try {
+      const response = await api.put(`/users/${userId}/addToWishlist`, {
+        id: data._id,
+        name: data.name,
+        reference: data.reference,
+        picture: data.pictures[0],
+        price: data.price,
+      });
+      setUser(response.data);
+      handleAlert();
+    } catch (err) {
+      console.error("Failed to update wishlist:", err);
+    }
+    handleAlert();
+  };
+
   return (
     <div id="product-container">
-        <div className="product-name">
-            <h2>{data.name}</h2>
-        </div>
-        <hr/>
+      <div className="product-name">
+        <h2>{data.name}</h2>
+      </div>
+      <hr />
       <div className="product-info">
         <div className="carousel">
           <div className="main-image">
@@ -83,12 +148,95 @@ const ProductPreview = () => {
             ))}
           </div>
         </div>
-        <div className="product-desc">
-            <p>Reference : {data.reference}</p>
+        <div className="details-container">
+          <div className="product-desc">
+            <p className="item-reference">
+              Reference : <span> {data.reference} </span>{" "}
+            </p>
             <p>{data.description}</p>
+          </div>
+          <div className="purshase-container">
+            <img
+              className="brand-logo"
+              src={brands[data.brand]}
+              alt={data.brand}
+            />
+            <p className="item-price">{data.price},000 DT TTC</p>
+            <p className="item-availability">
+              Availability :{" "}
+              <span className={data.quantity ? "in-stock" : "on-order"}>
+                {data.quantity ? "In stock" : "On order"}
+              </span>
+            </p>
+            <div className="number-control">
+              <span className="item-quantity">Quantity :</span>
+              <div className="number-left" onClick={handleQtyDecrease}></div>
+              <input
+                type="number"
+                name="number"
+                value={qty}
+                onChange={(e) => handleQtyChange(e)}
+                className="number-quantity"
+              />
+              <div className="number-right" onClick={handleQtyIncrease}></div>
+            </div>
+            <div className="item-actions">
+              {data.quantity ? (
+                <button
+                  className="icon-button"
+                  onClick={() => handleAddToPanel(qty)}
+                >
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </button>
+              ) : (
+                ""
+              )}
+
+              <button className="icon-button" onClick={handleWishlist}>
+                <i className="fa-regular fa-heart"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="prodcut-specification"></div>
+      <div className="product-specifications">
+        <h3>technical sheet</h3>
+        <table className="spec-table">
+          <tbody>
+            {data.specifications.map((spec, index) => (
+              <tr key={index}>
+                <td className="spec-key">{spec.label}</td>
+                <td className="spec-value">{spec.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
+        <AddToPanel data={data} showCart={showCart} qty={qty} />
+      </div>
+      <div
+        className={`overlay ${isHidden ? "hidden" : ""}`}
+        onClick={handleAlert}
+      ></div>
+      <div className={`auth-alert ${isHidden ? "hidden" : ""}`}>
+        {!isLoggedIn ? (
+          <>
+            <p>You must be logged in to manage your list </p>
+            <span onClick={handleAlert}>
+              <i className="fa-solid fa-xmark"></i>
+            </span>
+          </>
+        ) : (
+          <>
+            <p>The product has been added to your list. <NavLink to="/account/wishlist"><strong>View your list</strong></NavLink>. </p>
+            <span onClick={handleAlert}>
+              <i className="fa-solid fa-xmark"></i>
+            </span>
+          </>
+        )}
+      </div>
     </div>
   );
 };

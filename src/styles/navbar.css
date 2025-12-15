@@ -422,7 +422,7 @@
   text-align: center;
   text-transform: uppercase;
 }
-.product-card {
+.panel-product-card {
   display: grid;
   grid-template-columns: 80px 1fr;
   gap: 10px;
@@ -435,7 +435,7 @@
   max-width: 560px;
   position: relative;
 }
-.product-image {
+.panel-product-image {
   display: block;
   width: 100%;
   height: auto;
@@ -443,17 +443,17 @@
   object-fit: cover;
   background: var(--background-color);
 }
-.product-info {
+.panel-product-info {
   display: grid;
   gap: 10px;
 }
-.product-title {
+.panel-product-title {
   font-size: 1rem;
   line-height: 1.35;
   margin: 0;
   color: var(--input-color);
 }
-.product-price {
+.panel-product-price {
   text-align: center;
   font-weight: 700;
   color: var(--primary-color);

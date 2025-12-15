@@ -34,19 +34,23 @@ export const PanelProvider = ({ children }) => {
     setCount(qtySum);
   }, [panel]);
 
-  const addItem = (item) => {
-    let updatedItem;
-    setPanel((prev) => {
-      const exists = prev.find((p) => p._id === item._id);
-      if (exists) {
-        updatedItem = { ...exists, purshaseQty: (exists.purshaseQty ?? 1) + 1 };
-        return prev.map((p) => (p._id === item._id ? updatedItem : p));
-      }
-      updatedItem = { ...item, purshaseQty: 1 };
-      return [...prev, updatedItem];
-    });
-    return updatedItem;
-  };
+ const addItem = (item, qty = 1) => {
+  let updatedItem;
+  setPanel((prev) => {
+    const exists = prev.find((p) => p._id === item._id);
+    if (exists) {
+      updatedItem = { 
+        ...exists, 
+        purshaseQty: (exists.purshaseQty ?? 0) + qty 
+      };
+      return prev.map((p) => (p._id === item._id ? updatedItem : p));
+    }
+    updatedItem = { ...item, purshaseQty: qty };
+    return [...prev, updatedItem];
+  });
+  return updatedItem;
+};
+
 
   const removeItem = (_id) => {
     setPanel((prev) => prev.filter((item) => item._id !== _id));

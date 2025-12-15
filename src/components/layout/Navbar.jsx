@@ -338,20 +338,20 @@ const Navbar = () => {
                 {panel.length ? (
                   <>
                     {panel.map((item, idx) => (
-                      <article key={idx} className="product-card">
+                      <article key={idx} className="panel-product-card">
                         <img
-                          className="product-image"
+                          className="panel-product-image"
                           src={item.pictures[0]}
                           width="140"
                           height="160"
                           loading="lazy"
                         />
 
-                        <div className="product-info">
-                          <h4 className="product-title">{item.name}</h4>
+                        <div className="panel-product-info">
+                          <h4 className="panel-product-title">{item.name}</h4>
 
                           <p
-                            className="product-price"
+                            className="panel-product-price"
                             aria-label="Product price"
                           >
                             {item.price * item.purshaseQty},000 DT

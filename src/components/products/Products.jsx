@@ -1,19 +1,19 @@
 import "../../styles/products.css";
 import ItemCarousel from "./itemCarousel";
 import { useState, useEffect, useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import api from "../../utils/api";
 import { brands } from "../../data/brands";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { PanelContext } from "../../context/PanelContext.jsx";
-
+import AddToPanel from "./addToPanel.jsx";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [newPanelShow, setNewPanelShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const { isLoggedIn, user, setUser } = useContext(AuthContext);
-  const { panel, total,count, addItem } = useContext(PanelContext);
+  const { addItem } = useContext(PanelContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -131,43 +131,7 @@ const Products = () => {
         )}
       </div>
       <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
-        <div className="cart-confirmation-panel">
-          <p className="successCartMsg">Product successfully added to panel</p>
-          {selectedItem && (
-            <div className="cart-product-details">
-              <div className="product-image-wrapper">
-                <img
-                  src={selectedItem.pictures?.[0]}
-                  alt={selectedItem.name}
-                  className="item-picture"
-                />
-              </div>
-
-              <div className="product-info-block">
-                <h6>{selectedItem.name}</h6>
-                <p className="cartItem-reference">[{selectedItem.reference}]</p>
-                <p className="cartItem-price">{selectedItem.price},000 DT</p>
-                <p className="cartItem-qty">QTY: {selectedItem.purshaseQty}</p>
-              </div>
-            </div>
-          )}
-          <hr />
-          <p className="panel-length">
-            <i className="fa-solid fa-basket-shopping"></i> There are{" "}
-            {count} items in your cart.
-          </p>
-          <div className="total-Panel">
-            <p>TOTAL:</p>
-            <p>{total},000 DT TTC</p>
-          </div>
-          <div className="confirm-buttons">
-            <button onClick={showCart}>continue shopping</button>
-            <button>order now</button>
-          </div>
-          <button className="close-cart" onClick={showCart}>
-            ✕
-          </button>
-        </div>
+        <AddToPanel data={selectedItem} showCart={showCart} qty={1}/>
       </div>
     </div>
   );

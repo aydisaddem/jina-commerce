@@ -110,8 +110,8 @@
 }
 .item-price {
   color: #f00 !important;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 .item-stock {
   font-size: 1.2rem;
@@ -125,7 +125,7 @@
 
 .item-actions {
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .icon-button {
