@@ -8,26 +8,27 @@ import { brands } from "../../data/brands";
 import { PanelContext } from "../../context/PanelContext.jsx";
 import AddToPanel from "./addToPanel.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
-
+import Breadcrumb from "../layout/Breadcrumb.jsx";
 
 const ProductPreview = () => {
   const { addItem } = useContext(PanelContext);
-
   const [activeIndex, setActiveIndex] = useState(0);
   const [newPanelShow, setNewPanelShow] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [qty, setQty] = useState(1);
   const [error, setError] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
   const { isLoggedIn, user, setUser } = useContext(AuthContext);
-  
 
   const { id } = useParams();
-  const [qty, setQty] = useState(1);
 
-  useEffect(() => {
+useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+        setError(false);
+
         const response = await api.get(`/products/${id}`);
         setData(response.data);
       } catch (err) {
@@ -37,8 +38,9 @@ const ProductPreview = () => {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, []);
+  }, [id]);
 
   if (loading) return <Loading />;
   if (error)
@@ -88,6 +90,7 @@ const ProductPreview = () => {
         id: data._id,
         name: data.name,
         reference: data.reference,
+        category: data.category,
         picture: data.pictures[0],
         price: data.price,
       });
@@ -100,7 +103,11 @@ const ProductPreview = () => {
   };
 
   return (
+    <>
+    <Breadcrumb data={data}/>
     <div id="product-container">
+
+      
       <div className="product-name">
         <h2>{data.name}</h2>
       </div>
@@ -230,7 +237,13 @@ const ProductPreview = () => {
           </>
         ) : (
           <>
-            <p>The product has been added to your list. <NavLink to="/account/wishlist"><strong>View your list</strong></NavLink>. </p>
+            <p>
+              The product has been added to your list.{" "}
+              <NavLink to="/account/wishlist">
+                <strong>View your list</strong>
+              </NavLink>
+              .{" "}
+            </p>
             <span onClick={handleAlert}>
               <i className="fa-solid fa-xmark"></i>
             </span>
@@ -238,6 +251,8 @@ const ProductPreview = () => {
         )}
       </div>
     </div>
+    </>
+    
   );
 };
 

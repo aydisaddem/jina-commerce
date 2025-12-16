@@ -105,11 +105,10 @@
   cursor: pointer;
   letter-spacing: 2px;
 }
-.arrow {
+.arrow-SlideNav {
   transition: transform 0.3s ease;
   color: var(--grey-color);
 }
-/* Solo Items */
 .solo-list {
   list-style: none;
   padding-left: 20px;
@@ -119,7 +118,6 @@
   color: var(--grey-color);
   letter-spacing: 2px;
 }
-/* Columns */
 .columns {
   display: flex;
   flex-direction: column;
@@ -319,7 +317,7 @@
 /*--------------------------------Panel---------------------------------------*/
 
 .panel-menu {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 350px;
@@ -452,6 +450,10 @@
   line-height: 1.35;
   margin: 0;
   color: var(--input-color);
+  cursor: pointer;
+}
+.panel-product-title:hover{
+  color: var(--blue-color);
 }
 .panel-product-price {
   text-align: center;

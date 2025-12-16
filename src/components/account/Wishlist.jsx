@@ -4,15 +4,17 @@ import { NavLink } from "react-router-dom";
 import Loading from "../Loading.jsx";
 import api from "../../utils/api.js";
 import Swal from "sweetalert2";
+import { slugify } from "../../utils/slugify.js";
 
 const Wishlist = () => {
   useContext(AuthContext);
   const { user, setUser } = useContext(AuthContext);
 
   if (!user) {
-    return <Loading/>;
+    return <Loading />;
   }
-const wishlist = user?.wishlist || [];
+  const wishlist = user?.wishlist || [];
+  console.log(wishlist);
 
   const removeItem = async (item) => {
     const userId = user._id;
@@ -20,34 +22,34 @@ const wishlist = user?.wishlist || [];
       const response = await api.put(`/users/${userId}/removeFromWishlist`, {
         itemId: item.id,
       });
-      setUser(response.data)
+      setUser(response.data);
     } catch (err) {
       console.error("Failed to update wishlist:", err);
     }
   };
 
-   const handleDelete = (item) => {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This item will be permanently removed from your wishlist.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#ef0200",
-        cancelButtonColor: "#121117",
-        confirmButtonText: "Yes, delete!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          removeItem(item);
-          Swal.fire({
-            title: "Deleted!",
-            text: "The product has been removed from your panel.",
-            icon: "success",
-            timer: 1500,
-            showConfirmButton: false,
-          });
-        }
-      });
-    };
+  const handleDelete = (item) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This item will be permanently removed from your wishlist.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef0200",
+      cancelButtonColor: "#121117",
+      confirmButtonText: "Yes, delete!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeItem(item);
+        Swal.fire({
+          title: "Deleted!",
+          text: "The product has been removed from your panel.",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
 
   return (
     <div className="account-component">
@@ -65,34 +67,39 @@ const wishlist = user?.wishlist || [];
               <h6>{item.name}</h6>
               <p className="wishlistItem-reference">[{item.reference}]</p>
               <p className="wishlistItem-price">{item.price},000 DT</p>
-              
 
-        
               <button className="see-more">
-               <NavLink to={`/products/${item.id}`} style={{ all: "unset" }}>
-                See more
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  height="15px"
-                  width="15px"
-                  className="icon"
-                >
-                  <path
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeMiterlimit="10"
-                    strokeWidth="1.5"
-                    stroke="#292D32"
-                    d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
-                  />
-                </svg>
+                <NavLink to={`/products/${slugify(item.category)}${
+  item.subCategory && item.subCategory !== item.category ? `/${slugify(item.subCategory)}` : ""
+}/preview/${item.id}`}
+              style={{ all: "unset" }}>
+                  See more
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    height="15px"
+                    width="15px"
+                    className="icon"
+                  >
+                    <path
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      strokeMiterlimit="10"
+                      strokeWidth="1.5"
+                      stroke="#292D32"
+                      d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
+                    />
+                  </svg>
                 </NavLink>
               </button>
             </div>
             <div className="wishlist-BtnDiv">
-              <button className="deleteBtn" type="button" onClick={()=>handleDelete(item)}>
+              <button
+                className="deleteBtn"
+                type="button"
+                onClick={() => handleDelete(item)}
+              >
                 <span className="button__text">Delete</span>
                 <span className="button__icon">
                   <svg

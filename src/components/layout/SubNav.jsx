@@ -1,9 +1,12 @@
 import { NavLink } from "react-router-dom";
-const SubNAv = (props) => {
+import { slugify } from "../../utils/slugify";
+
+
+const SubNav = ({ data }) => {
   return (
     <div className="sub-nav">
       <ul className="sub-nav-list">
-        {props.data.map((item, idx) => (
+        {data.map((item, idx) => (
           <li key={idx} className="has-dropdown">
             {item.label}
             <div className="mega-dropdown">
@@ -11,7 +14,10 @@ const SubNAv = (props) => {
                 <div className="solo">
                   {item.solo.map((solo, soloIdx) => (
                     <h5 key={soloIdx}>
-                      <NavLink to={`/products/${solo}`} className="nav-link">
+                      <NavLink
+                        to={`/products/${slugify(solo)}`}
+                        className="nav-link"
+                      >
                         {solo}
                       </NavLink>
                     </h5>
@@ -21,10 +27,24 @@ const SubNAv = (props) => {
 
               {item.columns.map((col, colIdx) => (
                 <div key={colIdx} className="column">
-                  <h5><NavLink to={`/products/${col.title}`} className="nav-link">{col.title}</NavLink></h5>
+                  <h5>
+                    <NavLink
+                      to={`/products/${slugify(col.title)}`}
+                      className="nav-link"
+                    >
+                      {col.title}
+                    </NavLink>
+                  </h5>
                   <ul>
                     {col.items.map((subItem, subIdx) => (
-                      <li key={subIdx}><NavLink to={`/products/${col.title}:${subItem}`} className="nav-sub-link" >{subItem}</NavLink></li>
+                      <li key={subIdx}>
+                        <NavLink
+                          to={`/products/${slugify(col.title)}/${slugify(subItem)}`}
+                          className="nav-sub-link"
+                        >
+                          {subItem}
+                        </NavLink>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -37,4 +57,4 @@ const SubNAv = (props) => {
   );
 };
 
-export default SubNAv;
+export default SubNav;

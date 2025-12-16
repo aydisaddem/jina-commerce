@@ -13,8 +13,7 @@ import ProductPreview from "./components/products/ProductPreview.jsx";
 import Account from "./components/account/Account.jsx";
 import Loading from "./components/Loading.jsx";
 import Admin from "./Admin.jsx";
-
-
+import ScrollToTop from "./components/common/ScrollToTop.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -22,15 +21,25 @@ createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <PanelProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<App />}>
-                <Route path="loading" element= {<Loading/>}/>
+                <Route path="loading" element={<Loading />} />
                 <Route index element={<Landing />} />
                 <Route path="auth" element={<Authentication />} />
+
                 <Route path="products">
                   <Route index element={<Products />} />
-                  <Route path=":id" element={<ProductPreview />} />
+                  <Route path=":category">
+                    <Route index element={<Products />} />
+                    <Route path="preview/:id" element={<ProductPreview />} />
+                    <Route path=":subCategory">
+                      <Route index element={<Products />} />
+                      <Route path="preview/:id" element={<ProductPreview />} />
+                    </Route>
+                  </Route>
                 </Route>
+
                 <Route path="admin" element={<Admin />} />
                 <Route
                   path="/account"

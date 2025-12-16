@@ -3,5 +3,6 @@ export const brands = {
     "LENOVO": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765375238/Jina/kgjlcrmwhodnqeognjdf.jpg",
     "DELL": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765377332/Jina/qvxk3dde6srtdk7mxyn0.png",
     "ASUS": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765793241/Jina/ebhw0eyaq19hsysigxcm.png",
-    "MSI": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765793241/Jina/r7k2nqzqrzgstq6ofvm3.png"
+    "MSI": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765793241/Jina/r7k2nqzqrzgstq6ofvm3.png",
+    "BMAX": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765900106/Jina/cotinoaspmdl7iclcinj.png"
 }
