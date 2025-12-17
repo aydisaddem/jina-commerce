@@ -5,6 +5,8 @@ import Loading from "../Loading.jsx";
 import api from "../../utils/api.js";
 import Swal from "sweetalert2";
 import { slugify } from "../../utils/slugify.js";
+import NotFound from "../NotFound.jsx";
+import searchImg from "../../assets/search.png"
 
 const Wishlist = () => {
   useContext(AuthContext);
@@ -14,7 +16,6 @@ const Wishlist = () => {
     return <Loading />;
   }
   const wishlist = user?.wishlist || [];
-  console.log(wishlist);
 
   const removeItem = async (item) => {
     const userId = user._id;
@@ -188,7 +189,7 @@ const Wishlist = () => {
           </div>
         ))
       ) : (
-        <p>No items in wishlist</p>
+        <NotFound img={searchImg} message={"Empty wishlist"}/>
       )}
     </div>
   );

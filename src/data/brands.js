@@ -4,5 +4,9 @@ export const brands = {
     "DELL": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765377332/Jina/qvxk3dde6srtdk7mxyn0.png",
     "ASUS": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765793241/Jina/ebhw0eyaq19hsysigxcm.png",
     "MSI": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765793241/Jina/r7k2nqzqrzgstq6ofvm3.png",
-    "BMAX": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765900106/Jina/cotinoaspmdl7iclcinj.png"
+    "BMAX": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765900106/Jina/cotinoaspmdl7iclcinj.png",
+    "LG": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971434/Jina/pswabo83bmxuuuwn9i47.png",
+    "XIAOMI": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971435/Jina/pr7yj7roysmzfexxc8lv.png",
+    "DAHUA": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971435/Jina/ou2hh5juyvmygpcb7bd6.jpg",
+    "AERO": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971579/Jina/nvanvq2saktgts7k1asb.jpg"
 }

@@ -10,6 +10,8 @@ import { PanelContext } from "../../context/PanelContext.jsx";
 import AddToPanel from "./addToPanel.jsx";
 import { slugify, deslugify } from "../../utils/slugify.js";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
+import NotFound from "../NotFound.jsx";
+import searchImg  from "../../assets/search.png"
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -82,8 +84,8 @@ const Products = () => {
   return (
     <>
       <Breadcrumb />
-
-      <div className="products-container">
+   {products.length? (
+    <div className="products-container">
         {products.map((item) => (
           <div key={item._id} className="item-card">
             <div className="item-picture-container">
@@ -170,7 +172,10 @@ const Products = () => {
         <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
           <AddToPanel data={selectedItem} showCart={showCart} qty={1} />
         </div>
-      </div>
+      </div>) : (
+        <NotFound img={searchImg} message={"No products to display"}/>
+      )}
+      
     </>
   );
 };

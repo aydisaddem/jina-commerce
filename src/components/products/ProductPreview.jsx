@@ -9,6 +9,8 @@ import { PanelContext } from "../../context/PanelContext.jsx";
 import AddToPanel from "./addToPanel.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
+import NotFound from "../NotFound.jsx";
+import block from "../../assets/block.png"
 
 const ProductPreview = () => {
   const { addItem } = useContext(PanelContext);
@@ -45,9 +47,7 @@ useEffect(() => {
   if (loading) return <Loading />;
   if (error)
     return (
-      <div className="loading">
-        <p>Product not found.</p>
-      </div>
+      <NotFound img= {block} message={"Product doesn't exist or was removed"} />
     );
 
   const handleQtyDecrease = () => {

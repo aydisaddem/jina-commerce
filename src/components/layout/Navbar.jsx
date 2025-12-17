@@ -8,6 +8,8 @@ import { PanelContext } from "../../context/PanelContext.jsx";
 import Swal from "sweetalert2";
 import { slugify } from "../../utils/slugify.js";
 import navItems from "../../data/navItems.js";
+import NotFound from "../NotFound.jsx";
+import searchImg from "../../assets/search.png"
 
 const Navbar = () => {
   const [isVisible, setIsVisble] = useState(false);
@@ -202,13 +204,13 @@ const Navbar = () => {
                     ))}
                     <p className="total">Total : {total} TND</p>
                     <button className="toPanel" onClick={showPanel}>
-                      <NavLink to="/account/panel"                             style={{ all: "unset" }}
+                      <NavLink to="/account/panel"    style={{ all: "unset" }}
 >to Panel</NavLink>
                     </button>
                     <button className="toOrder">process order</button>
                   </>
                 ) : (
-                  <p className="empty-panel">Empty panel</p>
+                  <NotFound img={searchImg} message={"empty Panel"} />
                 )}
               </div>
             </div>

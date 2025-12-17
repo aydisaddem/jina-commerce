@@ -126,7 +126,6 @@
   cursor: pointer;
 }
 
-
 .see-more .icon {
   vertical-align: middle;
   margin-left: 6px;
@@ -272,7 +271,7 @@
 /* Mobile screens */
 @media (max-width: 576px) {
   #account {
-    margin-top: 60px; /* reduce spacing */
+    margin-top: 0px; 
   }
 
   #account-aside {

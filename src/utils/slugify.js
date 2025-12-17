@@ -1,11 +1,5 @@
-const slugify = (str) =>
-  str.toLowerCase().replace(/\s+/g, "-");
+const slugify = (str) => str.replace(/\s+/g, "-");
 
-const deslugify = (slug) =>
-  slug
-    .split("-")                
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
-    .join(" ");  
+const deslugify = (slug) => slug.split("-").join(" ");
 
-
-    export {slugify, deslugify};
+export { slugify, deslugify };
