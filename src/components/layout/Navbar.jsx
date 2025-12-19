@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import "../../styles/navbar.css";
 import SubNAv from "./SubNav.jsx";
 import SlideNav from "./SlideNav.jsx";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { PanelContext } from "../../context/PanelContext.jsx";
 import Swal from "sweetalert2";

@@ -8,5 +8,9 @@ export const brands = {
     "LG": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971434/Jina/pswabo83bmxuuuwn9i47.png",
     "XIAOMI": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971435/Jina/pr7yj7roysmzfexxc8lv.png",
     "DAHUA": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971435/Jina/ou2hh5juyvmygpcb7bd6.jpg",
-    "AERO": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971579/Jina/nvanvq2saktgts7k1asb.jpg"
+    "AERO": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1765971579/Jina/nvanvq2saktgts7k1asb.jpg",
+    "CORSAIR": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140116/Jina/eelcenvjl4hykvynyooh.png",
+    "SAMSUNG": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140115/Jina/fsoxwvmt9fmmjzzlyvud.png",
+    "JBL": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140114/Jina/ydgispadu0x0nbfqjuyb.png",
+    "APPLE": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140113/Jina/kbpgvzbobkcjkalzbdvq.png"
 }

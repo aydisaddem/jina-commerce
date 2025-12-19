@@ -27,13 +27,14 @@ const Products = () => {
       try {
         let endpoint = "/products";
 
-        if (category && subCategory) {
-          endpoint = `/products?category=${deslugify(
-            category
-          )}&subCategory=${deslugify(subCategory)}`;
-        } else if (category) {
-          endpoint = `/products?category=${deslugify(category)}`;
-        }
+       if (category && subCategory) {
+  endpoint = `/products?category=${encodeURIComponent(
+    deslugify(category)
+  )}&subCategory=${encodeURIComponent(deslugify(subCategory))}`;
+} else if (category) {
+  endpoint = `/products?category=${encodeURIComponent(deslugify(category))}`;
+}
+
 
         const { data } = await api.get(endpoint);
         setProducts(data);

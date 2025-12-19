@@ -27,7 +27,9 @@ const Panel = () => {
 
   return (
     <> {
-      panel.length>0?(<table className="cart-table">
+      panel.length>0?(
+      <div id="panel-container">
+      <table className="cart-table">
       <thead>
         <tr>
           <th>Product</th>
@@ -90,7 +92,7 @@ const Panel = () => {
                       height="30"
                       rx="3"
                       ry="3"
-                      fill="#e74c3c"
+                      fill="#000"
                     ></rect>
 
                     <g transform-origin="12 18" id="lid-group">
@@ -101,7 +103,7 @@ const Panel = () => {
                         height="6"
                         rx="2"
                         ry="2"
-                        fill="#c0392b"
+                        fill="#000"
                       ></rect>
                       <rect
                         x="26"
@@ -110,7 +112,7 @@ const Panel = () => {
                         height="4"
                         rx="2"
                         ry="2"
-                        fill="#c0392b"
+                        fill="#000"
                       ></rect>
                     </g>
                   </g>
@@ -131,7 +133,10 @@ const Panel = () => {
           <td></td>
         </tr>
       </tfoot>
-    </table>):(
+    </table>
+    <button className="order-now">Order Now</button>
+    </div>
+  ):(
       <NotFound img={searchImg} message={"Empty Panel"}/>
     )
     }
