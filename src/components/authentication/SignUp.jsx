@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useAuthForm } from "../../Hooks/useAuthForm.js";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext.jsx";
+import PasswordStrengthMeter from "../common/PasswordStrengthMeter.jsx";
 import api from "../../utils/api.js";
 import Swal from "sweetalert2";
 
@@ -47,13 +48,7 @@ const SignUp = ({ toggleForm }) => {
       number: /\d/.test(password),
     };
   };
-  const calculateStrengthScore = (strength) => {
-    let score = 0;
-    if (strength.length) score++;
-    if (strength.uppercase) score++;
-    if (strength.number) score++;
-    return score;
-  };
+
   const handlePasswordChange = (e) => {
     handleChange(e);
     setStrength(checkPasswordStrength(e.target.value));
@@ -63,19 +58,19 @@ const SignUp = ({ toggleForm }) => {
     const errors = {};
 
     errors.firstName =
-      formData.firstName.trim() === "" ? "First name is required" : null;
+      formData.firstName.trim() === "" ? "First name is required !" : null;
     errors.lastName =
-      formData.lastName.trim() === "" ? "Last name is required" : null;
+      formData.lastName.trim() === "" ? "Last name is required !" : null;
     errors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
       ? null
-      : "Invalid email format";
+      : "Invalid email format !";
     errors.password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(
       formData.password
     )
       ? null
-      : "Poor password ";
+      : "Poor password !";
     errors.confirmPassword =
-      formData.password === confirmPassword ? null : "Passwords do not match";
+      formData.password === confirmPassword ? null : "Passwords do not match !";
     errors.phone = /\d{2}[-.\s]?\d{3}[-.\s]?\d{3}/.test(formData.phone)
       ? null
       : "Phone must match format 12-345-678";
@@ -151,7 +146,7 @@ const SignUp = ({ toggleForm }) => {
               </span>
             </label>
             <span className={`error ${errors.firstName ? "show" : ""}`}>
-              ! {errors.firstName}
+              {errors.firstName}
             </span>
           </div>
 
@@ -173,7 +168,7 @@ const SignUp = ({ toggleForm }) => {
             </label>
 
             <span className={`error ${errors.lastName ? "show" : ""}`}>
-              ! {errors.lastName}
+              {errors.lastName}
             </span>
           </div>
         </div>
@@ -195,7 +190,7 @@ const SignUp = ({ toggleForm }) => {
               </span>
             </label>
             <span className={`error ${errors.email ? "show" : ""}`}>
-              ! {errors.email}
+              {errors.email}
             </span>
           </div>
         </div>
@@ -220,7 +215,7 @@ const SignUp = ({ toggleForm }) => {
               </span>
             </label>
             <span className={`error ${errors.password ? "show" : ""}`}>
-              ! {errors.password}
+              {errors.password}
             </span>
             <span
               className="password-visibility"
@@ -254,68 +249,19 @@ const SignUp = ({ toggleForm }) => {
               </span>
             </label>
             <span className={`error ${errors.confirmPassword ? "show" : ""}`}>
-              ! {errors.confirmPassword}
+              {errors.confirmPassword}
             </span>
           </div>
         </div>
+
+
         <div
           className={`password-strength row ${showStrength ? "" : "hidden"}`}
         >
-          <div className="strength-meter">
-            <div className="strength-bar">
-              <div
-                className={`strength-fill score-${calculateStrengthScore(
-                  strength
-                )}`}
-              />
-            </div>
-            <span
-              className={`strength-label score-${calculateStrengthScore(
-                strength
-              )}`}
-            >
-              {calculateStrengthScore(strength) === 1 && "Weak"}
-              {calculateStrengthScore(strength) === 2 && "Medium"}
-              {calculateStrengthScore(strength) === 3 && "Strong"}
-            </span>
-          </div>
-
-          <div className="strength-rules">
-            <p className={strength.length ? "valid" : "invalid"}>
-              {strength.length ? "✔" : "✖"} 8 characters
-            </p>
-            <p className={strength.uppercase ? "valid" : "invalid"}>
-              {strength.uppercase ? "✔" : "✖"} 1 uppercase
-            </p>
-            <p className={strength.number ? "valid" : "invalid"}>
-              {strength.number ? "✔" : "✖"} 1 number
-            </p>
-          </div>
+          <PasswordStrengthMeter password={formData.password} />
         </div>
 
-        <div className="row-contact">
-          <div className="box">
-            <input
-              type="tel"
-              inputMode="numeric"
-              id="tel"
-              placeholder="XX-XXX-XXX"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-
-            <label htmlFor="tel" id="telLabel">
-              Phone number{" "}
-              <span className={errors.phone ? "error-star" : "valid-star"}>
-                *
-              </span>
-            </label>
-            <span className={`error ${errors.phone ? "show" : ""}`}>
-              ! {errors.phone}
-            </span>
-          </div>
-        </div>
+     
 
         <button type="submit">SIGN UP</button>
       </form>

@@ -29,7 +29,7 @@ export function useAuthForm(initialState = { email: "", password: "", phone: "" 
     }
     // Case 2: react-select
     else if (actionMeta) {
-      setFormData((prev) => ({ ...prev, [actionMeta.name]: eOrOption }));
+      setFormData((prev) => ({ ...prev, [actionMeta.name]: eOrOption.value }));
     }
   };
 
