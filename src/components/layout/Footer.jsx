@@ -1,8 +1,55 @@
 import "../../styles/footer.css";
+import api from "../../utils/api.js";
+import { useState } from "react";
+import Swal from "sweetalert2";
+
 const Footer = () => {
-  function handleSubscribe(e) {
+  const [email, setEmail] = useState("");
+
+  const handleChange = (email) => {
+    setEmail(email);
+  };
+
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-  }
+    const validate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!validate) {
+      Swal.fire({
+        title: "Invalid Email Address",
+        text: "Please enter a valid email address.",
+        icon: "warning",
+        confirmButtonColor: "#121117",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    try {
+      const response = await api.post("/newspaper/joinUs", { email });
+      Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        showConfirmButton: false,
+      }).fire({
+        icon: "success",
+        title: response.data,
+      });
+      setEmail("");
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.error || "Something went wrong. Please try again.";
+
+      Swal.fire({
+        title: "Subscription Failed",
+        text: errorMessage,
+        icon: "error",
+        confirmButtonColor: "#121117",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
   return (
     <footer className="footer-container">
       <div className="newspaper">
@@ -14,7 +61,12 @@ const Footer = () => {
         </div>
         <div>
           <form onSubmit={handleSubscribe} className="news-form">
-            <input type="text" placeholder="Email here..." />
+            <input
+              type="text"
+              placeholder="Email here..."
+              value={email}
+              onChange={(e) => handleChange(e.target.value)}
+            />
             <button onClick={handleSubscribe} type="submit">
               Send
             </button>
@@ -58,10 +110,15 @@ const Footer = () => {
           <div className="personel-account">
             <h3>your account</h3>
             <ul>
-              <li><a>Personal informations</a>
-</li>
-              <li><a>Orders</a></li>
-              <li><a>Addresses</a></li>
+              <li>
+                <a>Personal informations</a>
+              </li>
+              <li>
+                <a>Orders</a>
+              </li>
+              <li>
+                <a>Addresses</a>
+              </li>
             </ul>
           </div>
           <div className="footer-social">
@@ -88,7 +145,7 @@ const Footer = () => {
 
         <div className="copyright">
           <hr />
-          <p >
+          <p>
             Copyright © 2025 - JINA COMMERCE Tunisie. Developped by Aydi Saddem
           </p>
         </div>

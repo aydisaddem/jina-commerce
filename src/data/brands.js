@@ -12,5 +12,8 @@ export const brands = {
     "CORSAIR": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140116/Jina/eelcenvjl4hykvynyooh.png",
     "SAMSUNG": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140115/Jina/fsoxwvmt9fmmjzzlyvud.png",
     "JBL": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140114/Jina/ydgispadu0x0nbfqjuyb.png",
-    "APPLE": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140113/Jina/kbpgvzbobkcjkalzbdvq.png"
+    "APPLE": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140113/Jina/kbpgvzbobkcjkalzbdvq.png",
+    "RIVACASE": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766319579/Jina/cnmxatk8zyxhaloeouxw.png",
+    "RISE": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766319578/Jina/dlqqlduwtixgvwnya4rt.jpg",
+    "KONIX": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766319578/Jina/yzpuxgfvsiemxqfvmrpw.png",
 }
