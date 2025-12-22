@@ -28,6 +28,7 @@ const Products = () => {
  const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedSpecs, setSelectedSpecs] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const { isLoggedIn, user, setUser } = useContext(AuthContext);
   const { addItem } = useContext(PanelContext);
   const { category, subCategory } = useParams();
@@ -204,9 +205,10 @@ const Products = () => {
       {loading?(<Loading/>):  products.length ? (
         <div className="products-container">
           <div className="filter-panel">
-            <h3>Filter</h3>
+          <h3 onClick={() => setShowMobileFilters(!showMobileFilters)}> Filter <span id="mobile-filter-arrow" className={`filter-arrow  ${showMobileFilters ? "down" : "right"}`} /> </h3>
+            <div className={`filter-content ${showMobileFilters ? "open" : ""}`}>
 
-            {hasActiveFilters && (
+         {hasActiveFilters && (
               <div className="active-filters">
                 <button className="clear-filters" onClick={handleClearFilters}>
                   CLEAR FILTERS <i className="fa-solid fa-eraser"></i>
@@ -367,6 +369,8 @@ const Products = () => {
     ))}
   </div>
 ))}
+            </div>
+   
 
           </div>
 {filteredProducts.length? (
