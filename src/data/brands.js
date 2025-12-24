@@ -16,4 +16,9 @@ export const brands = {
     "RIVACASE": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766319579/Jina/cnmxatk8zyxhaloeouxw.png",
     "RISE": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766319578/Jina/dlqqlduwtixgvwnya4rt.jpg",
     "KONIX": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766319578/Jina/yzpuxgfvsiemxqfvmrpw.png",
+    "RAZER": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766431621/Jina/wyjekmvb4gfnjdblb5d2.png",
+    "LOGITECH": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766431620/Jina/guep1leiuljfrsbtqlfy.png",
+    "TURTLE BEACH": "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766431621/Jina/rywxcghiapt5izv039lg.jpg",
+    "WHITE SHARK" : "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766434603/Jina/o3vt1qed8oopgo7afdls.png",
+    "KIMEX" : "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766434602/Jina/wzzeqd0h9yxjmrcjnb94.jpg",
 }

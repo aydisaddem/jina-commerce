@@ -206,7 +206,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      <div className="product-specifications">
+      {data.specifications.length &&  <div className="product-specifications">
         <h3>technical sheet</h3>
         <table className="spec-table">
           <tbody>
@@ -218,7 +218,8 @@ useEffect(() => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> }
+     
 
       <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
         <AddToPanel data={data} showCart={showCart} qty={qty} />

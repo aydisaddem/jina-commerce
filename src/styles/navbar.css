@@ -266,7 +266,7 @@
   font-size: 8px;
 }
 .total-span {
-  margin-left: 12px;
+  margin-left: 15px;
 }
 /*--------------------------mobile Search----------------------------*/
 .mobile-search {
@@ -656,6 +656,7 @@
   color: var(--secondary-color);
   padding: 30px 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid var(--primary-color);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;

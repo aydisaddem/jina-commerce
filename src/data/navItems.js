@@ -17,10 +17,7 @@ const navItems = [
           "Bags & Backpacks",
           "Mouse",
           "Keyboards",
-          "Mouse Pads",
-          "Coolers",
           "Webcams",
-          "Monitors",
         ],
       },
       {

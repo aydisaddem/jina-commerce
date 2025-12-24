@@ -5,9 +5,10 @@ import { AuthProvider } from "./context/AuthContext";
 import { PanelProvider } from "./context/PanelContext.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./index.css";
+
 import App from "./App.jsx";
 import Authentication from "./components/authentication/Authentication.jsx";
-import Landing from "./components/Landing.jsx";
+import Landing from "./components/landing/Landing.jsx";
 import Products from "./components/products/Products.jsx";
 import ProductPreview from "./components/products/ProductPreview.jsx";
 import Account from "./components/account/Account.jsx";

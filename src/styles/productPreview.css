@@ -88,12 +88,10 @@
 }
 .product-desc p:first-child {
   color: var(--secondary-color);
-  font-size: 16px;
+  font-size: 14px;
 }
 .product-desc p:nth-child(2) {
-  font-family: "Inter", sans-serif;
-  font-size: 1em;
-  line-height: 1.5;
+  font-size: 14px;
   letter-spacing: 1px;
   color: #374853;
   max-width: 65ch;
