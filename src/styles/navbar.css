@@ -633,6 +633,7 @@
 .sub-nav-list {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   list-style: none;
   margin: 0;
@@ -782,7 +783,15 @@
 .nav-sub-link:hover {
   color: var(--primary-color);
 }
-
+@media (max-width: 1024px){
+  .sub-nav-list{
+justify-content: flex-start;
+gap:0
+  }
+  .nav-item{
+    font-size: 14px;
+  }
+}
 @media (max-width: 768px) {
   .main-nav {
     justify-content: space-between;
