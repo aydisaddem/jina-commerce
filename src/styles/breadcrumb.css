@@ -6,7 +6,8 @@
   border: 1px solid var(--divider);
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: var(--navbar-height);
+
 }
 
 .breadcrumb-list {
@@ -47,6 +48,8 @@
   .breadcrumb {
     font-size: 14px;
     padding: 10px;
+    margin-top: var(--navbar-height-mobile);
+
   }
   .breadcrumb-current {
     display: none;

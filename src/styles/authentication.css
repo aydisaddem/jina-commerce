@@ -5,6 +5,8 @@
   justify-content: center;
   align-items: center;
   position: relative;
+   margin-top: var(--navbar-height);
+
 }
 .container {
   display: grid;
@@ -12,7 +14,7 @@
   grid-template-rows: 1fr;
   align-items: stretch;
   justify-items: stretch;
-  width: 60vw;
+  width: 800px;
   min-height: 80vh;
   gap: 0;
   background-color: var(--background-color);
@@ -435,7 +437,8 @@ input:-moz-autofill {
     height: auto;
     min-height: 70vh;
     padding: 0;
-    margin: 120px 0 50px 0;
+    margin-top: var(--navbar-height-mobile);
+
   }
   .row {
     display: flex;
@@ -448,6 +451,7 @@ input:-moz-autofill {
 
 /* Mobile breakpoint */
 @media (max-width: 480px) {
+ 
   .container {
     width: 100vw;
     min-height: 100vh;
@@ -458,7 +462,6 @@ input:-moz-autofill {
     border: none;
     border-radius: 0;
     padding: 10px;
-    margin: 100px 0 20px 0;
     height: auto;
     min-height: 80vh;
   }

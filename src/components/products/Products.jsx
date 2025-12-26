@@ -14,28 +14,34 @@ import Breadcrumb from "../layout/Breadcrumb.jsx";
 import NotFound from "../NotFound.jsx";
 import Loading from "../Loading.jsx";
 import searchImg from "../../assets/search.png";
+import ListRender from "./ListRender.jsx";
+import GridRender from "./GridRender.jsx";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [gridView, setGridView] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
   const [newPanelShow, setNewPanelShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPriceRange, setShowPriceRange] = useState(true);
   const [showBrands, setShowBrands] = useState(true);
+  const [showCategory, setShowCategory] = useState(true);
   const [openSpecs, setOpenSpecs] = useState({});
   const [minPrice, setMinPrice] = useState(1);
   const [maxPrice, setMaxPrice] = useState(20000);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedSpecs, setSelectedSpecs] = useState({});
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 24;
   const { isLoggedIn, user, setUser } = useContext(AuthContext);
   const { addItem } = useContext(PanelContext);
-  const { category, subCategory } = useParams();
+  const { category, subCategory, brand } = useParams();
   const options = [
     { value: "asc", label: "Ascending price" },
     { value: "desc", label: "Descending price" },
@@ -44,10 +50,13 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        setLoading(true); // enter loading state before request
-
+        setLoading(true);
         let endpoint = "/products";
-        if (category && subCategory) {
+        if (brand) {
+          endpoint = `/products/brands?brand=${encodeURIComponent(
+            deslugify(brand)
+          )}`;
+        } else if (category && subCategory) {
           endpoint = `/products?category=${encodeURIComponent(
             deslugify(category)
           )}&subCategory=${encodeURIComponent(deslugify(subCategory))}`;
@@ -56,19 +65,22 @@ const Products = () => {
             deslugify(category)
           )}`;
         }
-
         const { data } = await api.get(endpoint);
         setProducts(data);
         setFilteredProducts(data);
+        if (brand) {
+          const uniqueCategories = [...new Set(data.map((p) => p.category))];
+          setAvailableCategories(uniqueCategories);
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false); // exit loading state no matter what
+        setLoading(false);
       }
     };
 
     fetchProducts();
-  }, [category, subCategory]);
+  }, [category, subCategory, brand]);
 
   useEffect(() => {
     const result = products.filter((product) => {
@@ -90,11 +102,22 @@ const Products = () => {
         }
       );
 
-      return matchesBrand && matchesPrice && matchesSpecs;
+      const matchesCategory =
+        selectedCategories.length === 0 ||
+        selectedCategories.includes(product.category);
+
+      return matchesBrand && matchesPrice && matchesSpecs && matchesCategory;
     });
 
     setFilteredProducts(result);
-  }, [products, selectedBrands, minPrice, maxPrice, selectedSpecs]);
+  }, [
+    products,
+    selectedBrands,
+    minPrice,
+    maxPrice,
+    selectedSpecs,
+    selectedCategories,
+  ]);
 
   function extractSpecFilters(products) {
     const specMap = {};
@@ -133,6 +156,7 @@ const Products = () => {
   const filterBrands = [...new Set(products.map((product) => product.brand))];
   const hasActiveFilters =
     selectedBrands.length > 0 ||
+    selectedCategories.length > 0 ||
     minPrice !== 1 ||
     maxPrice !== 20000 ||
     Object.values(selectedSpecs).some((values) => values.length > 0);
@@ -183,6 +207,7 @@ const Products = () => {
 
   const handleClearFilters = () => {
     setSelectedBrands([]);
+    setSelectedCategories([]);
     setMinPrice(1);
     setMaxPrice(20000);
     setSelectedSpecs((prev) => {
@@ -296,6 +321,20 @@ const Products = () => {
                         </button>
                       </span>
                     ))}
+                    {selectedCategories.map((category) => (
+                      <span key={category} className="filter-tag">
+                        {category}
+                        <button
+                          onClick={() => {
+                            setSelectedCategories((prev) =>
+                              prev.filter((b) => b !== category)
+                            );
+                          }}
+                        >
+                          x
+                        </button>
+                      </span>
+                    ))}
                     {Object.entries(selectedSpecs).map(([label, values]) =>
                       values.map((value) => (
                         <span key={`${label}-${value}`} className="filter-tag">
@@ -366,35 +405,71 @@ const Products = () => {
                   </div>
                 )}
               </div>
+              {!brand && (
+                <div className="filter-item">
+                  <h4
+                    className="filter-header"
+                    onClick={() => setShowBrands(!showBrands)}
+                  >
+                    Brands
+                    <span
+                      className={`filter-arrow ${
+                        showBrands ? "down" : "right"
+                      }`}
+                    />
+                  </h4>{" "}
+                  {showBrands &&
+                    filterBrands.map((brand) => (
+                      <label key={brand} className="filter-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={selectedBrands.includes(brand)}
+                          onChange={() => {
+                            setSelectedBrands((prev) =>
+                              prev.includes(brand)
+                                ? prev.filter((b) => b !== brand)
+                                : [...prev, brand]
+                            );
+                          }}
+                        />
+                        {brand}
+                      </label>
+                    ))}
+                </div>
+              )}
 
-              <div className="filter-item">
-                <h4
-                  className="filter-header"
-                  onClick={() => setShowBrands(!showBrands)}
-                >
-                  Brands
-                  <span
-                    className={`filter-arrow ${showBrands ? "down" : "right"}`}
-                  />
-                </h4>{" "}
-                {showBrands &&
-                  filterBrands.map((brand) => (
-                    <label key={brand} className="filter-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={selectedBrands.includes(brand)}
-                        onChange={() => {
-                          setSelectedBrands((prev) =>
-                            prev.includes(brand)
-                              ? prev.filter((b) => b !== brand)
-                              : [...prev, brand]
-                          );
-                        }}
-                      />
-                      {brand}
-                    </label>
-                  ))}
-              </div>
+              {brand && (
+                <div className="filter-item">
+                  <h4
+                    className="filter-header"
+                    onClick={() => setShowCategory(!showCategory)}
+                  >
+                    Categories
+                    <span
+                      className={`filter-arrow ${
+                        showBrands ? "down" : "right"
+                      }`}
+                    />
+                  </h4>{" "}
+                  {showCategory &&
+                    availableCategories.map((category) => (
+                      <label key={category} className="filter-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={selectedCategories.includes(category)}
+                          onChange={() => {
+                            setSelectedCategories((prev) =>
+                              prev.includes(category)
+                                ? prev.filter((c) => c !== category)
+                                : [...prev, category]
+                            );
+                          }}
+                        />
+                        {category}
+                      </label>
+                    ))}
+                </div>
+              )}
 
               {category &&
                 specFilters.map(({ label, values }) => (
@@ -436,6 +511,21 @@ const Products = () => {
           {filteredProducts.length ? (
             <div id="products-render">
               <div className="products-render-header">
+                <div className="view-select">
+                  <i
+                    className={`fa-solid fa-list ${
+                      !gridView ? "listView-active" : ""
+                    }`}
+                    onClick={() => setGridView(false)}
+                  ></i>
+                  <i
+                    className={`fa-solid fa-grip-vertical ${
+                      gridView ? "gridView-active" : ""
+                    }`}
+                    onClick={() => setGridView(true)}
+                  ></i>
+                </div>
+
                 <p className="filteredProducts-count">
                   There are {filteredProducts.length} products.
                 </p>
@@ -481,63 +571,19 @@ const Products = () => {
                   />
                 </div>
               </div>
-
-              {paginatedProducts.map((item) => (
-                <div key={item._id} className="item-card">
-                  <div className="item-picture-container">
-                    <ItemCarousel pictures={item.pictures} name={item.name} />{" "}
-                  </div>
-                  <div className="item-description">
-                    <NavLink
-                      to={`/products/${slugify(item.category)}${
-                        item.subCategory && item.subCategory !== item.category
-                          ? `/${slugify(item.subCategory)}`
-                          : ""
-                      }/preview/${item._id}`}
-                      style={{ all: "unset" }}
-                    >
-                      <h3>{item.name}</h3>
-                      <p>
-                        {item.reference}
-                        <br />
-
-                        {item.description}
-                      </p>
-                    </NavLink>
-                  </div>
-                  <div className="item-status-bar">
-                    <img src={brands[item.brand]} className="brand-logo" />
-
-                    <span className="item-price">{item.price},000 DT</span>
-                    <span
-                      className={`item-stock ${
-                        item.quantity ? "in-stock" : "on-order"
-                      }`}
-                    >
-                      {item.quantity ? "In stock" : "On order"}
-                    </span>
-                    <div className="item-actions">
-                      {item.quantity ? (
-                        <button
-                          className="icon-button"
-                          onClick={() => handleAddToPanel(item)}
-                        >
-                          <i className="fa-solid fa-cart-shopping"></i>
-                        </button>
-                      ) : (
-                        ""
-                      )}
-
-                      <button
-                        className="icon-button"
-                        onClick={() => handleWishlist(item)}
-                      >
-                        <i className="fa-regular fa-heart"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {!gridView ? (
+                <ListRender
+                  paginatedProducts={paginatedProducts}
+                  handleWishlist={handleWishlist}
+                  handleAddToPanel={handleAddToPanel}
+                />
+              ) : (
+                <GridRender
+                  paginatedProducts={paginatedProducts}
+                  handleWishlist={handleWishlist}
+                  handleAddToPanel={handleAddToPanel}
+                />
+              )}
 
               <div className="pagination-bar">
                 <span>

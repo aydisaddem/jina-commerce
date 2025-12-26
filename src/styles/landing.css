@@ -1,6 +1,230 @@
 #landing {
-    width: 100vw;
-    height: 100vh;
-    padding: 0;
- 
+  width: 100vw;
+  height: auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--navbar-height);
+  margin-bottom: 40px;
+}
+/*------------------main-caroussel----------------*/
+.mainCarousel {
+  width: 100%;
+  margin: auto;
+
+  padding: 0;
+  position: relative;
+}
+.mainCarousel-slide {
+  height: calc(100vh - var(--navbar-height));
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.mainCarousel-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mainCarousel-slogan,
+.mainCarousel-img {
+  height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.mainCarousel-slogan {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 40%;
+}
+
+.mainCarousel-slogan h2 {
+  font-size: 2rem;
+  letter-spacing: 4px;
+  margin: 10px 0;
+  color: var(--background-color);
+}
+
+.mainCarousel-slogan p {
+  font-size: 1.4rem;
+  color: var(--background-color);
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+.mainCarousel-slogan span {
+  color: var(--background-color);
+  font-size: 1.2rem;
+}
+.cta-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.cta-button:hover {
+  background-color: var(--primary-color-hover);
+}
+.mainCarousel-img {
+  width: 60%;
+  height: 80%;
+}
+.mainCarousel-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  opacity: 1;
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.swiper-pagination-bullet-active {
+  background: var(--primary-color);
+  transform: scale(1.2);
+}
+.swiper-pagination {
+  bottom: 20px;
+}
+.swiper-pagination-bullet {
+  margin: 0 6px;
+}
+.custom-prev,
+.custom-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: var(--grey-color);
+  opacity: 0.4;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.custom-prev {
+  left: 10px;
+}
+
+.custom-next {
+  right: 20px;
+}
+.custom-prev:hover,
+.custom-next:hover {
+  background: #ff4d4f;
+  transform: translateY(-50%) scale(1.1);
+}
+/*--------------------------------brands-carousel--------------------------*/
+.brands-container {
+  width: 100%;
+  background-color: white;
+  padding: 20px 0;
+  border-bottom: 2px solid var(--divider);
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brand-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-width: 200px;
+}
+
+.brand-logo {
+  height: 80px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  #landing {
+    margin-top: var(--navbar-height-mobile);
+  }
+  .mainCarousel-slide {
+     height: calc(100vh - var(--navbar-height-mobile));
+    padding: 10px;
+  }
+  .promo-slide {
+    height: auto;
+    padding: 20px;
+  }
+
+  .promo-content {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .promo-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .promo-text h2 {
+    font-size: 1.5rem;
+  }
+  .custom-prev,
+  .custom-next {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainCarousel-slogan,
+  .mainCarousel-img {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  .mainCarousel-content {
+    flex-direction: column-reverse;
+    gap: 0;
+  }
+  .mainCarousel-slogan h2 {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+  .mainCarousel-slogan p {
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+  .mainCarousel-slogan span {
+    font-size: 14px;
+  }
 }

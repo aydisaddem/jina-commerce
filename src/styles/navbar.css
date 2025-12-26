@@ -3,6 +3,9 @@
   flex-direction: column;
   width: 100%;
   z-index: 5;
+  position: fixed;
+  top: 0;
+  
 }
 .main-nav,
 .sub-nav {
@@ -15,6 +18,7 @@
   background: var(--secondary-color);
   color: var(--background-color);
   padding: 10px 20px;
+  height: 60px;
 }
 .sub-nav {
   background: var(--background-color);
@@ -544,9 +548,8 @@
 .toOrder {
   background-color: var(--primary-color);
 }
-.toOrder:hover{
-    background-color: var(--primary-color-hover);
-
+.toOrder:hover {
+  background-color: var(--primary-color-hover);
 }
 
 .empty-panel {
@@ -623,6 +626,10 @@
 }
 
 /*------------------------------ Sub-nav --------------------------*/
+.sub-nav {
+  position: relative;
+  width: 100%;
+}
 .sub-nav-list {
   display: flex;
   justify-content: center;
@@ -630,6 +637,12 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  position: relative;
+}
+.nav-item {
+  position: relative;
+  border: none;
+
 }
 .has-dropdown {
   position: relative;
@@ -640,15 +653,16 @@
 }
 
 .has-dropdown:hover {
-  border-bottom: 3px solid var(--secondary-color);
+  background-color: var(--secondary-color);
+  color: white;
 }
 .mega-dropdown {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   gap: 20px;
-  position: fixed;
-  top: 100px;
+   position: fixed;
+  top: var(--navbar-height); 
   left: 0;
   width: 100vw;
   min-height: 30vh;
@@ -665,10 +679,11 @@
   transition: opacity 0.6s ease;
 }
 
-.has-dropdown:hover .mega-dropdown {
+.nav-item:hover .mega-dropdown {
   pointer-events: auto;
   visibility: visible;
   animation: fadeIn 0.6s ease forwards;
+  opacity: 1;
 }
 @keyframes fadeIn {
   from {
@@ -739,7 +754,7 @@
 
 .column ul li {
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 1px;
   cursor: pointer;
   color: var(--grey-color);

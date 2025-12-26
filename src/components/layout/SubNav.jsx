@@ -7,8 +7,8 @@ const SubNav = ({ data }) => {
     <div className="sub-nav">
       <ul className="sub-nav-list">
         {data.map((item, idx) => (
-          <li key={idx} className="has-dropdown">
-            {item.label}
+          <li key={idx} className="nav-item">
+            <span className="has-dropdown">{item.label}</span>
             <div className="mega-dropdown">
               {item.solo?.length > 0 && (
                 <div className="solo">

@@ -3,6 +3,7 @@
   height: 100vh;
   display: flex;
   background-color: var(--background-color);
+  margin-top: var(--navbar-height);
 }
 
 /*------------------- account aside--------------*/
@@ -535,9 +536,10 @@
 /* ------------------- RESPONSIVE ------------------- */
 
 /* Tablet screens */
-@media (max-width: 992px) {
+@media (max-width: 768px) {
   #account {
-    flex-direction: column; /* stack sidebar on top */
+    flex-direction: column; 
+  margin-top: var(--navbar-height-mobile);
   }
 
   #account-aside {
@@ -588,7 +590,7 @@
 /* Mobile screens */
 @media (max-width: 576px) {
   #account {
-    margin-top: 0px;
+    margin-top: 60px;
   }
 
   #account-aside {

@@ -3,12 +3,19 @@ import { deslugify } from "../../utils/slugify";
 import "../../styles/breadcrumb.css";
 
 const Breadcrumb = ({data}) => {
-  const { category, subCategory, id } = useParams();
+  const { category, subCategory,brand, id } = useParams();
 
   const segments = [
     { label: "Accueil", path: "/" },
     {label: "Products", path: "/products"}
   ];
+
+  if(brand){
+     segments.push({
+      label: deslugify(brand),
+      path: `/products/brands/${brand}`,
+    });
+  }
 
   if (category) {
     segments.push({

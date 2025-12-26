@@ -1,41 +1,46 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { NavLink } from "react-router-dom";
+import { brands } from "../../data/brands";
+import "swiper/css";
+import "swiper/css/pagination";
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-
-import '../../styles/mainCarousel.css';
-import {brands} from '../../data/brands'
 
 const MainCarousel = () => {
   const promos = [
     {
-      title: 'Power. Performance. Portability.',
-      desc: 'Explore Our Wide Selection of Laptops',
+      titleLines: ["Power.", "Performance.", "Portability."],
+      desc: "Explore Our Wide Selection of Laptops",
       image:
-        'https://res.cloudinary.com/dhxnksrd6/image/upload/v1766575397/Jina/xryorncggkqnqwsq8r72.png',
-      bgColor: '#000',
+        "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766601040/Jina/anwf63tbbv8ampctuyfr.png",
+      bgColor: "#131315",
       cta: "Explore Collection",
+      link: "products/Laptops",
     },
     {
-      title: 'iPhone 17 ',
-      desc: 'Engineered for Apple Intelligence. ',
-      note: '2-Year Warranty',
+      titleLines: ["IPHONE 17"],
+      desc: "Engineered for Apple Intelligence. ",
+      note: "2-Year Warranty",
       image:
-        'https://res.cloudinary.com/dhxnksrd6/image/upload/v1766584838/Jina/adsgwblfu0kfstjdg9m5.jpg',
-      bgColor: '#000',
+        "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766600698/Jina/lihfv26rsidyn8obd3ce.png",
+      bgColor: "#171719",
       cta: "Discover More",
-      brand: "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140113/Jina/kbpgvzbobkcjkalzbdvq.png",
+      brand: brands.APPLE,
+      logoStyle: { width: "100px", height: "100px" },
+      link: "products/Laptops",
     },
-        {
-      title: 'iPad air',
-      desc: 'The power of lightness.',
-      note: 'Available in several colors',
+
+    {
+      titleLines: ["GALAXY S25 ULTRA"],
+      desc: "Engineered for Ultra Intelligence — Experience the Power of 6G ",
+      note: "2-Year Warranty",
       image:
-        'https://res.cloudinary.com/dhxnksrd6/image/upload/v1766586871/Jina/zr9hfwjjp2aej3coxns2.png',
-      bgColor: '#000',
+        "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766599051/Jina/ex8nqynwuniaxx2bnd89.png",
+      bgColor: "#161618",
       cta: "Discover More",
-      brand: "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766140113/Jina/kbpgvzbobkcjkalzbdvq.png",
+      brand: brands.SAMSUNG,
+      logoStyle: { width: "200px", height: "100px" },
+      link: "products/Laptops",
     },
   ];
 
@@ -48,10 +53,10 @@ const MainCarousel = () => {
         modules={[Autoplay, Pagination, Navigation]}
         pagination={{ clickable: true }}
         navigation={{
-          prevEl: '.custom-prev',
-          nextEl: '.custom-next',
+          prevEl: ".custom-prev",
+          nextEl: ".custom-next",
         }}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 400000, disableOnInteraction: false }}
         loop
       >
         {promos.map((item, index) => (
@@ -62,21 +67,25 @@ const MainCarousel = () => {
             >
               <div className="mainCarousel-content">
                 <div className="mainCarousel-slogan">
-                  {item.brand && <img src={item.brand} />}
-                  <h2>{item.title}</h2>
-                  <p >
-                    {item.desc}
-                  </p>
+                  {item.brand && (
+                    <img src={item.brand} style={item.logoStyle} />
+                  )}
+                  {item.titleLines.map((line, i) => (
+                    <h2 key={i} style={{ display: "block" }}>
+                      {line}
+                    </h2>
+                  ))}
+                  <p>{item.desc}</p>
                   <span>{item.note || ""}</span>
-                  <button className='cta-button'>{item.cta}</button>
+                  <button className="cta-button">
+                    <NavLink to={item.link} style={{ all: "unset" }}>
+                      {item.cta}{" "}
+                    </NavLink>
+                  </button>
                 </div>
-             <div className="mainCarousel-img" >
- <img
-                  src={item.image}
-                  alt={item.title}
-                />
-             </div>
-               
+                <div className="mainCarousel-img">
+                  <img src={item.image} alt={item.title} />
+                </div>
               </div>
             </div>
           </SwiperSlide>
