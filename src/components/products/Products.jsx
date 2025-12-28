@@ -33,6 +33,7 @@ const Products = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedSpecs, setSelectedSpecs] = useState({});
   const [availableCategories, setAvailableCategories] = useState([]);
+  const [availableCategoriesCounts, setAvailableCategoryCounts] = useState({});
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(true);
@@ -41,7 +42,7 @@ const Products = () => {
   const itemsPerPage = 24;
   const { isLoggedIn, user, setUser } = useContext(AuthContext);
   const { addItem } = useContext(PanelContext);
-  const { category, subCategory, brand } = useParams();
+  const { category, subCategory, brand, search } = useParams();
   const options = [
     { value: "asc", label: "Ascending price" },
     { value: "desc", label: "Descending price" },
@@ -56,6 +57,10 @@ const Products = () => {
           endpoint = `/products/brands?brand=${encodeURIComponent(
             deslugify(brand)
           )}`;
+        } else if (search) {
+          endpoint = `/products/search?search=${encodeURIComponent(
+            deslugify(search)
+          )}`;
         } else if (category && subCategory) {
           endpoint = `/products?category=${encodeURIComponent(
             deslugify(category)
@@ -69,8 +74,12 @@ const Products = () => {
         setProducts(data);
         setFilteredProducts(data);
         if (brand) {
-          const uniqueCategories = [...new Set(data.map((p) => p.category))];
-          setAvailableCategories(uniqueCategories);
+          const categoryCounts = data.reduce((acc, p) => {
+            acc[p.category] = (acc[p.category] || 0) + 1;
+            return acc;
+          }, {});
+          setAvailableCategories(Object.keys(categoryCounts));
+          setAvailableCategoryCounts(categoryCounts);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -80,7 +89,7 @@ const Products = () => {
     };
 
     fetchProducts();
-  }, [category, subCategory, brand]);
+  }, [category, subCategory, brand, search]);
 
   useEffect(() => {
     const result = products.filter((product) => {
@@ -128,21 +137,26 @@ const Products = () => {
         const value = spec.value.trim();
 
         if (!specMap[key]) {
-          specMap[key] = new Set();
+          specMap[key] = {};
         }
 
-        specMap[key].add(value);
+        // Count occurrences
+        specMap[key][value] = (specMap[key][value] || 0) + 1;
       });
     });
 
-    // Convert Sets to arrays
+    // Normalize into array of { label, values: [{value, count}] }
     const normalizedSpecs = Object.entries(specMap).map(([label, values]) => ({
       label,
-      values: Array.from(values),
+      values: Object.entries(values).map(([value, count]) => ({
+        value,
+        count,
+      })),
     }));
 
     return normalizedSpecs;
   }
+
   const specFilters = extractSpecFilters(products);
 
   useEffect(() => {
@@ -153,7 +167,12 @@ const Products = () => {
     setSelectedSpecs(initialSpecs);
   }, [products]);
 
-  const filterBrands = [...new Set(products.map((product) => product.brand))];
+  const brandCounts = products.reduce((acc, product) => {
+    acc[product.brand] = (acc[product.brand] || 0) + 1;
+    return acc;
+  }, {});
+
+  const filterBrands = Object.keys(brandCounts).sort();
   const hasActiveFilters =
     selectedBrands.length > 0 ||
     selectedCategories.length > 0 ||
@@ -417,7 +436,8 @@ const Products = () => {
                         showBrands ? "down" : "right"
                       }`}
                     />
-                  </h4>{" "}
+                  </h4>
+
                   {showBrands &&
                     filterBrands.map((brand) => (
                       <label key={brand} className="filter-checkbox">
@@ -432,7 +452,12 @@ const Products = () => {
                             );
                           }}
                         />
-                        {brand}
+                        <span className="filter-label">
+                          <span className="filter-value">{brand}</span>
+                          <span className="filter-count">
+                            ({brandCounts[brand]})
+                          </span>
+                        </span>
                       </label>
                     ))}
                 </div>
@@ -451,23 +476,27 @@ const Products = () => {
                       }`}
                     />
                   </h4>{" "}
-                  {showCategory &&
-                    availableCategories.map((category) => (
-                      <label key={category} className="filter-checkbox">
-                        <input
-                          type="checkbox"
-                          checked={selectedCategories.includes(category)}
-                          onChange={() => {
-                            setSelectedCategories((prev) =>
-                              prev.includes(category)
-                                ? prev.filter((c) => c !== category)
-                                : [...prev, category]
-                            );
-                          }}
-                        />
-                        {category}
-                      </label>
-                    ))}
+                 {showCategory &&
+  availableCategories.map((category) => (
+    <label key={category} className="filter-checkbox">
+      <input
+        type="checkbox"
+        checked={selectedCategories.includes(category)}
+        onChange={() => {
+          setSelectedCategories((prev) =>
+            prev.includes(category)
+              ? prev.filter((c) => c !== category)
+              : [...prev, category]
+          );
+        }}
+      />
+      <span className="filter-label">
+        <span className="filter-value">{category}</span>
+        <span className="filter-count">({availableCategoriesCounts[category] || 0})</span>
+      </span>
+    </label>
+  ))}
+
                 </div>
               )}
 
@@ -492,7 +521,7 @@ const Products = () => {
                     </h4>
 
                     {openSpecs[label] &&
-                      values.map((value) => (
+                      values.map(({ value, count }) => (
                         <label key={value} className="filter-checkbox">
                           <input
                             type="checkbox"
@@ -501,7 +530,10 @@ const Products = () => {
                             }
                             onChange={() => handleSpecChange(label, value)}
                           />
-                          {value}
+                          <span className="filter-label">
+                            <span className="filter-value">{value}</span>
+                            <span className="filter-count">({count})</span>
+                          </span>
                         </label>
                       ))}
                   </div>

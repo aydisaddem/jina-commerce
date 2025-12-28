@@ -13,15 +13,15 @@ const Landing = () => {
       <BestSeller />
       <div className="service-info">
         <div className="service-item">
-          <img src={houseIcon} alt="Home delivery" /> <p>Home delivery</p>
+          <img src={houseIcon} alt="Home delivery" /> <p>HOME DELIVERY <span>Delivery service covers all of Tunisia.</span></p>
         </div>
         <div className="service-item">
           <img src={phoneIcon} alt="Commercial service" />
-          <p>Support <span>44 404 404</span></p>
+          <p>SUPPORT 24/7<span>Contact us 24 hours a day, 7 days a week.</span></p>
         </div>
         <div className="service-item">
           <img src={cashIcon} alt="Cash on delivery" />
-          <p>Cash on delivery</p>
+          <p>PAY ON DELIVERY <span>Settle only when your package arrives.</span></p>
         </div>
       </div>
     </div>

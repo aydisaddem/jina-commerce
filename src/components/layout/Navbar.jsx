@@ -1,25 +1,44 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../../styles/navbar.css";
 import SubNAv from "./SubNav.jsx";
 import SlideNav from "./SlideNav.jsx";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { PanelContext } from "../../context/PanelContext.jsx";
 import Swal from "sweetalert2";
 import { slugify } from "../../utils/slugify.js";
 import navItems from "../../data/navItems.js";
 import NotFound from "../NotFound.jsx";
-import searchImg from "../../assets/search.png"
+import searchImg from "../../assets/search.png";
+import api from "../../utils/api.js";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isVisible, setIsVisble] = useState(false);
   const [isVisibleSearch, setIsVisbleSearch] = useState(false);
   const [search, setSearch] = useState("");
+  const [products, setProducts] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showSuggestionsMobile, setShowSuggestionsMobile] = useState(false);
+
   const { panel, total, count, removeItem, updateQty } =
     useContext(PanelContext);
   const { isLoggedIn, logout } = useContext(AuthContext);
 
- 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await api.get("/products");
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const showPanel = (e) => setIsVisble(!isVisible);
 
   const handleQtyDecrease = (id, currentQty) => {
@@ -36,15 +55,6 @@ const Navbar = () => {
       updateQty(id, value);
     }
   };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setIsVisbleSearch(!isVisibleSearch);
-  };
-  const handleSearchChange = (e) => {
-    setSearch(e.target.value);
-  };
-
   const handleDelete = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -67,6 +77,66 @@ const Navbar = () => {
       }
     });
   };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setIsVisbleSearch(!isVisibleSearch);
+  };
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setShowSuggestions(true);
+  };
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
+  const handleSuggestionClick = (product) => {
+    setSearch("");
+    setShowSuggestions(false);
+    navigate(
+      `/products/${slugify(product.category)}${
+        product.subCategory && product.subCategory !== product.category
+          ? `/${slugify(product.subCategory)}`
+          : ""
+      }/preview/${product._id}`
+    );
+  };
+
+  const handleMobileSuggestionClick = (product) => {
+    setSearch("");
+    setShowSuggestions(false);
+    setIsVisbleSearch(false);
+    navigate(
+      `/products/${slugify(product.category)}${
+        product.subCategory && product.subCategory !== product.category
+          ? `/${slugify(product.subCategory)}`
+          : ""
+      }/preview/${product._id}`
+    );
+  };
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".navbar-search")) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const applySearch = (e) => {
+    e.preventDefault();
+    navigate(`products/search/${search}`);
+    setSearch("");
+    setShowSuggestions(false);
+
+  };
+  const applyMobileSearch = (e) => {
+    e.preventDefault();
+    navigate(`products/search/${search}`);
+     setSearch("");
+    setShowSuggestions(false);
+    setIsVisbleSearch(false);
+  };
 
   return (
     <>
@@ -85,10 +155,39 @@ const Navbar = () => {
               placeholder="Search..."
               value={search}
               onChange={handleSearchChange}
+              onFocus={() => setShowSuggestions(true)}
             />
-            <button type="submit">
+            <button type="submit" onClick={applySearch}>
               <i className="fa-solid fa-search"></i>
             </button>
+            {showSuggestions && search && filteredProducts.length > 0 && (
+              <div className="search-suggestions">
+                {filteredProducts.slice(0, 5).map((product) => (
+                  <div
+                    key={product._id}
+                    className="suggestion-item"
+                    onClick={() => handleSuggestionClick(product)}
+                  >
+                    {product.pictures && (
+                      <img
+                        src={product.pictures[0]}
+                        alt={product.name}
+                        className="suggestion-image"
+                      />
+                    )}
+                    <div className="suggestion-details">
+                      <p className="suggestion-name">{product.name}</p>
+                      <p className="suggestion-price">{product.price},000 DT</p>
+                    </div>
+                  </div>
+                ))}
+                <div className="all-suggestions">
+                  <span onClick={applySearch}>
+                    See All ({filteredProducts.length})
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div id="navbar-actions">
@@ -153,9 +252,12 @@ const Navbar = () => {
                         <div className="panel-product-info">
                           <NavLink
                             to={`/products/${slugify(item.category)}${
-  item.subCategory && item.subCategory !== item.category ? `/${slugify(item.subCategory)}` : ""
-}/preview/${item._id}`}
-              style={{ all: "unset" }}
+                              item.subCategory &&
+                              item.subCategory !== item.category
+                                ? `/${slugify(item.subCategory)}`
+                                : ""
+                            }/preview/${item._id}`}
+                            style={{ all: "unset" }}
                           >
                             <h4 className="panel-product-title">{item.name}</h4>
                           </NavLink>
@@ -204,8 +306,9 @@ const Navbar = () => {
                     ))}
                     <p className="total">Total : {total} TND</p>
                     <button className="toPanel" onClick={showPanel}>
-                      <NavLink to="/account/panel"    style={{ all: "unset" }}
->to Panel</NavLink>
+                      <NavLink to="/account/panel" style={{ all: "unset" }}>
+                        to Panel
+                      </NavLink>
                     </button>
                     <button className="toOrder">process order</button>
                   </>
@@ -224,10 +327,40 @@ const Navbar = () => {
           placeholder="Search..."
           value={search}
           onChange={handleSearchChange}
+          onFocus={() => setShowSuggestionsMobile(true)}
         />
-        <button type="submit">
+        <button type="submit" onClick={applyMobileSearch}>
           <i className="fa-solid fa-search"></i>
         </button>
+
+        {showSuggestionsMobile && search && filteredProducts.length > 0 && (
+          <div className="search-suggestions">
+            {filteredProducts.slice(0, 5).map((product) => (
+              <div
+                key={product._id}
+                className="suggestion-item"
+                onClick={() => handleMobileSuggestionClick(product)}
+              >
+                {product.pictures && product.pictures[0] && (
+                  <img
+                    src={product.pictures[0]}
+                    alt={product.name}
+                    className="suggestion-image"
+                  />
+                )}
+                <div className="suggestion-details">
+                  <p className="suggestion-name">{product.name}</p>
+                  <p className="suggestion-price">{product.price},000 DT</p>
+                </div>
+              </div>
+            ))}
+             <div className="all-suggestions">
+                  <span onClick={applyMobileSearch}>
+                    See All ({filteredProducts.length})
+                  </span>
+                </div>
+          </div>
+        )}
       </div>
       <div
         className={`overlay ${isVisibleSearch ? "" : "hidden"}`}

@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { NavLink } from "react-router-dom";
 import { brands } from "../../data/brands";
+import {slugify} from "../../utils/slugify"
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -27,7 +28,7 @@ const MainCarousel = () => {
       cta: "Discover More",
       brand: brands.APPLE,
       logoStyle: { width: "100px", height: "100px" },
-      link: "products/Laptops",
+      link: "products/search/iphone-17" ,
     },
 
     {
@@ -40,7 +41,7 @@ const MainCarousel = () => {
       cta: "Discover More",
       brand: brands.SAMSUNG,
       logoStyle: { width: "200px", height: "100px" },
-      link: "products/Laptops",
+      link: "products/search/Galaxy-S25",
     },
   ];
 

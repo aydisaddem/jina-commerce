@@ -33,7 +33,7 @@ const Breadcrumb = ({data}) => {
 
   if (id) {
     segments.push({
-      label: data?.name || "Aperçu du produit", 
+      label: data?.reference || "Aperçu du produit", 
     });
   }
 
