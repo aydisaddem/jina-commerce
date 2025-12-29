@@ -209,7 +209,7 @@ const Navbar = () => {
 
                 <li>
                   {isLoggedIn ? (
-                    <NavLink to="/auth" onClick={logout}>
+                    <NavLink to="/" onClick={logout}>
                       Logout
                     </NavLink>
                   ) : (

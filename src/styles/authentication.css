@@ -311,7 +311,7 @@ input:-moz-autofill {
   background-color: var(--primary-color);
   color: var(--background-color);
   font-family: sans-serif;
-  width: 60%;
+  width: 10rem;
   height: 40px;
   border: none;
   font-size: 10px;
@@ -408,22 +408,10 @@ input:-moz-autofill {
 .mobile-authentication-toggle {
   display: none;
 }
-.mobile-authentication-toggle button {
-  background-color: var(--background-color);
-  color: var(--secondary-color);
-  border: 1px solid var(--secondary-color);
-  font-family: sans-serif;
-  width: 60%;
-  height: 40px;
-  border: 1px solid var(--secondary-color);
-  font-size: 10px;
+.mobile-authentication-toggle span {
+  color: var(--blue-color);
   font-weight: bold;
-  border-radius: 10px;
-  text-align: center;
-  margin: 10px 0;
   cursor: pointer;
-  letter-spacing: 1px;
-  text-transform: uppercase;
 }
 .mobile-authentication-toggle button:active {
   background-color: var(--secondary-color) !important;
@@ -454,7 +442,7 @@ input:-moz-autofill {
  
   .container {
     width: 100vw;
-    min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -463,24 +451,16 @@ input:-moz-autofill {
     border-radius: 0;
     padding: 10px;
     height: auto;
-    min-height: 80vh;
+    margin-top: 0;
   }
   .overlay-container {
     display: none;
   }
   .mobile-authentication-toggle {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 10px;
+    display: block;
+  
   }
 
-  .mobile-authentication-toggle button:hover {
-    background-color: var(--secondary-color);
-    color: var(--background-color);
-  }
   .signup-active .forms-container {
     transform: translateX(0px);
     padding: 10 px;
@@ -492,5 +472,8 @@ input:-moz-autofill {
     justify-content: center;
     align-items: center;
     gap: 0;
+  }
+  .box{
+    width: 100%;
   }
 }

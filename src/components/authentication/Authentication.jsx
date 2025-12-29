@@ -6,8 +6,7 @@ import "../../styles/authentication.css";
 const Authentication = () => {
   const [isLogin, setIsLogin] = useState(true);
 
-  const toggleForm = (e) => {
-    e.preventDefault();
+  const toggleForm = () => {
     setIsLogin(!isLogin);
   };
 
@@ -29,7 +28,7 @@ const Authentication = () => {
         )}
       </div>
 
-      <div className="forms-container">{isLogin ? <SignIn toggleForm={toggleForm} /> : <SignUp toggleForm={toggleForm} />}</div>
+      <div className="forms-container">{isLogin ? <SignIn toggleForm={toggleForm} nav={-1} /> : <SignUp toggleForm={toggleForm} nav={-1} />}</div>
     </div>
     </div>
   );

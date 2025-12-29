@@ -6,7 +6,7 @@ import PasswordStrengthMeter from "../common/PasswordStrengthMeter.jsx";
 import api from "../../utils/api.js";
 import Swal from "sweetalert2";
 
-const SignUp = ({ toggleForm }) => {
+const SignUp = ({ toggleForm, nav }) => {
   const { formData, handleChange } = useAuthForm({
     firstName: "",
     lastName: "",
@@ -16,7 +16,7 @@ const SignUp = ({ toggleForm }) => {
     address: "",
     city: "",
     orders: [],
-    wishlist : [],
+    wishlist: [],
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -71,15 +71,13 @@ const SignUp = ({ toggleForm }) => {
       : "Poor password !";
     errors.confirmPassword =
       formData.password === confirmPassword ? null : "Passwords do not match !";
-    errors.phone = /\d{2}[-.\s]?\d{3}[-.\s]?\d{3}/.test(formData.phone)
-      ? null
-      : "Phone must match format 12-345-678";
 
     return errors;
   }
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    console.log()
     setErrors({});
     const validationErrors = validateForm(formData);
     setErrors(validationErrors);
@@ -87,12 +85,12 @@ const SignUp = ({ toggleForm }) => {
     const hasErrors = Object.values(validationErrors).some(
       (err) => err !== null
     );
+        
 
     if (!hasErrors) {
       try {
         const response = await api.post("/users/signUp", formData);
         const data = response.data;
-
         // Save access token
         localStorage.setItem("accessToken", data.accessToken);
 
@@ -102,17 +100,19 @@ const SignUp = ({ toggleForm }) => {
           timer: 3000,
           showConfirmButton: false,
           showClass: {
-          popup: "",
-        },
-        hideClass: {
-          popup: "",
-        },
+            popup: "",
+          },
+          hideClass: {
+            popup: "",
+          },
         });
         toast.fire({
           icon: "success",
-          title: `Welcome, ${data.firstName}! Your account has been created successfully.`,
+          title: `Welcome, ${formData.firstName}! Your account has been created successfully.`,
         });
-        await login({ email: formData.email, password: formData.password });        navigate(-1);
+        await login({ email: formData.email, password: formData.password });
+        navigate(nav !== undefined ? nav : -1);
+
       } catch (error) {
         if (error.response) {
           console.error("Signup failed:", error.response.data.error);
@@ -254,23 +254,17 @@ const SignUp = ({ toggleForm }) => {
           </div>
         </div>
 
-
         <div
           className={`password-strength row ${showStrength ? "" : "hidden"}`}
         >
           <PasswordStrengthMeter password={formData.password} />
         </div>
 
-     
-
         <button type="submit">SIGN UP</button>
       </form>
 
       <div className="mobile-authentication-toggle">
-        <p>Already have an account?</p>
-        <button type="button" onClick={toggleForm}>
-          Sign In
-        </button>
+        <p>Already have an account? <span onClick={toggleForm}>Sign In</span></p>
       </div>
     </div>
   );

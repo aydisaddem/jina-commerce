@@ -42,6 +42,7 @@ function GoogleAuthButton() {
       theme="outline"
       size="large"
       text="signin_with"
+      locale="en"
       shape="rectangular"
     />
   );

@@ -6,7 +6,7 @@ import api from "../../utils/api.js";
 import GoogleAuthButton from "./GoogleAuthButton.jsx";
 import Swal from "sweetalert2";
 
-const SignIn = ({ toggleForm }) => {
+const SignIn = ({ toggleForm, nav }) => {
   const { formData, handleChange } = useAuthForm();
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
@@ -37,7 +37,7 @@ const data = await login(formData);
         icon: "success",
         title: `Signed in successfully`,
       });
-      navigate(-1);
+       navigate(nav !== undefined ? nav : -1);
     } catch (error) {
       if (error.response) {
         console.error("Login failed:", error.response.data.error);
@@ -102,10 +102,8 @@ const data = await login(formData);
         <GoogleAuthButton />
       </div>
       <div className="mobile-authentication-toggle">
-        <p>don't have an account yet?</p>
-        <button type="button" onClick={toggleForm}>
-          Create account
-        </button>
+        <p>don't have an account yet? <span onClick={toggleForm}>Create account</span></p>
+        
       </div>
     </div>
   );

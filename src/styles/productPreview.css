@@ -87,14 +87,13 @@
   padding: 20px;
 }
 .product-desc p:first-child {
-  color: var(--secondary-color);
+  color: var(--input-color);
   font-size: 14px;
 }
 .product-desc p:nth-child(2) {
   font-size: 14px;
-  letter-spacing: 1px;
-  color: #374853;
-  max-width: 65ch;
+  letter-spacing: 2px;
+  color: var(--input-color);
 }
 .purshase-container {
   background-color: var(--background-main-color);

@@ -15,6 +15,7 @@ import Account from "./components/account/Account.jsx";
 import Loading from "./components/Loading.jsx";
 import Admin from "./Admin.jsx";
 import ScrollToTop from "./components/common/ScrollToTop.jsx";
+import Order from "./components/order/Order.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -28,7 +29,7 @@ createRoot(document.getElementById("root")).render(
                 <Route path="loading" element={<Loading />} />
                 <Route index element={<Landing />} />
                 <Route path="auth" element={<Authentication />} />
-
+                <Route path="order" element={<Order/>} />
                 <Route path="products">
                   <Route index element={<Products />} />
                   <Route path="search/:search" element={<Products/>}/>
