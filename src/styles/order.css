@@ -137,7 +137,7 @@
 .accordion-section {
   border: 1px solid #ddd;
   margin-bottom: 10px;
-  background-color: white;
+  background-color: var(--background-color);
 }
 
 .section-header {
@@ -145,7 +145,7 @@
   align-items: center;
   padding: 20px 30px;
   cursor: pointer;
-  background-color: #f8f8f8;
+  background-color: var(--background-color);
   transition: background-color 0.3s;
 }
 
@@ -154,7 +154,7 @@
 }
 
 .section-header.active {
-  background-color: white;
+  background-color: var(--background-color);
   border-bottom: 1px solid #ddd;
 }
 
@@ -164,52 +164,94 @@
   justify-content: center;
   width: 30px;
   height: 30px;
-  background-color: #0277bd;
+  background-color: var(--blue-color);
   color: white;
   border-radius: 50%;
-  font-weight: 600;
+  font-weight: 500;
   margin-right: 15px;
   font-size: 16px;
 }
 
 .section-title {
   font-size: 18px;
-  color: #0277bd;
+  color: var(--blue-color);
   font-weight: 500;
 }
 
 .section-content {
   display: flex;
+  width: 100%;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   padding: 20px;
+}
+.section-content p:first-child {
+  color: var(--input-color);
+}
+
+.add-address{
+  color: var(--blue-color);
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.add-address:hover{
+  color: orangered;
 }
 
 .section-footer {
   margin-top: 30px;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
 .continue-btn {
   padding: 12px 40px;
-  background-color: #e0e0e0;
-  color: #333;
+  background-color: var(--blue-color);
+  color: white;
   border: none;
   border-radius: 4px;
   font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
 }
 
 .continue-btn:hover {
-  background-color: #d0d0d0;
+  background-color: var(--blue-color-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(2, 119, 189, 0.3);
 }
-.checkoutAuth-container{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.addAddress-btn{
+ padding: 10px 30px;
+  background: linear-gradient(to bottom, #f9f9f9 0%, #e3e3e3 100%);
+  color: #0277bd;
+  border: 1px solid #c0c0c0;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+.addAddress-btn:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, #ececec 100%);
+  border-color: #a0a0a0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.addAddress-btn:active {
+  background: linear-gradient(to bottom, #e3e3e3 0%, #f9f9f9 100%);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+.checkoutAuth-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .checkoutAuth {
   width: 80%;
@@ -234,26 +276,228 @@
   color: orangered;
 }
 
-.checkoutLogged{
-    width: 100%;
-    margin-left: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+.checkoutLogged {
+  width: 100%;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
-.checkoutLogged p{
-    font-size: 14px;
-    letter-spacing: 1.5px;
-    color: var(--input-color);
+.checkoutLogged p {
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  color: var(--input-color);
 }
-.checkoutLogged p span{
-    color: var(--blue-color);
-    cursor: pointer;
+.checkoutLogged p span {
+  color: var(--blue-color);
+  cursor: pointer;
 }
-.checkoutLogged p span:hover{
-   color: orangered
+.checkoutLogged p span:hover {
+  color: orangered;
 }
+
+/*-------------------------------address------------------------------*/
+
+.address-form-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-wrapper {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 0;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.required {
+  color: #d32f2f;
+  margin-left: 2px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--input-color);
+  background-color: #f5f5f5;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+.form-group input[type="text"]::placeholder,
+.form-group input[type="tel"]::placeholder {
+color: #999;
+opacity: 0.4;
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="tel"]:focus {
+  outline: none;
+  border-color: var(--blue-color);
+  background-color: white;
+}
+
+.checkbox-group {
+  margin-top: 5px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+  accent-color: var(--blue-color-hover);
+}
+
+.checkbox-label span {
+  font-size: 14px;
+  color: #333;
+}
+
+/*----------------------- address summary------------------------*/
+.address-list{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+}
+.address-summary {
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 0;
+  width: 100%;;
+}
+
+.address-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.address-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.radio-icon {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ffc107;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.radio-icon::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #ffc107;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.address-title h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.address-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: none;
+  background-color: transparent;
+  color: var(--blue-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+
+.action-btn:hover {
+  background-color: #e3f2fd;
+}
+
+.edit-btn {
+  color: #0277bd;
+}
+
+.delete-btn {
+  color: #d32f2f;
+}
+
+.delete-btn:hover {
+  background-color: #ffebee;
+}
+
+.action-btn i {
+  font-size: 13px;
+}
+
+.address-content {
+  padding: 20px;
+}
+
+.address-content p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.address-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px !important;
+}
+
+
 
 @media (max-width: 768px) {
   #order-container {
@@ -275,6 +519,24 @@
   }
   .section-title {
     font-size: 16px;
+  }
+  .address-form-container {
+    padding: 15px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+    .address-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .address-actions {
+    width: 100%;
+    justify-content: flex-end;
   }
 }
 

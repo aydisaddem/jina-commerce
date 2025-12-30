@@ -310,7 +310,12 @@ const Navbar = () => {
                         to Panel
                       </NavLink>
                     </button>
-                    <button className="toOrder">process order</button>
+                    
+                    <button className="toOrder" onClick={showPanel}>
+                      <NavLink to="/order" style={{ all: "unset" }}>
+                        process order
+                      </NavLink>
+                    </button>
                   </>
                 ) : (
                   <NotFound img={searchImg} message={"empty Panel"} />

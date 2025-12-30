@@ -2,6 +2,7 @@ import { PanelContext } from "../../context/PanelContext.jsx";
 import { useContext, useState } from "react";
 import NotFound from "../NotFound.jsx";
 import searchImg from "../../assets/search.png"
+import { NavLink } from "react-router-dom";
 const Panel = () => {
   const { panel, total, removeItem, updateQty } = useContext(PanelContext);
   const formatPrice = (price) => `${price.toLocaleString()},000 DT`;
@@ -134,7 +135,10 @@ const Panel = () => {
         </tr>
       </tfoot>
     </table>
-    <button className="order-now">Order Now</button>
+    <NavLink to="/order">
+<button className="order-now">Order Now</button>
+    </NavLink>
+    
     </div>
   ):(
       <NotFound img={searchImg} message={"Empty Panel"}/>
