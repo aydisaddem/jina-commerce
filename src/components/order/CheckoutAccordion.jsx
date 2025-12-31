@@ -26,8 +26,10 @@ const CheckoutAccordion = ({ panel, total, count }) => {
   const [editBillingAddress, setEditBillingAddress] = useState(false);
   const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
   const [validatedSections, setValidatedSections] = useState([]);
-  const [deliveryOption, setDeliveryOption] = useState("carrier");
+  const [deliveryOption, setDeliveryOption] = useState("Store Pickup");
+  const [deliveryFee, setDeliveryFee] = useState(null);
   const [deliveryNote, setDeliveryNote] = useState("");
+
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
@@ -42,10 +44,11 @@ const CheckoutAccordion = ({ panel, total, count }) => {
       setValidatedSections([...validatedSections, 1]);
     } else {
       setValidatedSections(
-        validatedSections.filter((section) =>section !== 1 && section !== 2 && section !== 3)
+        validatedSections.filter(
+          (section) => section !== 1 && section !== 2 && section !== 3
+        )
       );
     }
-    
   }, [user]);
 
   useEffect(() => {
@@ -194,6 +197,10 @@ const CheckoutAccordion = ({ panel, total, count }) => {
       setAddAddress(false);
     });
   };
+
+
+  const getDeliveryAddress = () => deliveryAddress || billingAddress;
+  const getBillingAddress = () => billingAddress || deliveryAddress;
 
   return (
     <div className="checkout-container">
@@ -521,9 +528,9 @@ const CheckoutAccordion = ({ panel, total, count }) => {
                 type="radio"
                 className="delivery-radio"
                 name="delivery"
-                value="store"
-                checked={deliveryOption === "store"}
-                onChange={(e) => setDeliveryOption(e.target.value)}
+                value="Store Pickup"
+                checked={deliveryOption === "Store Pickup"}
+                onChange={(e) => {setDeliveryOption(e.target.value); setDeliveryFee("free")}}
               />
               <div className="delivery-text">
                 <span>Store Pickup</span>
@@ -537,9 +544,9 @@ const CheckoutAccordion = ({ panel, total, count }) => {
                 type="radio"
                 className="delivery-radio"
                 name="delivery"
-                value="carrier"
-                checked={deliveryOption === "carrier"}
-                onChange={(e) => setDeliveryOption(e.target.value)}
+                value="Carrier - All of Tunisia"
+                checked={deliveryOption === "Carrier - All of Tunisia"}
+                onChange={(e) => {setDeliveryOption(e.target.value); setDeliveryFee(total>300? "free" : "10 DT")}}
               />
               <div className="delivery-text">
                 <span>Carrier - All of Tunisia</span>{" "}
@@ -579,7 +586,7 @@ const CheckoutAccordion = ({ panel, total, count }) => {
         )}
       </div>
 
-      {/* Section 4: Paiement */}
+      {/* Section 4: confirmation */}
       <div className="accordion-section">
         <div
           className={`section-header ${activeSection === 4 ? "active" : ""}`}
@@ -596,12 +603,108 @@ const CheckoutAccordion = ({ panel, total, count }) => {
               "4"
             )}
           </span>
-          <span className="section-title">Payment</span>
+          <span className="section-title">Confirmation</span>
         </div>
 
         {activeSection === 4 && isSectionValidated(3) && (
           <div className="section-content">
-            <p>Payment options go here...</p>
+            <div className="checkout-summary">
+              <h2 className="checkout-summary-title">
+                Please verify your order before payment
+              </h2>
+
+              {/* Addresses Section */}
+              <div className="checkout-summary-section">
+                <div className="checkout-section-header">
+                  <h3>Addresses</h3>
+                  <button className="modify-btn" onClick={()=>toggleSection(2)}>
+                    <i className="fa-solid fa-pen"></i> modify
+                  </button>
+                </div>
+
+                <div className="address-cards">
+                  <div className="address-card">
+                    <h4>Delivery Address</h4>
+                    {getDeliveryAddress() && (
+                      <>
+                        <p><span>Fullname:</span>
+                          {getDeliveryAddress().firstName}{" "}
+                          {getDeliveryAddress().lastName}
+                        </p>
+                        {getDeliveryAddress().company && (
+                          <p><span>Company:</span>{getDeliveryAddress().company}</p>
+                        )}
+                        <p><span>Address:</span>{getDeliveryAddress().address}</p>
+                        {getDeliveryAddress().addressComplement && (
+                          <p><span>Address complement:</span>{getDeliveryAddress().addressComplement}</p>
+                        )}
+                        {getDeliveryAddress().postalCode && (
+                          <p><span>Postal code:</span>{getDeliveryAddress().postalCode}</p>
+                        )}
+
+                        <p><span>City:</span>
+                          {getDeliveryAddress().city}
+                        </p>
+                        <p><span>Phone:</span>{getDeliveryAddress().phone}</p>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="address-card">
+                    <h4>Billing Address</h4>
+                    {getBillingAddress() && (
+                      <>
+                        <p><span>Fullname:</span>
+                          {getBillingAddress().firstName}{" "}
+                          {getBillingAddress().lastName}
+                        </p>
+                        {getBillingAddress().company && (
+                          <p><span>Company:</span>{getBillingAddress().company}</p>
+                        )}
+                        <p><span>Address:</span>{getBillingAddress().address}</p>
+                        {getBillingAddress().addressComplement && (
+                          <p><span>Address complement:</span>{getBillingAddress().addressComplement}</p>
+                        )}
+                        {getBillingAddress().postalCode && (
+                          <p><span>Postal code:</span>{getBillingAddress().postalCode}</p>
+                        )}
+
+                        <p><span>City:</span>
+                          {getBillingAddress().city}
+                        </p>
+                        <p><span>Phone:</span>{getBillingAddress().phone}</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Delivery Method Section */}
+              <div className="checkout-summary-section">
+                <div className="checkout-section-header">
+                  <h3>Delivery method</h3>
+                  <button className="modify-btn" onClick={()=>toggleSection(3)}>
+                    <i className="fa-solid fa-pen"></i> modify
+                  </button>
+                </div>
+
+                <div className="delivery-info">
+                  <div className="delivery-method">
+                    <p className="method-name">{deliveryOption}</p>
+                  </div>
+                  <div className="delivery-payment">
+                    <p>{deliveryOption === "Store Pickup"? "Sfax - Route Gremda km 9" : "Payment on delivery"}</p>
+                    <p className="delivery-note">
+                      {deliveryOption === "Store Pickup"? "" : "(Free delivery from 300 DT purchase)"}
+                      
+                    </p>
+                  </div>
+                  <div className="delivery-price">
+                    <p className="price-tag">{deliveryFee}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="section-footer">
               <button className="continue-btn">Confirmer la commande</button>
             </div>

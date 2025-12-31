@@ -531,7 +531,7 @@ font-weight: 600;
 
 .delivery-radio {
   margin-right: 20px;
-  accent-color: var(--blue-color-hover);
+  accent-color: var(--primary-color);
   cursor: pointer;
 }
 
@@ -569,6 +569,147 @@ font-weight: 600;
 .message-textarea:focus{
   background-color: var(--background-color);
   border-color: var(--blue-color);
+}
+
+/*-------------------------confirmation --------------------*/
+.checkout-summary {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.checkout-summary-title {
+  color: var(--blue-color);
+  padding: 12px 20px;
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+}
+
+.checkout-summary-section {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+
+.checkout-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.checkout-section-header h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.modify-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s;
+}
+
+.modify-btn:hover {
+  color: var(--blue-color);
+}
+
+.modify-btn i {
+  font-size: 13px;
+}
+
+.address-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.address-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #fafafa;
+}
+
+.address-card h4 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--secondary-color);
+  text-align: center;
+}
+
+.address-card p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: var(--input-color);
+  line-height: 1.6;
+}
+.address-card p span{
+  margin-right: 10px;
+  font-weight: 550;
+  color: var(--input-color);
+}
+
+.delivery-info {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 20px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #fafafa;
+  align-items: center;
+}
+
+.delivery-method p,
+.delivery-payment p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.method-name {
+  font-weight: 500;
+}
+
+.delivery-note {
+  font-size: 13px;
+  color: #666;
+}
+
+.delivery-price {
+  text-align: right;
+}
+
+.price-tag {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .address-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .delivery-info {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .delivery-price {
+    text-align: left;
+  }
 }
 
 
