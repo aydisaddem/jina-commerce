@@ -7,7 +7,7 @@ const Order = () => {
   const { panel, total, count } = useContext(PanelContext);
   return (
     <div id="order-container">
-      <CheckoutAccordion/>
+      <CheckoutAccordion panel={panel} total={total} count={count}/>
       <Summary panel={panel} total={total} count={count}/>
     </div>
     

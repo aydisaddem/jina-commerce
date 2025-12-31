@@ -4,7 +4,7 @@ import SignUp from "../authentication/SignUp";
 import AddressEntry from "./AddressEntry.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import Swal from "sweetalert2";
-const CheckoutAccordion = () => {
+const CheckoutAccordion = ({ panel, total, count }) => {
   const { isLoggedIn, user, logout } = useContext(AuthContext);
   const [activeSection, setActiveSection] = useState(1);
   const [showLogin, setShowLogin] = useState(true);
@@ -25,7 +25,9 @@ const CheckoutAccordion = () => {
   const [addAddress, setAddAddress] = useState(false);
   const [editBillingAddress, setEditBillingAddress] = useState(false);
   const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
-
+  const [validatedSections, setValidatedSections] = useState([]);
+  const [deliveryOption, setDeliveryOption] = useState("carrier");
+  const [deliveryNote, setDeliveryNote] = useState("");
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
@@ -37,9 +39,30 @@ const CheckoutAccordion = () => {
         phone: user.phone || "",
         city: user.city || "",
       }));
+      setValidatedSections([...validatedSections, 1]);
+    } else {
+      setValidatedSections(
+        validatedSections.filter((section) =>section !== 1 && section !== 2 && section !== 3)
+      );
     }
+    
   }, [user]);
 
+  useEffect(() => {
+    if (billingAddress || deliveryAddress) {
+      if (!validatedSections.includes(2)) {
+        setValidatedSections([...validatedSections, 2]);
+      }
+    } else {
+      setValidatedSections(
+        validatedSections.filter((section) => section !== 2 && section !== 3)
+      );
+    }
+  }, [billingAddress, deliveryAddress]);
+
+  const isSectionValidated = (section) => {
+    return validatedSections.includes(section);
+  };
   const toggleForm = () => {
     setShowLogin(!showLogin);
   };
@@ -48,34 +71,47 @@ const CheckoutAccordion = () => {
     setActiveSection(activeSection === section ? null : section);
   };
 
-  const handleChange = (mode, e) => {
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
 
-    if (mode === "add") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: newValue,
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: newValue,
+    }));
+  };
 
-    if (mode === "editBilling") {
-      setBillingAddress((prev) => ({
-        ...prev,
-        [name]: newValue,
-      }));
-    }
-
-    if (mode === "editDelivery") {
-      setDeliveryAddress((prev) => ({
-        ...prev,
-        [name]: newValue,
-      }));
+  const handleEdit = (target) => {
+    if (target === "billing") {
+      setFormData((prev) => ({ ...prev, ...billingAddress }));
+      setEditBillingAddress(!editBillingAddress);
+    } else if (target === "delivery") {
+      setFormData((prev) => ({ ...prev, ...deliveryAddress }));
+      setEditDeliveryAddress(!editDeliveryAddress);
     }
   };
 
+  const applyEdit = (mode, e) => {
+    e.preventDefault();
+    handleAddressSubmit(mode, e);
+    if (mode === "editBilling") {
+      setEditBillingAddress(!editBillingAddress);
+    }
+    if (mode === "editDelivery") {
+      setEditDeliveryAddress(!editDeliveryAddress);
+    }
+  };
 
-  const handleAddressSubmit = (e) => {
+  const cancelEdit = (mode, e) => {
+    e.preventDefault();
+    if (mode === "editBilling") {
+      setEditBillingAddress(!editBillingAddress);
+    } else if (mode === "editDelivery") {
+      setEditDeliveryAddress(!editDeliveryAddress);
+    }
+  };
+
+  const handleAddressSubmit = (mode, e) => {
     e.preventDefault();
     const requiredFields = {
       firstName: formData.firstName,
@@ -119,18 +155,22 @@ const CheckoutAccordion = () => {
       city: formData.city,
       phone: formData.phone,
     };
-    if (billingAddress) {
-      setDeliveryAddress(newAddress);
-    } else if (deliveryAddress) {
-      setBillingAddress(newAddress);
-    } else if (formData.useBillingAddress) {
-      setBillingAddress(newAddress);
+    if (mode === "add") {
+      if (billingAddress) {
+        setDeliveryAddress(newAddress);
+      } else if (deliveryAddress) {
+        setBillingAddress(newAddress);
+      } else if (formData.useBillingAddress) {
+        setBillingAddress(newAddress);
+      } else {
+        setDeliveryAddress(newAddress);
+      }
+    } else if (mode === "editBilling") {
+      setBillingAddress((prev) => ({ ...prev, ...formData }));
     } else {
-      setDeliveryAddress(newAddress);
+      setDeliveryAddress((prev) => ({ ...prev, ...formData }));
     }
   };
- 
-
 
   const handleDeleteAddress = (type) => {
     Swal.fire({
@@ -163,7 +203,17 @@ const CheckoutAccordion = () => {
           className={`section-header ${activeSection === 1 ? "active" : ""}`}
           onClick={() => toggleSection(1)}
         >
-          <span className="section-number">1</span>
+          <span
+            className={`section-number ${
+              isSectionValidated(1) ? "validated" : ""
+            }`}
+          >
+            {isSectionValidated(1) ? (
+              <i className="fa-solid fa-check"></i>
+            ) : (
+              "1"
+            )}
+          </span>
           <span className="section-title">Personal Information</span>
         </div>
 
@@ -216,11 +266,21 @@ const CheckoutAccordion = () => {
           className={`section-header ${activeSection === 2 ? "active" : ""}`}
           onClick={() => toggleSection(2)}
         >
-          <span className="section-number">2</span>
+          <span
+            className={`section-number ${
+              isSectionValidated(2) ? "validated" : ""
+            }`}
+          >
+            {isSectionValidated(2) ? (
+              <i className="fa-solid fa-check"></i>
+            ) : (
+              "2"
+            )}
+          </span>
           <span className="section-title">Address</span>
         </div>
 
-        {activeSection === 2 && isLoggedIn && (
+        {activeSection === 2 && isSectionValidated(1) && (
           <div className="section-content">
             {billingAddress || deliveryAddress ? (
               <>
@@ -241,15 +301,14 @@ const CheckoutAccordion = () => {
                         </div>
                         <div className="address-actions">
                           <button
-                            className="action-btn edit-btn"
-                            onClick={() =>
-                              setEditBillingAddress(!editBillingAddress)
-                            }
+                            className="address-action-btn edit-btn"
+                            onClick={() => handleEdit("billing")}
+                            disabled={editDeliveryAddress}
                           >
                             <i className="fa-solid fa-pen"></i> Edit
                           </button>
                           <button
-                            className="action-btn delete-btn"
+                            className="address-action-btn delete-btn"
                             onClick={() => handleDeleteAddress("billing")}
                           >
                             <i className="fa-solid fa-trash"></i> Delete
@@ -258,26 +317,57 @@ const CheckoutAccordion = () => {
                       </div>
                       {!editBillingAddress ? (
                         <div className="address-content">
-                          <p className="address-name">
+                          <p>
+                            <span>Fullname: </span>
                             {billingAddress.firstName} {billingAddress.lastName}
                           </p>
-                          <p>{billingAddress.address}</p>
+                          {billingAddress.company && (
+                            <p>
+                              <span>Company: </span>
+                              {billingAddress.company}
+                            </p>
+                          )}
+                          {billingAddress.vatNumber && (
+                            <p>
+                              <span>VAT number: </span>
+                              {billingAddress.vatNumber}
+                            </p>
+                          )}
+
+                          <p>
+                            <span>Address: </span>
+                            {billingAddress.address}
+                          </p>
                           {billingAddress.addressComplement && (
-                            <p>{billingAddress.addressComplement}</p>
+                            <p>
+                              <span>Address complement: </span>
+                              {billingAddress.addressComplement}
+                            </p>
+                          )}
+
+                          {billingAddress.postalCode && (
+                            <p>
+                              <span>Postal code: </span>
+                              {billingAddress.postalCode}
+                            </p>
                           )}
                           <p>
-                            {billingAddress.postalCode} {billingAddress.city}
+                            <span>City: </span>
+                            {billingAddress.city}
                           </p>
-                          <p>Tunisia</p>
-                          <p>{billingAddress.phone}</p>
+                          <p>
+                            <span>Phone number: </span>
+                            {billingAddress.phone}
+                          </p>
                         </div>
                       ) : (
                         <AddressEntry
                           mode="editBilling"
-                          data={billingAddress}
+                          data={formData}
                           handleChange={handleChange}
                           existingAddress={true}
-                          buttonSubmit={()=>setBillingAddress(!billingAddress)}
+                          buttonSubmit={applyEdit}
+                          cancelEdit={cancelEdit}
                         />
                       )}
                     </div>
@@ -292,15 +382,14 @@ const CheckoutAccordion = () => {
                         </div>
                         <div className="address-actions">
                           <button
-                            className="action-btn edit-btn"
-                            onClick={() =>
-                              setEditDeliveryAddress(!editDeliveryAddress)
-                            }
+                            className="address-action-btn edit-btn"
+                            onClick={() => handleEdit("delivery")}
+                            disabled={editBillingAddress}
                           >
                             <i className="fa-solid fa-pen"></i> Edit
                           </button>
                           <button
-                            className="action-btn delete-btn"
+                            className="address-action-btn delete-btn"
                             onClick={() => handleDeleteAddress("delivery")}
                           >
                             <i className="fa-solid fa-trash"></i> Delete
@@ -309,27 +398,59 @@ const CheckoutAccordion = () => {
                       </div>
                       {!editDeliveryAddress ? (
                         <div className="address-content">
-                          <p className="address-name">
+                          <p>
+                            {" "}
+                            <span>Fullname: </span>
                             {deliveryAddress.firstName}{" "}
                             {deliveryAddress.lastName}
                           </p>
-                          <p>{deliveryAddress.address}</p>
-                          {deliveryAddress.addressComplement && (
-                            <p>{deliveryAddress.addressComplement}</p>
+                          {deliveryAddress.company && (
+                            <p>
+                              <span>Company: </span>
+                              {deliveryAddress.company}
+                            </p>
+                          )}
+                          {deliveryAddress.vatNumber && (
+                            <p>
+                              <span>VAT number: </span>
+                              {deliveryAddress.vatNumber}
+                            </p>
                           )}
                           <p>
-                            {deliveryAddress.postalCode} {deliveryAddress.city}
+                            {" "}
+                            <span>Address: </span>
+                            {deliveryAddress.address}
                           </p>
-                          <p>Tunisia</p>
-                          <p>{deliveryAddress.phone}</p>
+                          {deliveryAddress.addressComplement && (
+                            <p>
+                              <span>Address complement: </span>
+                              {deliveryAddress.addressComplement}
+                            </p>
+                          )}
+                          {deliveryAddress.postalCode && (
+                            <p>
+                              <span>Postal code: </span>
+                              {deliveryAddress.postalCode}
+                            </p>
+                          )}
+                          <p>
+                            <span>City: </span>
+                            {deliveryAddress.city}
+                          </p>
+                          <p>
+                            {" "}
+                            <span>Phone number: </span>
+                            {deliveryAddress.phone}
+                          </p>
                         </div>
                       ) : (
                         <AddressEntry
                           mode="editDelivery"
-                          data={deliveryAddress}
+                          data={formData}
                           handleChange={handleChange}
                           existingAddress={true}
-                          buttonSubmit={()=>setEditDeliveryAddress(false)}
+                          buttonSubmit={applyEdit}
+                          cancelEdit={cancelEdit}
                         />
                       )}
                     </div>
@@ -373,21 +494,84 @@ const CheckoutAccordion = () => {
         )}
       </div>
 
-      {/* Section 3: Mode De Livraison */}
+      {/* Section 3: Delivery method */}
       <div className="accordion-section">
         <div
           className={`section-header ${activeSection === 3 ? "active" : ""}`}
           onClick={() => toggleSection(3)}
         >
-          <span className="section-number">3</span>
+          <span
+            className={`section-number ${
+              isSectionValidated(3) ? "validated" : ""
+            }`}
+          >
+            {isSectionValidated(3) ? (
+              <i className="fa-solid fa-check"></i>
+            ) : (
+              "3"
+            )}
+          </span>
           <span className="section-title">Delivery Method</span>
         </div>
 
-        {activeSection === 3 && (deliveryAddress || billingAddress) && (
+        {activeSection === 3 && isSectionValidated(2) && (
           <div className="section-content">
-            <p>Livraison options go here...</p>
+            <label className="delivery-option">
+              <input
+                type="radio"
+                className="delivery-radio"
+                name="delivery"
+                value="store"
+                checked={deliveryOption === "store"}
+                onChange={(e) => setDeliveryOption(e.target.value)}
+              />
+              <div className="delivery-text">
+                <span>Store Pickup</span>
+                <span>Sfax - Route Gremda km 9</span>
+                <span>Free</span>
+              </div>
+            </label>
+
+            <label className="delivery-option">
+              <input
+                type="radio"
+                className="delivery-radio"
+                name="delivery"
+                value="carrier"
+                checked={deliveryOption === "carrier"}
+                onChange={(e) => setDeliveryOption(e.target.value)}
+              />
+              <div className="delivery-text">
+                <span>Carrier - All of Tunisia</span>{" "}
+                <span>
+                  Cash on delivery. Free delivery for purchases over 300 DT
+                </span>
+                <span>{total > 300 ? "Free" : "10 DT"}</span>
+              </div>
+            </label>
+
+            <div className="delivery-message">
+              <label htmlFor="orderMessage" className="message-label">
+                If you’d like to add a note about your order, please type it in
+                the field below{" "}
+              </label>
+              <textarea
+                id="orderMessage"
+                className="message-textarea"
+                name="orderMessage"
+                value={deliveryNote}
+                onChange={(e) => setDeliveryNote(e.target.value)}
+              ></textarea>
+            </div>
+
             <div className="section-footer">
-              <button className="continue-btn" onClick={() => toggleSection(4)}>
+              <button
+                className="continue-btn"
+                onClick={() => {
+                  toggleSection(4);
+                  setValidatedSections([...validatedSections, 3]);
+                }}
+              >
                 Continuer
               </button>
             </div>
@@ -401,11 +585,21 @@ const CheckoutAccordion = () => {
           className={`section-header ${activeSection === 4 ? "active" : ""}`}
           onClick={() => toggleSection(4)}
         >
-          <span className="section-number">4</span>
+          <span
+            className={`section-number ${
+              isSectionValidated(4) ? "validated" : ""
+            }`}
+          >
+            {isSectionValidated(4) ? (
+              <i className="fa-solid fa-check"></i>
+            ) : (
+              "4"
+            )}
+          </span>
           <span className="section-title">Payment</span>
         </div>
 
-        {activeSection === 4 && (
+        {activeSection === 4 && isSectionValidated(3) && (
           <div className="section-content">
             <p>Payment options go here...</p>
             <div className="section-footer">
