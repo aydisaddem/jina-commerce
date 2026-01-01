@@ -268,7 +268,7 @@
 
 .grand-total td {
   background-color: var(--background-main-color);
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .panel-qty-control {
@@ -533,13 +533,259 @@
   color: var(--error-color);
 }
 
+/*--------------------Orders-------------------------*/
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.order-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 15px;
+}
+
+.order-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 5px 0;
+}
+
+.order-date {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.order-status {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-processing {
+  background-color: #cfe2ff;
+  color: #084298;
+}
+
+.status-shipped {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-delivered {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.order-products {
+  margin-bottom: 20px;
+}
+
+.order-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-product:last-child {
+  border-bottom: none;
+}
+
+.order-product-info {
+  flex: 1;
+  
+}
+
+.order-product-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  margin: 0 20px 5px 0;
+}
+
+.order-product-reference {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+.order-product-quantity {
+  font-size: 14px;
+  color: #666;
+  margin-right: 20px;
+}
+
+.order-product-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ef0200;
+  min-width: 120px;
+  text-align: right;
+}
+
+.order-summary {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.summary-row.total {
+  border-top: 2px solid #ddd;
+  margin-top: 10px;
+  padding-top: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.summary-row.total span:last-child {
+  color: #ef0200;
+  font-size: 18px;
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.detail-section h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-section h4 i {
+  color: #0277bd;
+  font-size: 14px;
+}
+
+.detail-section p {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+  line-height: 1.6;
+}
+
+.detail-section p.address-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.detail-section p.note {
+  font-style: italic;
+  color: #666;
+  margin-top: 10px;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.no-orders {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.no-orders i {
+  font-size: 64px;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+.no-orders h3 {
+  font-size: 24px;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+.no-orders p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .order-details {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-product {
+    flex-wrap: wrap;
+  }
+
+  .product-info {
+    flex: 1 1 100%;
+    margin-bottom: 10px;
+  }
+
+  .product-quantity,
+  .product-price {
+    flex: 1;
+  }
+
+  .order-details {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ------------------- RESPONSIVE ------------------- */
 
 /* Tablet screens */
 @media (max-width: 768px) {
   #account {
     flex-direction: column; 
-  margin-top: var(--navbar-height-mobile);
+    margin-top: var(--navbar-height-mobile);
   }
 
   #account-aside {

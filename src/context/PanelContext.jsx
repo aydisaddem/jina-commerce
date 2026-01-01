@@ -17,7 +17,7 @@ export const PanelProvider = ({ children }) => {
 
   useEffect(() => {
     const sum = panel.reduce(
-      (acc, item) => acc + item.price * item.purshaseQty,
+      (acc, item) => acc + item.price * item.purchaseQty,
       0
     );
     setTotal(sum);
@@ -25,32 +25,31 @@ export const PanelProvider = ({ children }) => {
 
   useEffect(() => {
     const sum = panel.reduce(
-      (acc, item) => acc + item.price * item.purshaseQty,
+      (acc, item) => acc + item.price * item.purchaseQty,
       0
     );
     setTotal(sum);
 
-    const qtySum = panel.reduce((acc, item) => acc + item.purshaseQty, 0);
+    const qtySum = panel.reduce((acc, item) => acc + item.purchaseQty, 0);
     setCount(qtySum);
   }, [panel]);
 
- const addItem = (item, qty = 1) => {
-  let updatedItem;
-  setPanel((prev) => {
-    const exists = prev.find((p) => p._id === item._id);
-    if (exists) {
-      updatedItem = { 
-        ...exists, 
-        purshaseQty: (exists.purshaseQty ?? 0) + qty 
-      };
-      return prev.map((p) => (p._id === item._id ? updatedItem : p));
-    }
-    updatedItem = { ...item, purshaseQty: qty };
-    return [...prev, updatedItem];
-  });
-  return updatedItem;
-};
-
+  const addItem = (item, qty = 1) => {
+    let updatedItem;
+    setPanel((prev) => {
+      const exists = prev.find((p) => p._id === item._id);
+      if (exists) {
+        updatedItem = {
+          ...exists,
+          purchaseQty: (exists.purchaseQty ?? 0) + qty,
+        };
+        return prev.map((p) => (p._id === item._id ? updatedItem : p));
+      }
+      updatedItem = { ...item, purchaseQty: qty };
+      return [...prev, updatedItem];
+    });
+    return updatedItem;
+  };
 
   const removeItem = (_id) => {
     setPanel((prev) => prev.filter((item) => item._id !== _id));
@@ -59,14 +58,21 @@ export const PanelProvider = ({ children }) => {
   const updateQty = (_id, newQty) => {
     setPanel((prev) =>
       prev.map((item) =>
-        item._id === _id ? { ...item, purshaseQty: newQty } : item
+        item._id === _id ? { ...item, purchaseQty: newQty } : item
       )
     );
   };
 
+  const clearPanel = () => {
+    setPanel([]);
+    setCount(0);
+    setTotal(0);
+    localStorage.removeItem("panel");
+  };
+
   return (
     <PanelContext.Provider
-      value={{ panel, total,count, addItem, removeItem, updateQty }}
+      value={{ panel, total, count, addItem, removeItem, updateQty, clearPanel }}
     >
       {children}
     </PanelContext.Provider>

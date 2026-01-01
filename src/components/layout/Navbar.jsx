@@ -265,13 +265,13 @@ const Navbar = () => {
                             className="panel-product-price"
                             aria-label="Product price"
                           >
-                            {item.price * item.purshaseQty},000 DT
+                            {item.price * item.purchaseQty},000 DT
                           </p>
 
                           <div key={item._id} className="qty-row">
                             <button
                               onClick={() =>
-                                handleQtyDecrease(item._id, item.purshaseQty)
+                                handleQtyDecrease(item._id, item.purchaseQty)
                               }
                               className="qty-btn"
                             >
@@ -279,14 +279,14 @@ const Navbar = () => {
                             </button>
                             <input
                               type="number"
-                              value={item.purshaseQty}
+                              value={item.purchaseQty}
                               className="qty-input"
                               onChange={(e) => handleQtyChange(item._id, e)}
                               min="1"
                             />
                             <button
                               onClick={() =>
-                                handleQtyIncrease(item._id, item.purshaseQty)
+                                handleQtyIncrease(item._id, item.purchaseQty)
                               }
                               className="qty-btn"
                             >

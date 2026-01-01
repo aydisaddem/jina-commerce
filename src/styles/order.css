@@ -598,6 +598,9 @@ font-weight: 600;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  border: 2px solid var(--divider);
+  width: 100%;
+  padding: 5px 10px;
 }
 
 .checkout-section-header h3 {
@@ -635,16 +638,15 @@ font-weight: 600;
 }
 
 .address-card {
-  border: 1px solid #ddd;
   padding: 20px;
-  background-color: #fafafa;
+  background-color: var(--background-main-color);
 }
 
 .address-card h4 {
   margin: 0 0 15px 0;
   font-size: 16px;
   font-weight: 600;
-  color: var(--secondary-color);
+  color: var(--blue-color);
   text-align: center;
 }
 
@@ -654,7 +656,7 @@ font-weight: 600;
   color: var(--input-color);
   line-height: 1.6;
 }
-.address-card p span{
+.address-card p span, .deliveryNote{
   margin-right: 10px;
   font-weight: 550;
   color: var(--input-color);
@@ -664,9 +666,8 @@ font-weight: 600;
   display: grid;
   grid-template-columns: 2fr 2fr 1fr;
   gap: 20px;
-  border: 1px solid #ddd;
   padding: 20px;
-  background-color: #fafafa;
+  background-color: var(--background-main-color);
   align-items: center;
 }
 

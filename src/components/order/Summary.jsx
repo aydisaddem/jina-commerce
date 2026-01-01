@@ -19,7 +19,7 @@ const Summary = ({panel, total, count}) =>{
                     <div className="qty-price">
                       {" "}
                       <p className="summary-product-quantity">
-                        Quantity : {item.purshaseQty}{" "}
+                        Quantity : {item.purchaseQty}{" "}
                       </p>
                       <span className="summary-product-price">
                         {item.price},000 DT

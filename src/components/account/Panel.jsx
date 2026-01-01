@@ -55,24 +55,24 @@ const Panel = () => {
               <div className="panel-qty-control">
                 <div
                   className="decrease-qty"
-                  onClick={() => handleQtyDecrease(item._id, item.purshaseQty)}
+                  onClick={() => handleQtyDecrease(item._id, item.purchaseQty)}
                 ></div>
                 <input
                   type="number"
                   name="number"
                   className="panel-item-quantity"
-                  value={item.purshaseQty}
+                  value={item.purchaseQty}
                   onChange={(e) => handleQtyChange(item._id, e)}
                   min="1"
                 />
                 <div
                   className="increase-qty"
-                  onClick={() => handleQtyIncrease(item._id, item.purshaseQty)}
+                  onClick={() => handleQtyIncrease(item._id, item.purchaseQty)}
                 ></div>
               </div>
             </td>
             <td className="info-td">
-              {formatPrice((item.price || 0) * (item.purshaseQty || 1))}
+              {formatPrice((item.price || 0) * (item.purchaseQty || 1))}
             </td>
             <td>
               <button
@@ -96,7 +96,7 @@ const Panel = () => {
                       fill="#000"
                     ></rect>
 
-                    <g transform-origin="12 18" id="lid-group">
+                    <g transformOrigin="12 18" id="lid-group">
                       <rect
                         x="12"
                         y="12"

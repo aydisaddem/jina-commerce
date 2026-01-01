@@ -1,15 +1,13 @@
 import "../../styles/products.css";
-import ItemCarousel from "./itemCarousel";
 import { useState, useEffect, useContext } from "react";
 import Select from "react-select";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import api from "../../utils/api";
-import { brands } from "../../data/brands";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { PanelContext } from "../../context/PanelContext.jsx";
 import AddToPanel from "./addToPanel.jsx";
-import { slugify, deslugify } from "../../utils/slugify.js";
+import { deslugify } from "../../utils/slugify.js";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
 import NotFound from "../NotFound.jsx";
 import Loading from "../Loading.jsx";

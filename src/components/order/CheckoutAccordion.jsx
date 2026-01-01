@@ -3,10 +3,13 @@ import SignIn from "../authentication/SignIn";
 import SignUp from "../authentication/SignUp";
 import AddressEntry from "./AddressEntry.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
+import api from "../../utils/api.js";
 import Swal from "sweetalert2";
-const CheckoutAccordion = ({ panel, total, count }) => {
+import { useNavigate } from "react-router-dom";
+
+const CheckoutAccordion = ({ panel, total, clearPanel }) => {
+  const navigate = useNavigate();
   const { isLoggedIn, user, logout } = useContext(AuthContext);
-  const [activeSection, setActiveSection] = useState(1);
   const [showLogin, setShowLogin] = useState(true);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,9 +28,10 @@ const CheckoutAccordion = ({ panel, total, count }) => {
   const [addAddress, setAddAddress] = useState(false);
   const [editBillingAddress, setEditBillingAddress] = useState(false);
   const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
+  const [activeSection, setActiveSection] = useState(1);
   const [validatedSections, setValidatedSections] = useState([]);
   const [deliveryOption, setDeliveryOption] = useState("Store Pickup");
-  const [deliveryFee, setDeliveryFee] = useState(null);
+  const [deliveryFee, setDeliveryFee] = useState("free");
   const [deliveryNote, setDeliveryNote] = useState("");
 
   useEffect(() => {
@@ -41,24 +45,21 @@ const CheckoutAccordion = ({ panel, total, count }) => {
         phone: user.phone || "",
         city: user.city || "",
       }));
-      setValidatedSections([...validatedSections, 1]);
+      setValidatedSections((prev) => (prev.includes(1) ? prev : [...prev, 1]));
     } else {
-      setValidatedSections(
-        validatedSections.filter(
-          (section) => section !== 1 && section !== 2 && section !== 3
-        )
+      setValidatedSections((prev) =>
+        prev.filter((section) => ![1, 2, 3].includes(section))
       );
+      setActiveSection(1);
     }
   }, [user]);
 
   useEffect(() => {
     if (billingAddress || deliveryAddress) {
-      if (!validatedSections.includes(2)) {
-        setValidatedSections([...validatedSections, 2]);
-      }
+      setValidatedSections((prev) => (prev.includes(2) ? prev : [...prev, 2]));
     } else {
-      setValidatedSections(
-        validatedSections.filter((section) => section !== 2 && section !== 3)
+      setValidatedSections((prev) =>
+        prev.filter((section) => section !== 2 && section !== 3)
       );
     }
   }, [billingAddress, deliveryAddress]);
@@ -71,7 +72,7 @@ const CheckoutAccordion = ({ panel, total, count }) => {
   };
 
   const toggleSection = (section) => {
-    setActiveSection(activeSection === section ? null : section);
+    setActiveSection(section);
   };
 
   const handleChange = (e) => {
@@ -198,9 +199,49 @@ const CheckoutAccordion = ({ panel, total, count }) => {
     });
   };
 
-
   const getDeliveryAddress = () => deliveryAddress || billingAddress;
   const getBillingAddress = () => billingAddress || deliveryAddress;
+
+  const handleConfirmationSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formattedProducts = panel.map((p) => ({
+        productId: p._id,
+        brand: p.brand,
+        name: p.name,
+        reference: p.reference,
+        price: p.price,
+        purchaseQty: p.purchaseQty,
+      }));
+      const order = {
+        user: user._id,
+        products: formattedProducts,
+        subTotal: total,
+        deliveryFee,
+        deliveryMethod: deliveryOption,
+        deliveryNote,
+        billingAddress: billingAddress || deliveryAddress,
+        deliveryAddress: deliveryAddress || billingAddress,
+      };
+
+      const response = await api.post("/orders", order);
+
+      Swal.fire({
+        icon: "success",
+        title: "Your order has been placed successfully!",
+        text: "Thank you for shopping with us",
+        position: "center",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      clearPanel();
+      setTimeout(() => {
+        navigate("/account/orders");
+      }, 3000);
+    } catch (err) {
+      console.error("Error creating order:", err);
+    }
+  };
 
   return (
     <div className="checkout-container">
@@ -530,7 +571,10 @@ const CheckoutAccordion = ({ panel, total, count }) => {
                 name="delivery"
                 value="Store Pickup"
                 checked={deliveryOption === "Store Pickup"}
-                onChange={(e) => {setDeliveryOption(e.target.value); setDeliveryFee("free")}}
+                onChange={(e) => {
+                  setDeliveryOption(e.target.value);
+                  setDeliveryFee("free");
+                }}
               />
               <div className="delivery-text">
                 <span>Store Pickup</span>
@@ -546,7 +590,10 @@ const CheckoutAccordion = ({ panel, total, count }) => {
                 name="delivery"
                 value="Carrier - All of Tunisia"
                 checked={deliveryOption === "Carrier - All of Tunisia"}
-                onChange={(e) => {setDeliveryOption(e.target.value); setDeliveryFee(total>300? "free" : "10 DT")}}
+                onChange={(e) => {
+                  setDeliveryOption(e.target.value);
+                  setDeliveryFee(total > 300 ? "free" : "10 DT");
+                }}
               />
               <div className="delivery-text">
                 <span>Carrier - All of Tunisia</span>{" "}
@@ -617,7 +664,10 @@ const CheckoutAccordion = ({ panel, total, count }) => {
               <div className="checkout-summary-section">
                 <div className="checkout-section-header">
                   <h3>Addresses</h3>
-                  <button className="modify-btn" onClick={()=>toggleSection(2)}>
+                  <button
+                    className="modify-btn"
+                    onClick={() => toggleSection(2)}
+                  >
                     <i className="fa-solid fa-pen"></i> modify
                   </button>
                 </div>
@@ -627,25 +677,42 @@ const CheckoutAccordion = ({ panel, total, count }) => {
                     <h4>Delivery Address</h4>
                     {getDeliveryAddress() && (
                       <>
-                        <p><span>Fullname:</span>
+                        <p>
+                          <span>Fullname:</span>
                           {getDeliveryAddress().firstName}{" "}
                           {getDeliveryAddress().lastName}
                         </p>
                         {getDeliveryAddress().company && (
-                          <p><span>Company:</span>{getDeliveryAddress().company}</p>
+                          <p>
+                            <span>Company:</span>
+                            {getDeliveryAddress().company}
+                          </p>
                         )}
-                        <p><span>Address:</span>{getDeliveryAddress().address}</p>
+                        <p>
+                          <span>Address:</span>
+                          {getDeliveryAddress().address}
+                        </p>
                         {getDeliveryAddress().addressComplement && (
-                          <p><span>Address complement:</span>{getDeliveryAddress().addressComplement}</p>
+                          <p>
+                            <span>Address complement:</span>
+                            {getDeliveryAddress().addressComplement}
+                          </p>
                         )}
                         {getDeliveryAddress().postalCode && (
-                          <p><span>Postal code:</span>{getDeliveryAddress().postalCode}</p>
+                          <p>
+                            <span>Postal code:</span>
+                            {getDeliveryAddress().postalCode}
+                          </p>
                         )}
 
-                        <p><span>City:</span>
+                        <p>
+                          <span>City:</span>
                           {getDeliveryAddress().city}
                         </p>
-                        <p><span>Phone:</span>{getDeliveryAddress().phone}</p>
+                        <p>
+                          <span>Phone:</span>
+                          {getDeliveryAddress().phone}
+                        </p>
                       </>
                     )}
                   </div>
@@ -654,25 +721,42 @@ const CheckoutAccordion = ({ panel, total, count }) => {
                     <h4>Billing Address</h4>
                     {getBillingAddress() && (
                       <>
-                        <p><span>Fullname:</span>
+                        <p>
+                          <span>Fullname:</span>
                           {getBillingAddress().firstName}{" "}
                           {getBillingAddress().lastName}
                         </p>
                         {getBillingAddress().company && (
-                          <p><span>Company:</span>{getBillingAddress().company}</p>
+                          <p>
+                            <span>Company:</span>
+                            {getBillingAddress().company}
+                          </p>
                         )}
-                        <p><span>Address:</span>{getBillingAddress().address}</p>
+                        <p>
+                          <span>Address:</span>
+                          {getBillingAddress().address}
+                        </p>
                         {getBillingAddress().addressComplement && (
-                          <p><span>Address complement:</span>{getBillingAddress().addressComplement}</p>
+                          <p>
+                            <span>Address complement:</span>
+                            {getBillingAddress().addressComplement}
+                          </p>
                         )}
                         {getBillingAddress().postalCode && (
-                          <p><span>Postal code:</span>{getBillingAddress().postalCode}</p>
+                          <p>
+                            <span>Postal code:</span>
+                            {getBillingAddress().postalCode}
+                          </p>
                         )}
 
-                        <p><span>City:</span>
+                        <p>
+                          <span>City:</span>
                           {getBillingAddress().city}
                         </p>
-                        <p><span>Phone:</span>{getBillingAddress().phone}</p>
+                        <p>
+                          <span>Phone:</span>
+                          {getBillingAddress().phone}
+                        </p>
                       </>
                     )}
                   </div>
@@ -683,7 +767,10 @@ const CheckoutAccordion = ({ panel, total, count }) => {
               <div className="checkout-summary-section">
                 <div className="checkout-section-header">
                   <h3>Delivery method</h3>
-                  <button className="modify-btn" onClick={()=>toggleSection(3)}>
+                  <button
+                    className="modify-btn"
+                    onClick={() => toggleSection(3)}
+                  >
                     <i className="fa-solid fa-pen"></i> modify
                   </button>
                 </div>
@@ -693,20 +780,37 @@ const CheckoutAccordion = ({ panel, total, count }) => {
                     <p className="method-name">{deliveryOption}</p>
                   </div>
                   <div className="delivery-payment">
-                    <p>{deliveryOption === "Store Pickup"? "Sfax - Route Gremda km 9" : "Payment on delivery"}</p>
+                    <p>
+                      {deliveryOption === "Store Pickup"
+                        ? "Sfax - Route Gremda km 9"
+                        : "Payment on delivery"}
+                    </p>
                     <p className="delivery-note">
-                      {deliveryOption === "Store Pickup"? "" : "(Free delivery from 300 DT purchase)"}
-                      
+                      {deliveryOption === "Store Pickup"
+                        ? ""
+                        : "(Free delivery from 300 DT purchase)"}
                     </p>
                   </div>
                   <div className="delivery-price">
                     <p className="price-tag">{deliveryFee}</p>
                   </div>
                 </div>
+                {deliveryNote && (
+                  <p>
+                    <span className="deliveryNote">Note :</span>
+                    {deliveryNote}
+                  </p>
+                )}
               </div>
             </div>
             <div className="section-footer">
-              <button className="continue-btn">Confirmer la commande</button>
+              <button
+                className="continue-btn"
+                type="submit"
+                onClick={(e) => handleConfirmationSubmit(e)}
+              >
+                Confirm Order
+              </button>
             </div>
           </div>
         )}
