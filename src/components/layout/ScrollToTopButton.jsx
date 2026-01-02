@@ -4,25 +4,24 @@ import "../../styles/scrollToTopButton.css"
 function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
 
- useEffect(() => {
-    const container = document.querySelector("main"); 
+  useEffect(() => {
     const toggleVisibility = () => {
-        console.log(container.scrollTop)
-
-      if (container.scrollTop > 100) {
+      if (window.scrollY > 300) { 
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
     };
 
-    container.addEventListener("scroll", toggleVisibility);
-    return () => container.removeEventListener("scroll", toggleVisibility);
+    toggleVisibility();
+
+    window.addEventListener("scroll", toggleVisibility);
+    
+    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   const scrollToTop = () => {
-  const container = document.querySelector("main");
-    container.scrollTo({
+    window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
