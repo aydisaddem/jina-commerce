@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useCallback } from "react";
-import api from "../utils/api.js"; // your Axios wrapper
+import api from "../utils/api.js"; 
+
 
 export const AuthContext = createContext();
 

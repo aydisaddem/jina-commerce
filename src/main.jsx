@@ -16,6 +16,8 @@ import Loading from "./components/Loading.jsx";
 import Admin from "./Admin.jsx";
 import ScrollToTop from "./components/common/ScrollToTop.jsx";
 import Order from "./components/order/Order.jsx";
+import ForgotPassword from "./components/authentication/ForgotPassword.jsx";
+import ResetPassword from "./components/authentication/ResetPassword.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -29,11 +31,16 @@ createRoot(document.getElementById("root")).render(
                 <Route path="loading" element={<Loading />} />
                 <Route index element={<Landing />} />
                 <Route path="auth" element={<Authentication />} />
-                <Route path="order" element={<Order/>} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route
+                  path="/reset-password/:token"
+                  element={<ResetPassword />}
+                />
+                <Route path="order" element={<Order />} />
                 <Route path="products">
                   <Route index element={<Products />} />
-                  <Route path="search/:search" element={<Products/>}/>
-                  <Route path="brands/:brand" element={<Products/>}/>
+                  <Route path="search/:search" element={<Products />} />
+                  <Route path="brands/:brand" element={<Products />} />
                   <Route path=":category">
                     <Route index element={<Products />} />
                     <Route path="preview/:id" element={<ProductPreview />} />

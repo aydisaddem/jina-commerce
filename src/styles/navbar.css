@@ -584,7 +584,6 @@
   color: var(--input-color);
   background: transparent;
   outline: none;
-  /* Remove flex styles if previously added */
 }
 @media (max-width: 520px) {
   .product-card {

@@ -1,12 +1,11 @@
-#auth{
+#auth {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-   margin-top: var(--navbar-height);
-
+  margin-top: var(--navbar-height);
 }
 .container {
   display: grid;
@@ -213,7 +212,7 @@
   opacity: 0;
   transform: translateY(-4px);
   transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .error.show {
@@ -222,16 +221,16 @@
 }
 
 .popup-overlay {
-  position: absolute; 
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; 
+  z-index: 999;
 }
 
 .popup-content {
@@ -418,6 +417,57 @@ input:-moz-autofill {
   color: var(--background-color) !important;
 }
 
+/*--------------------- Forgot Password----------------------*/
+.forgot-password-link {
+  width: 80%;
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
+
+.forgot-password-link span {
+  color: var(--blue-color);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.forgot-password-link span:hover {
+  color: var(--blue-color-hover);
+}
+.forgot-password p {
+  font-size: 0.9rem;
+}
+
+.back-span {
+  display: inline-block;
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 550;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.back-span:hover {
+  color: var(--blue-color-hover);
+  transform: translateX(-5px);
+}
+
+/*------------------------ verify code ---------------------*/
+.code-actions p {
+  font-size: 14px;
+}
+.code-actions p span {
+  color: var(--blue-color);
+  cursor: pointer;
+}
+.code-actions p span:hover {
+  color: var(--blue-color-hover);
+}
+
+/*---------------------- reset password-----------------*/
+
+
 /* Tablet breakpoint */
 @media (max-width: 768px) {
   .container {
@@ -426,7 +476,6 @@ input:-moz-autofill {
     min-height: 70vh;
     padding: 0;
     margin-top: var(--navbar-height-mobile);
-
   }
   .row {
     display: flex;
@@ -439,7 +488,6 @@ input:-moz-autofill {
 
 /* Mobile breakpoint */
 @media (max-width: 480px) {
- 
   .container {
     width: 100vw;
     height: 100%;
@@ -458,7 +506,6 @@ input:-moz-autofill {
   }
   .mobile-authentication-toggle {
     display: block;
-  
   }
 
   .signup-active .forms-container {
@@ -473,7 +520,10 @@ input:-moz-autofill {
     align-items: center;
     gap: 0;
   }
-  .box{
+  .box {
+    width: 100%;
+  }
+  .forgot-password-link {
     width: 100%;
   }
 }

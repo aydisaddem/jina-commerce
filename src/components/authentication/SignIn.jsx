@@ -5,12 +5,17 @@ import { AuthContext } from "../../context/AuthContext.jsx";
 import api from "../../utils/api.js";
 import GoogleAuthButton from "./GoogleAuthButton.jsx";
 import Swal from "sweetalert2";
+import PasswordResetContainer from "./PasswordResetContainer";
 
 const SignIn = ({ toggleForm, nav }) => {
   const { formData, handleChange } = useAuthForm();
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const { login } = useContext(AuthContext);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const toggleForgotPassword = () => {
+    setShowForgotPassword(!showForgotPassword);
+  };
 
   const togglePassword = () => setShowPassword(!showPassword);
   const navigate = useNavigate();
@@ -19,7 +24,7 @@ const SignIn = ({ toggleForm, nav }) => {
     e.preventDefault();
 
     try {
-const data = await login(formData);
+      const data = await login(formData);
 
       const toast = Swal.mixin({
         toast: true,
@@ -37,7 +42,7 @@ const data = await login(formData);
         icon: "success",
         title: `Signed in successfully`,
       });
-       navigate(nav !== undefined ? nav : -1);
+      navigate(nav !== undefined ? nav : -1);
     } catch (error) {
       if (error.response) {
         console.error("Login failed:", error.response.data.error);
@@ -51,60 +56,76 @@ const data = await login(formData);
 
   return (
     <div className="signIn">
-      <form className="auth-form" onSubmit={handleLogin}>
-        <div className="box">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="you@example.com"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="email">Email</label>
-        </div>
-        <div className="box">
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            name="password"
-            placeholder=" "
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="password">Password</label>
-          <span
-            className="password-visibility"
-            onClick={togglePassword}
-            tabIndex="-1"
-          >
-            <i
-              className={`fa-solid ${
-                !showPassword ? "fa-eye-slash" : "fa-eye"
-              }`}
-            />
-          </span>
-          <span className={`error ${errors.login ? "show" : ""}`}>
-            ! {errors.login}
-          </span>
-        </div>
-        <button type="submit">Login</button>
-      </form>
+      {showForgotPassword ? (
+        <PasswordResetContainer
+          toggleForgotPassword={toggleForgotPassword}
+          nav={nav}
+        />
+      ) : (
+        <>
+          {" "}
+          <form className="auth-form" onSubmit={handleLogin}>
+            <div className="box">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="email">Email</label>
+            </div>
+            <div className="box">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder=" "
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="password">Password</label>
+              <span
+                className="password-visibility"
+                onClick={togglePassword}
+                tabIndex="-1"
+              >
+                <i
+                  className={`fa-solid ${
+                    !showPassword ? "fa-eye-slash" : "fa-eye"
+                  }`}
+                />
+              </span>
+              <span className={`error ${errors.login ? "show" : ""}`}>
+                ! {errors.login}
+              </span>
+            </div>
 
-      <div className="social-connect">
-        <div className="divider">
-          <hr />
-          <p> Or</p>
-          <hr />
-        </div>
-        <GoogleAuthButton />
-      </div>
-      <div className="mobile-authentication-toggle">
-        <p>don't have an account yet? <span onClick={toggleForm}>Create account</span></p>
-        
-      </div>
+            <div className="forgot-password-link">
+              <span onClick={toggleForgotPassword}>Forgot Password?</span>
+            </div>
+
+            <button type="submit">Login</button>
+          </form>
+          <div className="social-connect">
+            <div className="divider">
+              <hr />
+              <p> Or</p>
+              <hr />
+            </div>
+            <GoogleAuthButton />
+          </div>
+          <div className="mobile-authentication-toggle">
+            <p>
+              don't have an account yet?{" "}
+              <span onClick={toggleForm}>Create account</span>
+            </p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

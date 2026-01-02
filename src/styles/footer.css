@@ -112,8 +112,10 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+    align-items: flex-start;
+
 }
+
 
 .footer-contact li,
 .footer-services li,

@@ -209,7 +209,7 @@ const Navbar = () => {
 
                 <li>
                   {isLoggedIn ? (
-                    <NavLink to="/" onClick={logout}>
+                    <NavLink to="/auth" onClick={logout}>
                       Logout
                     </NavLink>
                   ) : (
@@ -305,11 +305,12 @@ const Navbar = () => {
                       </article>
                     ))}
                     <p className="total">Total : {total} TND</p>
-                    <button className="toPanel" onClick={showPanel}>
+                    {isLoggedIn && <button className="toPanel" onClick={showPanel}>
                       <NavLink to="/account/panel" style={{ all: "unset" }}>
                         to Panel
                       </NavLink>
-                    </button>
+                    </button>}
+                    
                     
                     <button className="toOrder" onClick={showPanel}>
                       <NavLink to="/order" style={{ all: "unset" }}>

@@ -1,10 +1,14 @@
 import "../../styles/footer.css";
 import api from "../../utils/api.js";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../context/AuthContext.jsx";
+import { NavLink } from "react-router-dom";
+
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const { isLoggedIn, logout } = useContext(AuthContext);
 
   const handleChange = (email) => {
     setEmail(email);
@@ -83,7 +87,7 @@ const Footer = () => {
                 -3054 SFAX{" "}
               </li>
               <li>
-                <i className="fa-regular fa-envelope"></i>sdouma91@gmail.com
+                <i className="fa-regular fa-envelope"></i>jinashop74@gmail.com
               </li>
               <li>
                 <i className="fa-solid fa-phone"></i>56120796
@@ -94,31 +98,42 @@ const Footer = () => {
             <h3>Services</h3>
             <ul>
               <li>
-                <a>About us</a>
+                <NavLink style={{ all: "unset" }}>About us</NavLink>
               </li>
               <li>
-                <a>Delivery</a>
+                <NavLink style={{ all: "unset" }}>Delivery</NavLink>
               </li>
               <li>
-                <a>Conditions of sale</a>
+                <NavLink style={{ all: "unset" }}>Conditions of sale</NavLink>
               </li>
               <li>
-                <a>Contact</a>
+                <NavLink style={{ all: "unset" }}>Contact</NavLink>
               </li>
             </ul>
           </div>
           <div className="personel-account">
             <h3>your account</h3>
             <ul>
-              <li>
-                <a>Personal informations</a>
+              {isLoggedIn && <> <li>
+                <NavLink to="account/profile" style={{ all: "unset" }}>Personal informations</NavLink>
               </li>
               <li>
-                <a>Orders</a>
+                <NavLink to="account/orders" style={{ all: "unset" }}>Orders</NavLink>
               </li>
               <li>
-                <a>Addresses</a>
+                <NavLink to="account/panel" style={{ all: "unset" }}>Panel</NavLink>
               </li>
+              <li>
+                <NavLink to="account/wishlist" style={{ all: "unset" }}>Wishlist</NavLink>
+              </li>
+              <li onClick={logout}>
+                <NavLink to="/auth" style={{ all: "unset" }}>Logout</NavLink> 
+              </li>  
+              </>}
+              {!isLoggedIn && <li>
+               <NavLink to="/auth" style={{ all: "unset" }}>Login</NavLink>
+              </li> }
+              
             </ul>
           </div>
           <div className="footer-social">
