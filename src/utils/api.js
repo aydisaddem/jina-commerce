@@ -1,8 +1,11 @@
-// src/utils/api.js
 import axios from "axios";
 
+// ✅ Use environment variable or fallback to localhost for development
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+console.log(import.meta.env.VITE_API_URL)
+
 const api = axios.create({
-  baseURL: "http://localhost:5000/api", 
+  baseURL: API_BASE_URL,
 });
 
 // Request interceptor → attach access token
@@ -31,8 +34,8 @@ api.interceptors.response.use(
         const refreshToken = localStorage.getItem("refreshToken");
         if (!refreshToken) throw new Error("No refresh token");
 
-        // Call refresh endpoint
-        const { data } = await axios.post("http://localhost:5000/api/users/refresh", {
+        // ✅ Call refresh endpoint using the same base URL
+        const { data } = await axios.post(`${API_BASE_URL.replace('/api', '')}/api/users/refresh`, {
           token: refreshToken,
         });
 
@@ -47,7 +50,7 @@ api.interceptors.response.use(
         // If refresh fails → logout
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/login"; // or call AuthContext.logout()
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }

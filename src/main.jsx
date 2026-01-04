@@ -13,7 +13,6 @@ import Products from "./components/products/Products.jsx";
 import ProductPreview from "./components/products/ProductPreview.jsx";
 import Account from "./components/account/Account.jsx";
 import Loading from "./components/Loading.jsx";
-import Admin from "./Admin.jsx";
 import ScrollToTop from "./components/common/ScrollToTop.jsx";
 import Order from "./components/order/Order.jsx";
 
@@ -44,8 +43,6 @@ createRoot(document.getElementById("root")).render(
                     </Route>
                   </Route>
                 </Route>
-
-                <Route path="admin" element={<Admin />} />
                 <Route
                   path="/account"
                   element={<Navigate to="/account/Profile" />}

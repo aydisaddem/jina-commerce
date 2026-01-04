@@ -12,8 +12,7 @@ dist
 dist-ssr
 *.local
 .env
-Admin.jsx
-admin.css
+.env.production
 
 # Editor directories and files
 .vscode/*
