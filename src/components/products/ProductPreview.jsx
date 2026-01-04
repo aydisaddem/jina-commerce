@@ -206,7 +206,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      {data.specifications.length &&  <div className="product-specifications">
+      {data.specifications.length>0 &&  <div className="product-specifications">
         <h3>technical sheet</h3>
         <table className="spec-table">
           <tbody>
