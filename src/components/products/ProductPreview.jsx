@@ -6,7 +6,7 @@ import api from "../../utils/api";
 import Loading from "../Loading";
 import { brands } from "../../data/brands";
 import { PanelContext } from "../../context/PanelContext.jsx";
-import AddToPanel from "./addToPanel.jsx";
+import AddToPanel from "./AddToPanel.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
 import NotFound from "../NotFound.jsx";
