@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import api from "../../utils/api";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { PanelContext } from "../../context/PanelContext.jsx";
-import AddToPanel from "./addToPanel.jsx";
+import AddToPanel from "./AddToPanel.jsx";
 import { deslugify } from "../../utils/slugify.js";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
 import NotFound from "../NotFound.jsx";
