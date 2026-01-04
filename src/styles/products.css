@@ -737,7 +737,7 @@
   }
   .cart-confirmation-panel {
     width: 95%;
-    top: 20%;
+    top: 0;
     padding: 10px;
     height: auto;
   }

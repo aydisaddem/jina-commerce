@@ -14,7 +14,7 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   transition: transform 0.3s ease;
   opacity: 0.6;
-  z-index: 9999;
+  z-index: 1000;
 }
 
 .scroll-to-top:hover {
