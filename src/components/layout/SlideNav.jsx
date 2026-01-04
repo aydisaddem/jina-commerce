@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { slugify } from "../../utils/slugify";
+import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 
 const SlideNav = (props) => {
   const [open, setOpen] = useState(false);
@@ -37,7 +38,7 @@ const SlideNav = (props) => {
                 <span
                   className={`arrow-SlideNav ${activeMenu === idx ? "down" : "right"}`}
                 >
-                  {activeMenu === idx ? "▼" : "▶"}
+                  {activeMenu === idx ? <FaChevronDown /> : <FaChevronRight />}
                 </span>
               </div>
 
@@ -77,7 +78,7 @@ const SlideNav = (props) => {
                             activeColumn === cIdx ? "down" : "right"
                           }`}
                         >
-                          {activeColumn === cIdx ? "▼" : "▶"}
+                          {activeColumn === cIdx ? <FaChevronDown /> : <FaChevronRight />}
                         </span>
                       </div>
                       {activeColumn === cIdx && (

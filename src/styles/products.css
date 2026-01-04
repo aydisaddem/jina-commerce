@@ -634,6 +634,7 @@
 .confirm-buttons button {
   height: 40px;
   flex: 1;
+  padding: 10px;
   border: none;
   font-size: 14px;
   text-transform: uppercase;
