@@ -346,11 +346,11 @@
 /*--------------------------mobile Search----------------------------*/
 .mobile-search {
   height: auto;
-  width: 60%;
+  width: 80%;
   position: absolute;
-  top: 50%;
+  top: 10%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   z-index: 1000;
 }
 /*--------------------------- Account--------------------------------------*/

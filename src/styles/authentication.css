@@ -6,14 +6,15 @@
   align-items: center;
   position: relative;
   margin-top: var(--navbar-height);
+  padding: 20px;
 }
-.container {
+.auth-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   align-items: stretch;
   justify-items: stretch;
-  width: 800px;
+  width: 80%;
   min-height: 80vh;
   gap: 0;
   background-color: var(--background-color);
@@ -465,17 +466,19 @@ input:-moz-autofill {
   color: var(--blue-color-hover);
 }
 
-/*---------------------- reset password-----------------*/
 
 
 /* Tablet breakpoint */
 @media (max-width: 768px) {
-  .container {
-    width: 80%;
+  #auth{
+    margin-top: var(--navbar-height-mobile);
+
+  }
+  .auth-container {
+    width: 90%;
     height: auto;
     min-height: 70vh;
     padding: 0;
-    margin-top: var(--navbar-height-mobile);
   }
   .row {
     display: flex;
@@ -488,14 +491,15 @@ input:-moz-autofill {
 
 /* Mobile breakpoint */
 @media (max-width: 480px) {
-  .container {
+  .auth-container {
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border: none;
+    box-shadow:none;
     border-radius: 0;
     padding: 10px;
     height: auto;

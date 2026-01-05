@@ -10,6 +10,8 @@ const Breadcrumb = ({data}) => {
     {label: "Products", path: "/products"}
   ];
 
+  
+
   if(brand){
      segments.push({
       label: deslugify(brand),

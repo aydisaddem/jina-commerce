@@ -9,29 +9,7 @@ import "swiper/css/pagination";
 
 const MainCarousel = () => {
   const promos = [
-    {
-      titleLines: ["Power.", "Performance.", "Portability."],
-      desc: "Explore Our Wide Selection of Laptops",
-      image:
-        "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766601040/Jina/anwf63tbbv8ampctuyfr.png",
-      bgColor: "#131315",
-      cta: "Explore Collection",
-      link: "products/Laptops",
-    },
-    {
-      titleLines: ["IPHONE 17"],
-      desc: "Engineered for Apple Intelligence. ",
-      note: "2-Year Warranty",
-      image:
-        "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766600698/Jina/lihfv26rsidyn8obd3ce.png",
-      bgColor: "#171719",
-      cta: "Discover More",
-      brand: brands.APPLE,
-      logoStyle: { width: "100px", height: "100px" },
-      link: "products/search/iphone-17" ,
-    },
-
-    {
+        {
       titleLines: ["GALAXY S25 ULTRA"],
       desc: "Engineered for Ultra Intelligence — Experience the Power of 6G ",
       note: "2-Year Warranty",
@@ -43,6 +21,30 @@ const MainCarousel = () => {
       logoStyle: { width: "200px", height: "100px" },
       link: "products/search/Galaxy-S25",
     },
+        {
+      titleLines: ["IPHONE 17"],
+      desc: "Engineered for Apple Intelligence. ",
+      note: "2-Year Warranty",
+      image:
+        "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766600698/Jina/lihfv26rsidyn8obd3ce.png",
+      bgColor: "#171719",
+      cta: "Discover More",
+      brand: brands.APPLE,
+      logoStyle: { width: "100px", height: "100px" },
+      link: "products/search/iphone-17" ,
+    },
+    {
+      titleLines: ["Power.", "Performance.", "Portability."],
+      desc: "Explore Our Wide Selection of Laptops",
+      image:
+        "https://res.cloudinary.com/dhxnksrd6/image/upload/v1766601040/Jina/anwf63tbbv8ampctuyfr.png",
+      bgColor: "#131315",
+      cta: "Explore Collection",
+      link: "products/Laptops",
+    },
+
+
+
   ];
 
   return (

@@ -10,16 +10,14 @@
 .mainCarousel {
   width: 100%;
   margin: auto;
-
   padding: 0;
   position: relative;
 }
 .mainCarousel-slide {
-  height: calc(100vh - var(--navbar-height));
+  height: calc(100vh - var(--navbar-height) - 120px);
   padding: 20px;
   display: flex;
   align-items: center;
-  padding: 20px;
 }
 
 .mainCarousel-content {
@@ -42,7 +40,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   width: 40%;
 }
 
@@ -145,6 +143,8 @@
   width: 100%;
   padding: 20px 0;
   border-bottom: 1px solid var(--divider);
+  display: flex;
+  height: 120px;
 }
 .swiper-slide {
   display: flex;
@@ -184,7 +184,7 @@
 }
 
 .bestSeller-header h2 {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   margin: 0;
   letter-spacing: 3px;
@@ -337,12 +337,30 @@
     margin-top: var(--navbar-height-mobile);
   }
   .mainCarousel-slide {
-    height: calc(100vh - var(--navbar-height-mobile));
-    padding: 10px;
+    height: calc(100vh - var(--navbar-height-mobile) - 120px);
+    padding: 20px;
+  }
+   .mainCarousel-slogan h2 {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+  .mainCarousel-slogan p {
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+  .mainCarousel-slogan span {
+    font-size: 14px;
   }
 
   #bestSeller-container {
     grid-template-columns: repeat(2, 1fr);
+  }
+ 
+  .bestSeller-header h2{
+    font-size: 16px;
+  }
+  .view-all-link{
+    font-size: 12px;
   }
   .service-info {
   flex-direction: column;
@@ -356,18 +374,11 @@
 
 
 @media (max-width: 480px) {
-  .mainCarousel-slogan h2 {
-    font-size: 18px;
-    letter-spacing: 2px;
-  }
-  .mainCarousel-slogan p {
-    font-size: 14px;
-    letter-spacing: 2px;
-  }
-  .mainCarousel-slogan span {
-    font-size: 14px;
-  }
+ 
   #bestSeller-container {
     grid-template-columns: 1fr;
   }
+.bestSeller-header{
+  padding: 0;
+}
 }

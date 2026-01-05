@@ -723,7 +723,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    padding: 20px;
+    padding: 0;
   }
   .item-picture-container {
     width: 100%;
@@ -791,7 +791,8 @@
     transition: max-height 0.3s ease;
   }
   .filter-content.open {
-    max-height: 1000px;
+    max-height: 60vh;
+    overflow-y: auto;
   }
 
   .item-card {

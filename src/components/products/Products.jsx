@@ -15,6 +15,7 @@ import searchImg from "../../assets/search.png";
 import ListRender from "./ListRender.jsx";
 import GridRender from "./GridRender.jsx";
 
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);

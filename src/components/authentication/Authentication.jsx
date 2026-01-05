@@ -13,7 +13,7 @@ const Authentication = () => {
   return (
     <div id="auth">
       <div
-        className={`container ${isLogin ? "login-active" : "signup-active"}`}
+        className={`auth-container ${isLogin ? "login-active" : "signup-active"}`}
       >
         <div className="overlay-container">
           {isLogin ? (
@@ -32,7 +32,7 @@ const Authentication = () => {
 
         <div className="forms-container">
           {isLogin ? (
-            <SignIn toggleForm={toggleForm} nav={-1}  />
+            <SignIn toggleForm={toggleForm} nav={-1} />
           ) : (
             <SignUp toggleForm={toggleForm} nav={-1} />
           )}
