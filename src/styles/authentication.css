@@ -1,6 +1,6 @@
 #auth {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,7 @@
   grid-template-rows: 1fr;
   align-items: stretch;
   justify-items: stretch;
-  width: 80%;
+  width: 70%;
   min-height: 80vh;
   gap: 0;
   background-color: var(--background-color);
@@ -466,20 +466,21 @@ input:-moz-autofill {
   color: var(--blue-color-hover);
 }
 
-
-
 /* Tablet breakpoint */
-@media (max-width: 768px) {
-  #auth{
-    margin-top: var(--navbar-height-mobile);
 
-  }
+@media (max-width: 1024px) {
   .auth-container {
     width: 90%;
     height: auto;
     min-height: 70vh;
     padding: 0;
   }
+}
+@media (max-width: 768px) {
+  #auth {
+    margin-top: var(--navbar-height-mobile);
+  }
+
   .row {
     display: flex;
     flex-direction: column;
@@ -499,7 +500,7 @@ input:-moz-autofill {
     align-items: center;
     justify-content: center;
     border: none;
-    box-shadow:none;
+    box-shadow: none;
     border-radius: 0;
     padding: 10px;
     height: auto;
