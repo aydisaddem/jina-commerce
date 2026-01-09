@@ -12,6 +12,9 @@ const Authentication = () => {
 
   return (
     <div id="auth">
+      <h1 className="visually-hidden">
+        Authentication
+      </h1>
       <div
         className={`auth-container ${isLogin ? "login-active" : "signup-active"}`}
       >

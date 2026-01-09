@@ -7,6 +7,9 @@ const Order = () => {
   const { panel, total, count, clearPanel } = useContext(PanelContext);
   return (
     <div id="order-container">
+      <h1 className="visually-hidden">
+        Order checkout
+      </h1>
       <CheckoutAccordion panel={panel} total={total} clearPanel={clearPanel} count={count}/>
       <Summary panel={panel}  total={total} count={count}/>
     </div>

@@ -282,6 +282,9 @@ const Products = () => {
 
   return (
     <>
+    <h1 className="visually-hidden">
+        Products
+      </h1>
       <Breadcrumb />
       {loading ? (
         <Loading />

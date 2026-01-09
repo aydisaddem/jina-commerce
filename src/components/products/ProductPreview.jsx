@@ -104,6 +104,9 @@ useEffect(() => {
 
   return (
     <>
+    <h1 className="visually-hidden">
+        Product Preview
+      </h1>
     <Breadcrumb data={data}/>
     <div id="product-container">
 

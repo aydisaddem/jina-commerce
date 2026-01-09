@@ -31,6 +31,9 @@ const Account = () => {
 
   return (
     <div id="account">
+      <h1 className="visually-hidden">
+        Account Management
+      </h1>
       <aside id="account-aside">
         <ul>
   {items.map(item => (
