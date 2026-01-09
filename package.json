@@ -7,17 +7,20 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@react-oauth/google": "^0.12.2",
     "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.6",
     "react-select": "^5.10.2",
+    "sitemap": "^9.0.0",
     "sweetalert2": "^11.26.4",
     "swiper": "^12.0.3"
   },

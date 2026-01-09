@@ -5,13 +5,7 @@
 [build.environment]
   NODE_VERSION = "18"
 
-
-[[redirects]]
-  from = "http://jinashop.netlify.app/*"
-  to = "https://jinashop.netlify.app/:splat"
-  status = 301
-  force = true
-
+# SPA fallback for React Router - this is all you need
 [[redirects]]
   from = "/*"
   to = "/index.html"
