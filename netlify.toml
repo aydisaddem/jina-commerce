@@ -6,6 +6,18 @@
   NODE_VERSION = "18"
 
 [[redirects]]
+  from = "https://www.jinashop.netlify.app/*"
+  to = "https://jinashop.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://jinashop.netlify.app/*"
+  to = "https://jinashop.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
