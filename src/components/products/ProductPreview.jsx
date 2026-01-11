@@ -11,7 +11,7 @@ import { AuthContext } from "../../context/AuthContext.jsx";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
 import NotFound from "../NotFound.jsx";
 import block from "../../assets/block.png"
-import { useSEO } from '../../hooks/useSEO';
+import { useSEO } from '../../Hooks/useSEO.js';
 
 const ProductPreview = () => {
   const { addItem } = useContext(PanelContext);
