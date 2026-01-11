@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { AuthProvider } from "./context/AuthContext";
 import { PanelProvider } from "./context/PanelContext.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { HelmetProvider } from 'react-helmet-async';
 
 import "./index.css";
 
@@ -20,7 +19,6 @@ import Order from "./components/order/Order.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-     <HelmetProvider>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <AuthProvider>
         <PanelProvider>
@@ -57,6 +55,5 @@ createRoot(document.getElementById("root")).render(
         </PanelProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
-    </HelmetProvider>
   </StrictMode>
 );

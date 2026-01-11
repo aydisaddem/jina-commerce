@@ -11,6 +11,7 @@ import { AuthContext } from "../../context/AuthContext.jsx";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
 import NotFound from "../NotFound.jsx";
 import block from "../../assets/block.png"
+import { useSEO } from '../../hooks/useSEO';
 
 const ProductPreview = () => {
   const { addItem } = useContext(PanelContext);
@@ -23,7 +24,7 @@ const ProductPreview = () => {
   const [isHidden, setIsHidden] = useState(true);
   const { isLoggedIn, user, setUser } = useContext(AuthContext);
 
-  const { id } = useParams();
+  const {category, subCategory, id } = useParams();
 
 useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +44,27 @@ useEffect(() => {
 
     fetchData();
   }, [id]);
+
+
+ // Build canonical URL based on whether subcategory exists
+  let canonical;
+  if (subCategory) {
+    // URL: /products/:category/:subCategory/preview/:id
+    canonical = `https://jinashop.netlify.app/products/${category}/${subCategory}/preview/${id}`;
+  } else {
+    // URL: /products/:category/preview/:id
+    canonical = `https://jinashop.netlify.app/products/${category}/preview/${id}`;
+  }
+  
+  // Apply SEO
+  useSEO({
+    title: `${data.name} - Buy at JINA SHOP Tunisia`,
+    description: `${data.name} - ${data.description?.substring(0, 150) || 'High quality electronics'}. Buy online with home delivery in Tunisia. Pay on delivery available.`,
+    canonical: canonical,
+    image:  data.pictures?.[0],
+    type: 'product'
+  });
+
 
   if (loading) return <Loading />;
   if (error)

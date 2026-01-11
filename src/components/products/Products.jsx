@@ -14,6 +14,8 @@ import Loading from "../Loading.jsx";
 import searchImg from "../../assets/search.png";
 import ListRender from "./ListRender.jsx";
 import GridRender from "./GridRender.jsx";
+import { useSEO } from '../../hooks/useSEO';
+
 
 
 const Products = () => {
@@ -126,6 +128,72 @@ const Products = () => {
     selectedSpecs,
     selectedCategories,
   ]);
+
+  // Category titles mapping
+  const categoryTitles = {
+    'computers': 'Computers & Laptops',
+    'phones-tablets': 'Phones & Tablets',
+    'storage': 'Storage Solutions',
+    'impression': 'Printers & Scanners',
+    'tv-sound-photos': 'TV, Sound & Photos',
+    'security': 'Security Systems',
+    'network-connections': 'Network & Connections'
+  };
+  
+  // Subcategory titles (optional - you can add more)
+  const subCategoryTitles = {
+    'smartphones': 'Smartphones',
+    'tablets': 'Tablets',
+    'laptops': 'Laptops',
+    'desktops': 'Desktop Computers',
+    // Add more as needed
+  };
+  
+  // Generate title and canonical URL based on the route
+  let title, description, canonical;
+  
+  if (search) {
+    // Search results page: /products/search/:search
+    title = `Search Results for "${search}" - JINA SHOP Tunisia`;
+    description = `Search results for "${search}" at JINA SHOP. Find electronics and tech products in Tunisia.`;
+    canonical = `https://jinashop.netlify.app/products/search/${search}`;
+    
+  } else if (brand) {
+    // Brand page: /products/brands/:brand
+    title = `${brand.charAt(0).toUpperCase() + brand.slice(1)} Products - Buy at JINA SHOP Tunisia`;
+    description = `Shop ${brand} products at JINA SHOP. Best prices in Tunisia with home delivery nationwide.`;
+    canonical = `https://jinashop.netlify.app/products/brands/${brand}`;
+    
+  } else if (subCategory) {
+    // Subcategory page: /products/:category/:subCategory
+    const categoryName = categoryTitles[category] || category;
+    const subCategoryName = subCategoryTitles[subCategory] || subCategory;
+    
+    title = `${subCategoryName} - ${categoryName} | JINA SHOP Tunisia`;
+    description = `Shop ${subCategoryName} in ${categoryName} at JINA SHOP. Best prices in Tunisia with home delivery nationwide. Pay on delivery available.`;
+    canonical = `https://jinashop.netlify.app/products/${category}/${subCategory}`;
+    
+  } else if (category) {
+    // Category page: /products/:category
+    const categoryName = categoryTitles[category] || category;
+    
+    title = `${categoryName} - Buy Online at JINA SHOP Tunisia`;
+    description = `Shop ${categoryName} at JINA SHOP. Best prices in Tunisia with home delivery nationwide. Pay on delivery available.`;
+    canonical = `https://jinashop.netlify.app/products/${category}`;
+    
+  } else {
+    // All products page: /products
+    title = 'All Products - JINA SHOP Tunisia | Electronics Store';
+    description = 'Browse all electronics products at JINA SHOP. Computers, phones, tablets and more with home delivery across Tunisia.';
+    canonical = 'https://jinashop.netlify.app/products';
+  }
+  
+  // Apply SEO
+  useSEO({
+    title,
+    description,
+    canonical
+  });
 
   function extractSpecFilters(products) {
     const specMap = {};
