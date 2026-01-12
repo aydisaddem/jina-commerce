@@ -31,7 +31,7 @@ const MainCarousel = () => {
       bgColor: "#171719",
       cta: "Discover More",
       brand: brands.APPLE,
-      logoStyle: { width: "100px", height: "100px" },
+      logoStyle: { width: "100px", height: "auto" },
       link: "products/search/iphone-17" ,
     },
     {
@@ -123,7 +123,7 @@ const MainCarousel = () => {
     sizes="(max-width: 768px) 100vw, 1200px"
     alt={item.titleLines[0]}
     width="1200"
-    height="1200"
+    height="auto"
     loading={index === 0 ? "eager" : "lazy"}
     fetchPriority={index === 0 ? "high" : "auto"}
     decoding="async"
