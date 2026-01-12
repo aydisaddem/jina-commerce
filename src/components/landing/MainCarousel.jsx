@@ -108,11 +108,9 @@ const MainCarousel = () => {
                   ))}
                   <p>{item.desc}</p>
                   <span>{item.note || ""}</span>
-                  <button className="cta-button">
-                    <Link to={item.link} style={{ all: "unset" }}>
+                    <Link to={item.link} className="cta-button">
                       {item.cta}{" "}
                     </Link>
-                  </button>
                 </div>
                 <div className="mainCarousel-img">
   <img
