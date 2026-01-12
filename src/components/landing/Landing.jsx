@@ -11,7 +11,7 @@ const Landing = () => {
   useSEO({
     title: 'JINA SHOP - Electronics Store in Tunisia | Home Delivery',
     description: 'Shop the latest electronics in Tunisia at JINA SHOP. Computers, phones, tablets with home delivery nationwide. Pay on delivery available.',
-    canonical: 'https://jinashop.netlify.app/'
+    canonical: 'https://jina-commerce.vercel.app/'
   });
   return (
     <div id="landing">

@@ -147,14 +147,14 @@ const Products = () => {
     // Search results page: /products/search/:search
     title = `Search Results for "${search}" - JINA SHOP Tunisia`;
     description = `Search results for "${search}" at JINA SHOP. Find electronics and tech products in Tunisia.`;
-    canonical = `https://jinashop.netlify.app/products/search/${search}`;
+    canonical = `https://jina-commerce.vercel.app/products/search/${search}`;
     
   } else if (brand) {
     // Brand page: /products/brands/:brand
     const brandName = formatName(brand);
     title = `${brandName} Products - Buy at JINA SHOP Tunisia`;
     description = `Shop ${brandName} products at JINA SHOP. Best prices in Tunisia with home delivery nationwide.`;
-    canonical = `https://jinashop.netlify.app/products/brands/${brand}`;
+    canonical = `https://jina-commerce.vercel.app/products/brands/${brand}`;
     
   } else if (subCategory) {
     // Subcategory page: /products/:category/:subCategory
@@ -163,7 +163,7 @@ const Products = () => {
     
     title = `${subCategoryName} - ${categoryName} | JINA SHOP Tunisia`;
     description = `Shop ${subCategoryName} in ${categoryName} at JINA SHOP. Best prices in Tunisia with home delivery nationwide. Pay on delivery available.`;
-    canonical = `https://jinashop.netlify.app/products/${category}/${subCategory}`;
+    canonical = `https://jina-commerce.vercel.app/products/${category}/${subCategory}`;
     
   } else if (category) {
     // Category page: /products/:category
@@ -171,13 +171,13 @@ const Products = () => {
     
     title = `${categoryName} - Buy Online at JINA SHOP Tunisia`;
     description = `Shop ${categoryName} at JINA SHOP. Best prices in Tunisia with home delivery nationwide. Pay on delivery available.`;
-    canonical = `https://jinashop.netlify.app/products/${category}`;
+    canonical = `https://jina-commerce.vercel.app/products/${category}`;
     
   } else {
     // All products page: /products
     title = 'All Products - JINA SHOP Tunisia | Electronics Store';
     description = 'Browse all electronics products at JINA SHOP. Computers, phones, tablets and more with home delivery across Tunisia.';
-    canonical = 'https://jinashop.netlify.app/products';
+    canonical = 'https://jina-commerce.vercel.app/products';
   }
   
   // Apply SEO

@@ -52,10 +52,10 @@ const ProductPreview = () => {
   let canonical;
   if (subCategory) {
     // URL: /products/:category/:subCategory/preview/:id
-    canonical = `https://jinashop.netlify.app/products/${category}/${subCategory}/preview/${id}`;
+    canonical = `https://jina-commerce.vercel.app/products/${category}/${subCategory}/preview/${id}`;
   } else {
     // URL: /products/:category/preview/:id
-    canonical = `https://jinashop.netlify.app/products/${category}/preview/${id}`;
+    canonical = `https://jina-commerce.vercel.app/products/${category}/preview/${id}`;
   }
 
   // Apply SEO
