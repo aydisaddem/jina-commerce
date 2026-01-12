@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env.production' });
 
 const BACKEND_URL = process.env.VITE_API_URL;
-const SITE_URL = 'https://jinashop.netlify.app';
+const SITE_URL = 'https://jina-commerce.vercel.app';
 
 if (!BACKEND_URL) {
   console.error('❌ Error: VITE_API_URL is not defined in .env.production');
