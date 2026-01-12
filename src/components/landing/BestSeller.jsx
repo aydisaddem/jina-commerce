@@ -69,14 +69,19 @@ const BestSeller = () => {
               style={{ all: "unset" }}
             >
               <img
-                src={cloudinaryOptimize(product.picture, 300)}
-                width="300"
-                height="300"
-                alt={product.name}
-                className="bestSeller-img"
-                loading="lazy"
-                decoding="async"
-              />{" "}
+  src={cloudinaryOptimize(product.picture, 300)}
+  srcSet={`
+    ${cloudinaryOptimize(product.picture, 300)} 1x,
+    ${cloudinaryOptimize(product.picture, 600)} 2x,
+    ${cloudinaryOptimize(product.picture, 900)} 3x
+  `}
+  width="300"
+  height="auto"  
+  alt={product.name}
+  className="bestSeller-img"
+  loading="lazy"
+  decoding="async"
+/>{" "}
               <div className="bestSeller-info">
                 <img
                   src={cloudinaryOptimize(product.logo, 100)}

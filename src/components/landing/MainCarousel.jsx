@@ -18,7 +18,7 @@ const MainCarousel = () => {
       bgColor: "#161618",
       cta: "Discover More",
       brand: brands.SAMSUNG,
-      logoStyle: { width: "200px", height: "100px" },
+      logoStyle: { width: "200px", height: "auto" },
       link: "products/search/Galaxy-S25",
     },
     {
@@ -82,12 +82,23 @@ const MainCarousel = () => {
                 <div className="mainCarousel-slogan">
                   {item.brand && (
                     <img
-                      src={cloudinaryOptimize(item.brand, 200)}
-                      style={item.logoStyle}
-                      loading="lazy"
-                      decoding="async"
-                      alt={item.titleLines[0]}
-                    />
+  src={cloudinaryOptimize(item.brand, 200)}
+  srcSet={`
+    ${cloudinaryOptimize(item.brand, 200)} 1x,
+    ${cloudinaryOptimize(item.brand, 400)} 2x,
+    ${cloudinaryOptimize(item.brand, 600)} 3x
+  `}
+  style={{ 
+    width: '200px', 
+    height: 'auto', 
+    ...item.logoStyle 
+  }}
+  width="200"
+  height="auto"  
+  loading="lazy"
+  decoding="async"
+  alt={item.titleLines[0]}
+/>
                   )}
                   {item.titleLines.map((line, i) => (
                     <h2 key={i} style={{ display: "block" }}>
