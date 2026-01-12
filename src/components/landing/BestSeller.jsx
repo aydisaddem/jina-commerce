@@ -100,7 +100,7 @@ const BestSeller = () => {
                 </div>
                
                 <h3>{product.name}</h3>
-                <p>Ref: {product.reference}</p>
+                <p className="bestSeller-reference">Ref: {product.reference}</p>
                 <p className="bestSeller-price">{product.price},000 DT</p>
               </div>
             </Link>
