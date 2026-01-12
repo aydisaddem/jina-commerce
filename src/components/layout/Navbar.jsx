@@ -158,7 +158,7 @@ const Navbar = () => {
               onChange={handleSearchChange}
               onFocus={() => setShowSuggestions(true)}
             />
-            <button type="submit" onClick={applySearch}>
+            <button type="submit" onClick={applySearch} aria-label="Search">
               <i className="fa-solid fa-search"></i>
             </button>
             {showSuggestions && search && filteredProducts.length > 0 && (
@@ -343,7 +343,7 @@ const Navbar = () => {
           onChange={handleSearchChange}
           onFocus={() => setShowSuggestionsMobile(true)}
         />
-        <button type="submit" onClick={applyMobileSearch}>
+        <button type="submit" onClick={applyMobileSearch} aria-label="Search">
           <i className="fa-solid fa-search"></i>
         </button>
 

@@ -144,6 +144,7 @@ const Footer = () => {
                 target="_blank"
                 href="https://www.facebook.com/sdouma.aydi/"
                 className="facebook"
+                aria-label="Visit our Facebook page"
               >
                 <i className="fa-brands fa-facebook-f"></i>
               </a>
@@ -151,6 +152,7 @@ const Footer = () => {
                 target="_blank"
                 href="https://www.instagram.com/saddemaydi/"
                 className="instagram"
+                aria-label="Visit our Instagram page"
               >
                 <i className="fa-brands fa-instagram"></i>
               </a>
