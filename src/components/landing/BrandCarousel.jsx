@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { brands } from "../../data/brands";
 
 import "swiper/css";
@@ -28,9 +28,9 @@ const BrandCarousel = () => {
       >
         {brandsItems.map((item) => (
           <SwiperSlide key={item.name}>
-            <NavLink to={item.link} className="brand-link">
-              <img src={item.logo} alt={item.name} className="brand-logo" />
-            </NavLink>
+            <Link to={item.link} className="brand-link">
+              <img src={item.logo} alt={item.name} className="brand-logo" loading="lazy" />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

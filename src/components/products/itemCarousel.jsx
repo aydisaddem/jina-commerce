@@ -23,6 +23,7 @@ const ItemCarousel = ({ pictures, name }) => {
         src={pictures[currentIndex]}
         alt={`${name} ${currentIndex + 1}`}
         className="carousel-image"
+        loading="lazy"
       />
 
       {pictures.length > 1 && (

@@ -173,6 +173,7 @@ const Navbar = () => {
                         src={product.pictures[0]}
                         alt={product.name}
                         className="suggestion-image"
+                        loading="lazy"
                       />
                     )}
                     <div className="suggestion-details">

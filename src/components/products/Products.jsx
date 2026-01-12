@@ -1,7 +1,7 @@
 import "../../styles/products.css";
 import { useState, useEffect, useContext } from "react";
 import Select from "react-select";
-import { NavLink } from "react-router-dom";
+import {Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import api from "../../utils/api";
 import { AuthContext } from "../../context/AuthContext.jsx";
@@ -635,7 +635,7 @@ const Products = () => {
                       option: (provided, state) => ({
                         ...provided,
                         backgroundColor: state.isFocused
-                          ? "var(--secondary-color)" // hover/focus background
+                          ? "var(--secondary-color)"
                           : "white",
                         color: state.isFocused ? "white" : "var(--grey-color)",
                         cursor: "pointer",
@@ -758,9 +758,9 @@ const Products = () => {
               <>
                 <p>
                   The product has been added to your list.{" "}
-                  <NavLink to="/account/wishlist">
+                  <Link to="/account/wishlist">
                     <strong>View your list</strong>
-                  </NavLink>
+                  </Link>
                   .{" "}
                 </p>
                 <span onClick={handleAlert}>

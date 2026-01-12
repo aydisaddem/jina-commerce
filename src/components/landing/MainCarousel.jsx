@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { brands } from "../../data/brands";
 import {slugify} from "../../utils/slugify"
 import "swiper/css";
@@ -71,7 +71,7 @@ const MainCarousel = () => {
               <div className="mainCarousel-content">
                 <div className="mainCarousel-slogan">
                   {item.brand && (
-                    <img src={item.brand} style={item.logoStyle} />
+                    <img src={item.brand} style={item.logoStyle} loading="lazy" alt={item.titleLines[0]} />
                   )}
                   {item.titleLines.map((line, i) => (
                     <h2 key={i} style={{ display: "block" }}>
@@ -81,13 +81,13 @@ const MainCarousel = () => {
                   <p>{item.desc}</p>
                   <span>{item.note || ""}</span>
                   <button className="cta-button">
-                    <NavLink to={item.link} style={{ all: "unset" }}>
+                    <Link to={item.link} style={{ all: "unset" }}>
                       {item.cta}{" "}
-                    </NavLink>
+                    </Link>
                   </button>
                 </div>
                 <div className="mainCarousel-img">
-                  <img src={item.image} alt={item.title} />
+                  <img src={item.image} alt={item.title} loading="lazy" />
                 </div>
               </div>
             </div>

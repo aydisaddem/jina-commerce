@@ -1,7 +1,7 @@
 import "../../styles/products.css";
 import { useContext } from "react";
 import { PanelContext } from "../../context/PanelContext.jsx";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AddToPanel = ({ data, showCart, qty }) => {
   const { total, count } = useContext(PanelContext);
@@ -16,6 +16,7 @@ const AddToPanel = ({ data, showCart, qty }) => {
               src={data.pictures?.[0]}
               alt={data.name}
               className="item-picture"
+              loading="lazy"
             />
           </div>
 
@@ -39,7 +40,7 @@ const AddToPanel = ({ data, showCart, qty }) => {
       <div className="confirm-buttons">
         <button onClick={showCart}>continue shopping</button>
         
-          <button><NavLink to="/account/panel" style={{ all: "unset" }}>order now</NavLink></button>
+          <button><Link to="/account/panel" style={{ all: "unset" }}>order now</Link></button>
         
       </div>
       <button className="close-cart" onClick={showCart}>

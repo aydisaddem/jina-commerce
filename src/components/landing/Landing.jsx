@@ -24,19 +24,19 @@ const Landing = () => {
       <BestSeller />
       <div className="service-info">
         <div className="service-item">
-          <img src={houseIcon} alt="Home delivery" />{" "}
+          <img src={houseIcon} alt="Home delivery" loading="lazy"/>{" "}
           <p>
             HOME DELIVERY <span>Delivery service covers all of Tunisia.</span>
           </p>
         </div>
         <div className="service-item">
-          <img src={phoneIcon} alt="Commercial service" />
+          <img src={phoneIcon} alt="Commercial service" loading="lazy" />
           <p>
             SUPPORT 24/7<span>Contact us 24 hours a day, 7 days a week.</span>
           </p>
         </div>
         <div className="service-item">
-          <img src={cashIcon} alt="Cash on delivery" />
+          <img src={cashIcon} alt="Cash on delivery" loading="lazy"/>
           <p>
             PAY ON DELIVERY <span>Settle only when your package arrives.</span>
           </p>

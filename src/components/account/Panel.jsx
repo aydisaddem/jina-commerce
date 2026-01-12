@@ -2,7 +2,7 @@ import { PanelContext } from "../../context/PanelContext.jsx";
 import { useContext, useState } from "react";
 import NotFound from "../NotFound.jsx";
 import searchImg from "../../assets/search.png"
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Panel = () => {
   const { panel, total, removeItem, updateQty } = useContext(PanelContext);
   const formatPrice = (price) => `${price.toLocaleString()},000 DT`;
@@ -44,7 +44,7 @@ const Panel = () => {
         {panel.map((item) => (
           <tr key={item._id}>
             <td className="product-td">
-              <img src={item.pictures[0]} />
+              <img src={item.pictures[0]} loading="lazy" alt={item.name} />
               <div>
                 <h5>{item.name}</h5>
                 <p>{item.reference}</p>
@@ -135,9 +135,9 @@ const Panel = () => {
         </tr>
       </tfoot>
     </table>
-    <NavLink to="/order">
+    <Link to="/order">
 <button className="order-now">Order Now</button>
-    </NavLink>
+    </Link>
     
     </div>
   ):(

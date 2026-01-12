@@ -1,5 +1,5 @@
 import "../../styles/account.css";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import Panel from "./Panel";
 import Orders from "./Orders";
@@ -37,7 +37,7 @@ const Account = () => {
       <aside id="account-aside">
         <ul>
   {items.map(item => (
-          <NavLink to={`/account/${item.toLowerCase()}`}       key={item}
+          <Link to={`/account/${item.toLowerCase()}`}       key={item}
 >
 
     <li
@@ -45,7 +45,7 @@ const Account = () => {
     >
         {item}
     </li>
-          </NavLink>
+          </Link>
 
   ))}
 </ul>

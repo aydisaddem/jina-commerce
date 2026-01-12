@@ -1,5 +1,5 @@
 import ItemCarousel from "./itemCarousel";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { slugify } from "../../utils/slugify";
 import { brands } from "../../data/brands";
 
@@ -16,7 +16,7 @@ const ListRender = ({
             <ItemCarousel pictures={item.pictures} name={item.name} />{" "}
           </div>
           <div className="item-description">
-            <NavLink
+            <Link
               to={`/products/${slugify(item.category)}${
                 item.subCategory && item.subCategory !== item.category
                   ? `/${slugify(item.subCategory)}`
@@ -31,12 +31,12 @@ const ListRender = ({
 
                 {item.description}
               </p>
-            </NavLink>
+            </Link>
           </div>
           <div className="item-status-bar">
-            <NavLink to={`brands/${item.brand}`}>
-              <img src={brands[item.brand]} className="brand-logo" />
-            </NavLink>
+            <Link to={`brands/${item.brand}`}>
+              <img src={brands[item.brand]} className="brand-logo" loading="lazy" alt={item.brand}/>
+            </Link>
             <span className="item-price">{item.price},000 DT</span>
             <span
               className={`item-stock ${

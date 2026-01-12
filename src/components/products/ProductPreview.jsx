@@ -1,6 +1,6 @@
 import "../../styles/productPreview.css";
 import { useState, useEffect, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import api from "../../utils/api";
 import Loading from "../Loading";
@@ -175,7 +175,7 @@ useEffect(() => {
                 className={`thumb ${index === activeIndex ? "active" : ""}`}
                 onClick={() => setActiveIndex(index)}
               >
-                <img src={img} alt={`Thumbnail ${index + 1}`} />
+                <img src={img} alt={`Thumbnail ${index + 1}`} loading="lazy"/>
               </button>
             ))}
           </div>
@@ -192,6 +192,7 @@ useEffect(() => {
               className="brand-logo"
               src={brands[data.brand]}
               alt={data.brand}
+              loading="lazy"
             />
             <p className="item-price">{data.price},000 DT TTC</p>
             <p className="item-availability">
@@ -265,9 +266,9 @@ useEffect(() => {
           <>
             <p>
               The product has been added to your list.{" "}
-              <NavLink to="/account/wishlist">
+              <Link to="/account/wishlist">
                 <strong>View your list</strong>
-              </NavLink>
+              </Link>
               .{" "}
             </p>
             <span onClick={handleAlert}>

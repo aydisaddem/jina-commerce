@@ -1,5 +1,5 @@
 import { brands } from "../../data/brands";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { slugify } from "../../utils/slugify";
 const BestSeller = () => {
   const bestSeller = [
@@ -49,22 +49,22 @@ const BestSeller = () => {
     <div className="bestSeller-section">
       <div className="bestSeller-header">
         <h2>Our Best Sellers</h2>
-        <NavLink to="/products" className="view-all-link" >View All Products &gt;</NavLink>
+        <Link to="/products" className="view-all-link" >View All Products &gt;</Link>
       </div>
 
       <div id="bestSeller-container">
         {bestSeller.map((product) => (
             <div key={product.id} className="bestSeller-card">
-                            <NavLink to={`/products/${slugify(product.category)}/${slugify(product.subCategory)}/preview/${product.id}`} style={{ all: "unset" }}>
+                            <Link to={`/products/${slugify(product.category)}/${slugify(product.subCategory)}/preview/${product.id}`} style={{ all: "unset" }}>
 
-            <img src={product.picture} alt={product.name} className="bestSeller-img" />
+            <img src={product.picture} alt={product.name} className="bestSeller-img" loading="lazy" />
             <div className="bestSeller-info">
-              <img src={product.logo} alt={product.name + " logo"} className="bestSeller-logo" />
+              <img src={product.logo} alt={product.name + " logo"} className="bestSeller-logo" loading="lazy"/>
               <h3>{product.name}</h3>
               <p>Ref: {product.reference}</p>
               <p className="bestSeller-price">{product.price},000 DT</p>
             </div>
-                        </NavLink>
+                        </Link>
 
           </div>
           

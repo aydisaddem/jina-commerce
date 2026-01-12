@@ -13,6 +13,7 @@ const Summary = ({panel, total, count}) =>{
                     src={item.pictures[0]}
                     alt={item.name}
                     className="summary-product-image"
+                    loading="lazy"
                   />
                   <div className="summary-product-details">
                     <p className="summary-product-name">{item.name}</p>

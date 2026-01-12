@@ -1,6 +1,6 @@
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loading from "../Loading.jsx";
 import api from "../../utils/api.js";
 import Swal from "sweetalert2";
@@ -62,6 +62,7 @@ const Wishlist = () => {
                 src={item.picture}
                 alt={item.name}
                 className="item-picture"
+                loading="lazy"
               />
             </div>
             <div className="wishlist-info-block">
@@ -70,7 +71,7 @@ const Wishlist = () => {
               <p className="wishlistItem-price">{item.price},000 DT</p>
 
               <button className="see-more">
-                <NavLink to={`/products/${slugify(item.category)}${
+                <Link to={`/products/${slugify(item.category)}${
   item.subCategory && item.subCategory !== item.category ? `/${slugify(item.subCategory)}` : ""
 }/preview/${item.id}`}
               style={{ all: "unset" }}>
@@ -92,7 +93,7 @@ const Wishlist = () => {
                       d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
                     />
                   </svg>
-                </NavLink>
+                </Link>
               </button>
             </div>
             <div className="wishlist-BtnDiv">
