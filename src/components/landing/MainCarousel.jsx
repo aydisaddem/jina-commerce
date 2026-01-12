@@ -87,7 +87,7 @@ const MainCarousel = () => {
                   </button>
                 </div>
                 <div className="mainCarousel-img">
-                  <img src={item.image} alt={item.title} loading="lazy" />
+                  <img src={item.image} alt={item.titleLines[0]} loading="lazy" />
                 </div>
               </div>
             </div>

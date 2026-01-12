@@ -143,6 +143,7 @@ useEffect(() => {
             <img
               src={data.pictures[activeIndex]}
               alt={`Product view ${activeIndex + 1}`}
+              loading="lazy"
             />
 
             <button

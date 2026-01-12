@@ -248,6 +248,7 @@ const Navbar = () => {
                           width="140"
                           height="160"
                           loading="lazy"
+                          alt={item.name}
                         />
 
                         <div className="panel-product-info">
@@ -353,6 +354,7 @@ const Navbar = () => {
                     src={product.pictures[0]}
                     alt={product.name}
                     className="suggestion-image"
+                    loading="lazy"
                   />
                 )}
                 <div className="suggestion-details">
