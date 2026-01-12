@@ -7,10 +7,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { cloudinaryOptimize } from "../../utils/cloudinaryOptimize";
 
-
 const MainCarousel = () => {
-   const promos = [
-        {
+  const promos = [
+    {
       titleLines: ["GALAXY S25 ULTRA"],
       desc: "Engineered for Ultra Intelligence — Experience the Power of 6G ",
       note: "2-Year Warranty",
@@ -22,7 +21,7 @@ const MainCarousel = () => {
       logoStyle: { width: "200px", height: "100px" },
       link: "products/search/Galaxy-S25",
     },
-        {
+    {
       titleLines: ["IPHONE 17"],
       desc: "Engineered for Apple Intelligence. ",
       note: "2-Year Warranty",
@@ -32,7 +31,7 @@ const MainCarousel = () => {
       cta: "Discover More",
       brand: brands.APPLE,
       logoStyle: { width: "100px", height: "auto" },
-      link: "products/search/iphone-17" ,
+      link: "products/search/iphone-17",
     },
     {
       titleLines: ["Power.", "Performance.", "Portability."],
@@ -43,46 +42,36 @@ const MainCarousel = () => {
       cta: "Explore Collection",
       link: "products/Laptops",
     },
-
-
-
   ];
   useEffect(() => {
-  if (promos.length === 0) return;
-  const link = document.createElement("link");
-  link.rel = "preload";
-  link.as = "image";
-  link.href = cloudinaryHero(promos[0].image, 1200);
-  document.head.appendChild(link);
-  return () => document.head.removeChild(link);
-}, [promos]);
-
+    if (promos.length === 0) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = cloudinaryHero(promos[0].image, 1200);
+    document.head.appendChild(link);
+    return () => document.head.removeChild(link);
+  }, [promos]);
 
   const cloudinaryHero = (url, width) =>
-  url.replace(
-    "/upload/",
-    `/upload/f_auto,q_auto,w_${width}/`
-  );
- 
+    url.replace("/upload/", `/upload/f_auto,q_auto,w_${width}/`);
 
   return (
     <div className="mainCarousel">
       <button className="custom-prev">‹</button>
       <button className="custom-next">›</button>
 
- <Swiper
-  modules={[Autoplay, Pagination, Navigation]}
-  watchSlidesProgress
-  pagination={{ clickable: true }}
-  navigation={{
-    prevEl: ".custom-prev",
-    nextEl: ".custom-next",
-  }}
-  autoplay={{ delay: 400000, disableOnInteraction: false }}
-  loop
->
-
-
+      <Swiper
+        modules={[Autoplay, Pagination, Navigation]}
+        watchSlidesProgress
+        pagination={{ clickable: true }}
+        navigation={{
+          prevEl: ".custom-prev",
+          nextEl: ".custom-next",
+        }}
+        autoplay={{ delay: 400000, disableOnInteraction: false }}
+        loop
+      >
         {promos.map((item, index) => (
           <SwiperSlide key={index}>
             <div
@@ -93,13 +82,12 @@ const MainCarousel = () => {
                 <div className="mainCarousel-slogan">
                   {item.brand && (
                     <img
-  src={cloudinaryOptimize(item.brand, 200)}
-  style={item.logoStyle}
-  loading="lazy"
-  decoding="async"
-  alt={item.titleLines[0]}
-/>
-
+                      src={cloudinaryOptimize(item.brand, 200)}
+                      style={item.logoStyle}
+                      loading="lazy"
+                      decoding="async"
+                      alt={item.titleLines[0]}
+                    />
                   )}
                   {item.titleLines.map((line, i) => (
                     <h2 key={i} style={{ display: "block" }}>
@@ -108,28 +96,27 @@ const MainCarousel = () => {
                   ))}
                   <p>{item.desc}</p>
                   <span>{item.note || ""}</span>
-                    <Link to={item.link} className="cta-button">
-                      {item.cta}{" "}
-                    </Link>
+                  <Link to={item.link} className="cta-button">
+                    {item.cta}{" "}
+                  </Link>
                 </div>
                 <div className="mainCarousel-img">
-  <img
-    src={cloudinaryHero(item.image, 1200)}
-    srcSet={`
+                  <img
+                    src={cloudinaryHero(item.image, 1200)}
+                    srcSet={`
       ${cloudinaryHero(item.image, 600)} 600w,
       ${cloudinaryHero(item.image, 900)} 900w,
       ${cloudinaryHero(item.image, 1200)} 1200w
     `}
-    sizes="(max-width: 768px) 100vw, 1200px"
-    alt={item.titleLines[0]}
-    width="1200"
-    height="auto"
-    loading={index === 0 ? "eager" : "lazy"}
-    fetchPriority={index === 0 ? "high" : "auto"}
-    decoding="async"
-  />
-</div>
-
+                    sizes="(max-width: 768px) 100vw, 1200px"
+                    alt={item.titleLines[0]}
+                    width="1200"
+                    height="auto"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchPriority={index === 0 ? "high" : "auto"}
+                    decoding="async"
+                  />
+                </div>
               </div>
             </div>
           </SwiperSlide>
