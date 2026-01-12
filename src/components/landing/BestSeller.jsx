@@ -66,32 +66,39 @@ const BestSeller = () => {
               to={`/products/${slugify(product.category)}/${slugify(
                 product.subCategory
               )}/preview/${product.id}`}
-              style={{ all: "unset" }}
+              className="bestSeller-link"
             >
-              <img
-  src={cloudinaryOptimize(product.picture, 300)}
-  srcSet={`
-    ${cloudinaryOptimize(product.picture, 300)} 1x,
-    ${cloudinaryOptimize(product.picture, 600)} 2x,
-    ${cloudinaryOptimize(product.picture, 900)} 3x
-  `}
-  width="300"
-  height="auto"  
-  alt={product.name}
-  className="bestSeller-img"
-  loading="lazy"
-  decoding="async"
-/>{" "}
-              <div className="bestSeller-info">
+              <div className="bestSeller-img-container">
                 <img
-                  src={cloudinaryOptimize(product.logo, 100)}
-                  width="100"
-                  height="100"
-                  alt={product.name + " logo"}
-                  className="bestSeller-logo"
-                  loading="lazy"
-                  decoding="async"
-                />
+    src={cloudinaryOptimize(product.picture, 300)}
+    srcSet={`
+      ${cloudinaryOptimize(product.picture, 300)} 1x,
+      ${cloudinaryOptimize(product.picture, 600)} 2x
+    `}
+    alt={product.name}
+    className="bestSeller-img"
+    loading="lazy"
+    decoding="async"
+  />
+              </div>
+ {" "}
+              <div className="bestSeller-info">
+                <div className="bestSeller-logo-container">
+  <img 
+    width="80" 
+    height="auto"
+    alt={product.name + " logo"} 
+    className="bestSeller-logo" 
+    loading="lazy" 
+    decoding="async" 
+    src={cloudinaryOptimize(product.logo, 80)}
+    srcSet={`
+      ${cloudinaryOptimize(product.logo, 80)} 1x,
+      ${cloudinaryOptimize(product.logo, 160)} 2x
+    `}
+  />
+                </div>
+               
                 <h3>{product.name}</h3>
                 <p>Ref: {product.reference}</p>
                 <p className="bestSeller-price">{product.price},000 DT</p>
