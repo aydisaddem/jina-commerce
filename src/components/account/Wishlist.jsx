@@ -6,11 +6,14 @@ import api from "../../utils/api.js";
 import Swal from "sweetalert2";
 import { slugify } from "../../utils/slugify.js";
 import NotFound from "../NotFound.jsx";
-import searchImg from "../../assets/search.png"
+import searchImg from "../../assets/search.png";
+import { cloudinaryOptimize } from "../../utils/cloudinaryOptimize.js";
 
 const Wishlist = () => {
   useContext(AuthContext);
   const { user, setUser } = useContext(AuthContext);
+
+ 
 
   if (!user) {
     return <Loading />;
@@ -59,10 +62,12 @@ const Wishlist = () => {
           <div className="wishlist-item" key={idx}>
             <div className="wishlistimg-wrapper">
               <img
-                src={item.picture}
+                src={cloudinaryOptimize(item.picture, 120)}
+                width="120"
+                height="120"
                 alt={item.name}
-                className="item-picture"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="wishlist-info-block">
@@ -71,10 +76,14 @@ const Wishlist = () => {
               <p className="wishlistItem-price">{item.price},000 DT</p>
 
               <button className="see-more">
-                <Link to={`/products/${slugify(item.category)}${
-  item.subCategory && item.subCategory !== item.category ? `/${slugify(item.subCategory)}` : ""
-}/preview/${item.id}`}
-              style={{ all: "unset" }}>
+                <Link
+                  to={`/products/${slugify(item.category)}${
+                    item.subCategory && item.subCategory !== item.category
+                      ? `/${slugify(item.subCategory)}`
+                      : ""
+                  }/preview/${item.id}`}
+                  style={{ all: "unset" }}
+                >
                   See more
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +199,7 @@ const Wishlist = () => {
           </div>
         ))
       ) : (
-        <NotFound img={searchImg} message={"Empty wishlist"}/>
+        <NotFound img={searchImg} message={"Empty wishlist"} />
       )}
     </div>
   );

@@ -12,6 +12,7 @@ import NotFound from "../NotFound.jsx";
 import searchImg from "../../assets/search.png";
 import api from "../../utils/api.js";
 import { useNavigate } from "react-router-dom";
+import { cloudinaryOptimize } from "../../utils/cloudinaryOptimize.js";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -169,12 +170,15 @@ const Navbar = () => {
                     onClick={() => handleSuggestionClick(product)}
                   >
                     {product.pictures && (
-                      <img
-                        src={product.pictures[0]}
-                        alt={product.name}
-                        className="suggestion-image"
-                        loading="lazy"
-                      />
+                 <img
+                src={cloudinaryOptimize(product.pictures[0], 120)}
+                width="120"
+                height="120"
+                alt={product.name}
+                className="suggestion-image"
+                loading="lazy"
+                decoding="async"
+              />
                     )}
                     <div className="suggestion-details">
                       <p className="suggestion-name">{product.name}</p>
@@ -242,14 +246,16 @@ const Navbar = () => {
                   <>
                     {panel.map((item, idx) => (
                       <article key={idx} className="panel-product-card">
+                      
                         <img
-                          className="panel-product-image"
-                          src={item.pictures[0]}
-                          width="140"
-                          height="160"
-                          loading="lazy"
-                          alt={item.name}
-                        />
+                src={cloudinaryOptimize(item.pictures[0], 140)}
+                width="140"
+                height="160"
+                alt={item.name}
+                className="panel-product-image"
+                loading="lazy"
+                decoding="async"
+              />
 
                         <div className="panel-product-info">
                           <NavLink
@@ -351,11 +357,14 @@ const Navbar = () => {
               >
                 {product.pictures && product.pictures[0] && (
                   <img
-                    src={product.pictures[0]}
-                    alt={product.name}
-                    className="suggestion-image"
-                    loading="lazy"
-                  />
+                src={cloudinaryOptimize(product.pictures[0], 120)}
+                width="120"
+                height="120"
+                alt={product.name}
+                className="suggestion-image"
+                loading="lazy"
+                decoding="async"
+              />
                 )}
                 <div className="suggestion-details">
                   <p className="suggestion-name">{product.name}</p>

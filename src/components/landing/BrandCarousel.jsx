@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { brands } from "../../data/brands";
-
+import { cloudinaryOptimize } from "../../utils/cloudinaryOptimize";
 import "swiper/css";
 
 const BrandCarousel = () => {
@@ -29,7 +29,7 @@ const BrandCarousel = () => {
         {brandsItems.map((item) => (
           <SwiperSlide key={item.name}>
             <Link to={item.link} className="brand-link">
-              <img src={item.logo} alt={item.name} className="brand-logo" loading="lazy" />
+              <img src={cloudinaryOptimize(item.logo, 140)}  alt={item.name} className="brand-logo" loading="lazy" decoding="async" />
             </Link>
           </SwiperSlide>
         ))}
