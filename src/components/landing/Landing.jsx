@@ -7,6 +7,7 @@ import cashIcon from "../../assets/cash-white2.png";
 import houseIcon from "../../assets/house-white.png";
 import { useSEO } from "../../Hooks/useSEO";
 const Landing = () => {
+  
   useSEO({
     title: 'JINA SHOP - Electronics Store in Tunisia | Home Delivery',
     description: 'Shop the latest electronics in Tunisia at JINA SHOP. Computers, phones, tablets with home delivery nationwide. Pay on delivery available.',

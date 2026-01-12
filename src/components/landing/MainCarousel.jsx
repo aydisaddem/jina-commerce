@@ -1,14 +1,15 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useEffect } from "react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { brands } from "../../data/brands";
-import {slugify} from "../../utils/slugify"
 import "swiper/css";
 import "swiper/css/pagination";
+import { cloudinaryOptimize } from "../../utils/cloudinaryOptimize";
 
 
 const MainCarousel = () => {
-  const promos = [
+   const promos = [
         {
       titleLines: ["GALAXY S25 ULTRA"],
       desc: "Engineered for Ultra Intelligence — Experience the Power of 6G ",
@@ -46,22 +47,42 @@ const MainCarousel = () => {
 
 
   ];
+  useEffect(() => {
+  if (promos.length === 0) return;
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = cloudinaryHero(promos[0].image, 1200);
+  document.head.appendChild(link);
+  return () => document.head.removeChild(link);
+}, [promos]);
+
+
+  const cloudinaryHero = (url, width) =>
+  url.replace(
+    "/upload/",
+    `/upload/f_auto,q_auto,w_${width}/`
+  );
+ 
 
   return (
     <div className="mainCarousel">
       <button className="custom-prev">‹</button>
       <button className="custom-next">›</button>
 
-      <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
-        pagination={{ clickable: true }}
-        navigation={{
-          prevEl: ".custom-prev",
-          nextEl: ".custom-next",
-        }}
-        autoplay={{ delay: 400000, disableOnInteraction: false }}
-        loop
-      >
+ <Swiper
+  modules={[Autoplay, Pagination, Navigation]}
+  watchSlidesProgress
+  pagination={{ clickable: true }}
+  navigation={{
+    prevEl: ".custom-prev",
+    nextEl: ".custom-next",
+  }}
+  autoplay={{ delay: 400000, disableOnInteraction: false }}
+  loop
+>
+
+
         {promos.map((item, index) => (
           <SwiperSlide key={index}>
             <div
@@ -71,7 +92,14 @@ const MainCarousel = () => {
               <div className="mainCarousel-content">
                 <div className="mainCarousel-slogan">
                   {item.brand && (
-                    <img src={item.brand} style={item.logoStyle} loading="lazy" alt={item.titleLines[0]} />
+                    <img
+  src={cloudinaryOptimize(item.brand, 200)}
+  style={item.logoStyle}
+  loading="lazy"
+  decoding="async"
+  alt={item.titleLines[0]}
+/>
+
                   )}
                   {item.titleLines.map((line, i) => (
                     <h2 key={i} style={{ display: "block" }}>
@@ -87,8 +115,23 @@ const MainCarousel = () => {
                   </button>
                 </div>
                 <div className="mainCarousel-img">
-                  <img src={item.image} alt={item.titleLines[0]} loading="lazy" />
-                </div>
+  <img
+    src={cloudinaryHero(item.image, 1200)}
+    srcSet={`
+      ${cloudinaryHero(item.image, 600)} 600w,
+      ${cloudinaryHero(item.image, 900)} 900w,
+      ${cloudinaryHero(item.image, 1200)} 1200w
+    `}
+    sizes="(max-width: 768px) 100vw, 1200px"
+    alt={item.titleLines[0]}
+    width="1200"
+    height="1200"
+    loading={index === 0 ? "eager" : "lazy"}
+    fetchPriority={index === 0 ? "high" : "auto"}
+    decoding="async"
+  />
+</div>
+
               </div>
             </div>
           </SwiperSlide>

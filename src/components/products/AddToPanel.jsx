@@ -2,9 +2,11 @@ import "../../styles/products.css";
 import { useContext } from "react";
 import { PanelContext } from "../../context/PanelContext.jsx";
 import { Link } from "react-router-dom";
+import { cloudinaryOptimize } from "../../utils/cloudinaryOptimize.js";
 
 const AddToPanel = ({ data, showCart, qty }) => {
   const { total, count } = useContext(PanelContext);
+  const isLCP = false;
 
   return (
     <div className="cart-confirmation-panel">
@@ -13,10 +15,19 @@ const AddToPanel = ({ data, showCart, qty }) => {
         <div className="cart-product-details">
           <div className="product-image-wrapper">
             <img
-              src={data.pictures?.[0]}
+              src={cloudinaryOptimize(data.pictures?.[0], 400)}
+              srcSet={`
+      ${cloudinaryOptimize(data.pictures?.[0], 200)} 200w,
+      ${cloudinaryOptimize(data.pictures?.[0], 400)} 400w,
+      ${cloudinaryOptimize(data.pictures?.[0], 600)} 600w
+    `}
+              sizes="(max-width: 768px) 100vw, 400px"
               alt={data.name}
+              width="400"
+              height="400"
               className="item-picture"
               loading="lazy"
+              decoding="async"
             />
           </div>
 
@@ -39,9 +50,12 @@ const AddToPanel = ({ data, showCart, qty }) => {
       </div>
       <div className="confirm-buttons">
         <button onClick={showCart}>continue shopping</button>
-        
-          <button><Link to="/account/panel" style={{ all: "unset" }}>order now</Link></button>
-        
+
+        <button>
+          <Link to="/account/panel" style={{ all: "unset" }}>
+            order now
+          </Link>
+        </button>
       </div>
       <button className="close-cart" onClick={showCart}>
         ✕

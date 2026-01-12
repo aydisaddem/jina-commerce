@@ -67,12 +67,14 @@
   outline: none;
 }
 .thumb img {
-  max-width: 60px;
-  height: 60px;
+  width: 60px;         
+  height: 60px;         
   object-fit: cover;
   border-radius: 4px;
-  transition: border 0.2s ease;
+  display: block; 
+  aspect-ratio: 1 / 1;     
 }
+
 .thumb.active img {
   border: 2px solid var(--divider);
 }

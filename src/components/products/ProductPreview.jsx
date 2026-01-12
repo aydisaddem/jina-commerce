@@ -10,8 +10,9 @@ import AddToPanel from "./AddToPanel.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import Breadcrumb from "../layout/Breadcrumb.jsx";
 import NotFound from "../NotFound.jsx";
-import block from "../../assets/block.png"
-import { useSEO } from '../../Hooks/useSEO.js';
+import block from "../../assets/block.png";
+import { useSEO } from "../../Hooks/useSEO.js";
+import { cloudinaryOptimize } from "../../utils/cloudinaryOptimize.js";
 
 const ProductPreview = () => {
   const { addItem } = useContext(PanelContext);
@@ -24,9 +25,9 @@ const ProductPreview = () => {
   const [isHidden, setIsHidden] = useState(true);
   const { isLoggedIn, user, setUser } = useContext(AuthContext);
 
-  const {category, subCategory, id } = useParams();
+  const { category, subCategory, id } = useParams();
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -45,8 +46,9 @@ useEffect(() => {
     fetchData();
   }, [id]);
 
+  const isLCP = activeIndex === 0;
 
- // Build canonical URL based on whether subcategory exists
+  // Build canonical URL based on whether subcategory exists
   let canonical;
   if (subCategory) {
     // URL: /products/:category/:subCategory/preview/:id
@@ -55,21 +57,22 @@ useEffect(() => {
     // URL: /products/:category/preview/:id
     canonical = `https://jinashop.netlify.app/products/${category}/preview/${id}`;
   }
-  
+
   // Apply SEO
   useSEO({
     title: `${data.name} - Buy at JINA SHOP Tunisia`,
-    description: `${data.name} - ${data.description?.substring(0, 150) || 'High quality electronics'}. Buy online with home delivery in Tunisia. Pay on delivery available.`,
+    description: `${data.name} - ${
+      data.description?.substring(0, 150) || "High quality electronics"
+    }. Buy online with home delivery in Tunisia. Pay on delivery available.`,
     canonical: canonical,
-    image:  data.pictures?.[0],
-    type: 'product'
+    image: data.pictures?.[0],
+    type: "product",
   });
-
 
   if (loading) return <Loading />;
   if (error)
     return (
-      <NotFound img= {block} message={"Product doesn't exist or was removed"} />
+      <NotFound img={block} message={"Product doesn't exist or was removed"} />
     );
 
   const handleQtyDecrease = () => {
@@ -126,161 +129,173 @@ useEffect(() => {
 
   return (
     <>
-    <h1 className="visually-hidden">
-        Product Preview
-      </h1>
-    <Breadcrumb data={data}/>
-    <div id="product-container">
-
-      
-      <div className="product-name">
-        <h2>{data.name}</h2>
-      </div>
-      <hr />
-      <div className="product-info">
-        <div className="carousel">
-          <div className="main-image">
-            <img
-              src={data.pictures[activeIndex]}
-              alt={`Product view ${activeIndex + 1}`}
-              loading="lazy"
-            />
-
-            <button
-              className="bg-arrow leftSide"
-              onClick={() =>
-                setActiveIndex((prev) =>
-                  prev === 0 ? data.pictures.length - 1 : prev - 1
-                )
-              }
-            >
-              &#10094;
-            </button>
-
-            <button
-              className="bg-arrow rightSide"
-              onClick={() =>
-                setActiveIndex((prev) =>
-                  prev === data.pictures.length - 1 ? 0 : prev + 1
-                )
-              }
-            >
-              &#10095;
-            </button>
-          </div>
-
-          <div className="thumbnails">
-            {data.pictures.map((img, index) => (
-              <button
-                key={index}
-                className={`thumb ${index === activeIndex ? "active" : ""}`}
-                onClick={() => setActiveIndex(index)}
-              >
-                <img src={img} alt={`Thumbnail ${index + 1}`} loading="lazy"/>
-              </button>
-            ))}
-          </div>
+      <h1 className="visually-hidden">Product Preview</h1>
+      <Breadcrumb data={data} />
+      <div id="product-container">
+        <div className="product-name">
+          <h2>{data.name}</h2>
         </div>
-        <div className="details-container">
-          <div className="product-desc">
-            <p className="item-reference">
-              Reference : <span> {data.reference} </span>{" "}
-            </p>
-            <p>{data.description}</p>
-          </div>
-          <div className="purshase-container">
-            <img
-              className="brand-logo"
-              src={brands[data.brand]}
-              alt={data.brand}
-              loading="lazy"
-            />
-            <p className="item-price">{data.price},000 DT TTC</p>
-            <p className="item-availability">
-              Availability :{" "}
-              <span className={data.quantity ? "in-stock" : "on-order"}>
-                {data.quantity ? "In stock" : "On order"}
-              </span>
-            </p>
-            <div className="number-control">
-              <span className="item-quantity">Quantity :</span>
-              <div className="number-left" onClick={handleQtyDecrease}></div>
-              <input
-                type="number"
-                name="number"
-                value={qty}
-                onChange={(e) => handleQtyChange(e)}
-                className="number-quantity"
+        <hr />
+        <div className="product-info">
+          <div className="carousel">
+            <div className="main-image">
+              <img
+                src={cloudinaryOptimize(data.pictures[activeIndex], 800)}
+                alt={`Product view ${activeIndex + 1}`}
+                srcSet={`
+    ${cloudinaryOptimize(data.pictures[activeIndex], 400)} 400w,
+    ${cloudinaryOptimize(data.pictures[activeIndex], 800)} 800w,
+    ${cloudinaryOptimize(data.pictures[activeIndex], 1200)} 1200w
+  `}
+                sizes="(max-width: 768px) 100vw, 800px"
+                width="800"
+                height="800"
+                loading={isLCP ? "eager" : "lazy"}
+                fetchPriority={isLCP ? "high" : "auto"}
               />
-              <div className="number-right" onClick={handleQtyIncrease}></div>
-            </div>
-            <div className="item-actions">
-              {data.quantity ? (
-                <button
-                  className="icon-button"
-                  onClick={() => handleAddToPanel(qty)}
-                >
-                  <i className="fa-solid fa-cart-shopping"></i>
-                </button>
-              ) : (
-                ""
-              )}
 
-              <button className="icon-button" onClick={handleWishlist}>
-                <i className="fa-regular fa-heart"></i>
+              <button
+                className="bg-arrow leftSide"
+                onClick={() =>
+                  setActiveIndex((prev) =>
+                    prev === 0 ? data.pictures.length - 1 : prev - 1
+                  )
+                }
+              >
+                &#10094;
               </button>
+
+              <button
+                className="bg-arrow rightSide"
+                onClick={() =>
+                  setActiveIndex((prev) =>
+                    prev === data.pictures.length - 1 ? 0 : prev + 1
+                  )
+                }
+              >
+                &#10095;
+              </button>
+            </div>
+
+            <div className="thumbnails">
+              {data.pictures.map((img, index) => (
+                <button
+                  key={index}
+                  className={`thumb ${index === activeIndex ? "active" : ""}`}
+                  onClick={() => setActiveIndex(index)}
+                >
+                  <img
+                    src={cloudinaryOptimize(img, 120)}
+                    alt={`Thumbnail ${index + 1}`}
+                    width="120"
+                    height="120"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="details-container">
+            <div className="product-desc">
+              <p className="item-reference">
+                Reference : <span> {data.reference} </span>{" "}
+              </p>
+              <p>{data.description}</p>
+            </div>
+            <div className="purshase-container">
+              <img
+                className="brand-logo"
+                src={brands[data.brand]}
+                alt={data.brand}
+                loading="lazy"
+              />
+              <p className="item-price">{data.price},000 DT TTC</p>
+              <p className="item-availability">
+                Availability :{" "}
+                <span className={data.quantity ? "in-stock" : "on-order"}>
+                  {data.quantity ? "In stock" : "On order"}
+                </span>
+              </p>
+              <div className="number-control">
+                <span className="item-quantity">Quantity :</span>
+                <div className="number-left" onClick={handleQtyDecrease}></div>
+                <input
+                  type="number"
+                  name="number"
+                  value={qty}
+                  onChange={(e) => handleQtyChange(e)}
+                  className="number-quantity"
+                />
+                <div className="number-right" onClick={handleQtyIncrease}></div>
+              </div>
+              <div className="item-actions">
+                {data.quantity ? (
+                  <button
+                    className="icon-button"
+                    onClick={() => handleAddToPanel(qty)}
+                  >
+                    <i className="fa-solid fa-cart-shopping"></i>
+                  </button>
+                ) : (
+                  ""
+                )}
+
+                <button className="icon-button" onClick={handleWishlist}>
+                  <i className="fa-regular fa-heart"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {data.specifications.length>0 &&  <div className="product-specifications">
-        <h3>technical sheet</h3>
-        <table className="spec-table">
-          <tbody>
-            {data.specifications.map((spec, index) => (
-              <tr key={index}>
-                <td className="spec-key">{spec.label}</td>
-                <td className="spec-value">{spec.value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> }
-     
-
-      <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
-        <AddToPanel data={data} showCart={showCart} qty={qty} />
-      </div>
-      <div
-        className={`overlay ${isHidden ? "hidden" : ""}`}
-        onClick={handleAlert}
-      ></div>
-      <div className={`auth-alert ${isHidden ? "hidden" : ""}`}>
-        {!isLoggedIn ? (
-          <>
-            <p>You must be logged in to manage your list </p>
-            <span onClick={handleAlert}>
-              <i className="fa-solid fa-xmark"></i>
-            </span>
-          </>
-        ) : (
-          <>
-            <p>
-              The product has been added to your list.{" "}
-              <Link to="/account/wishlist">
-                <strong>View your list</strong>
-              </Link>
-              .{" "}
-            </p>
-            <span onClick={handleAlert}>
-              <i className="fa-solid fa-xmark"></i>
-            </span>
-          </>
+        {data.specifications.length > 0 && (
+          <div className="product-specifications">
+            <h3>technical sheet</h3>
+            <table className="spec-table">
+              <tbody>
+                {data.specifications.map((spec, index) => (
+                  <tr key={index}>
+                    <td className="spec-key">{spec.label}</td>
+                    <td className="spec-value">{spec.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
+
+        <div className={`${!newPanelShow ? "hidden" : ""} overlay`}>
+          <AddToPanel data={data} showCart={showCart} qty={qty} />
+        </div>
+        <div
+          className={`overlay ${isHidden ? "hidden" : ""}`}
+          onClick={handleAlert}
+        ></div>
+        <div className={`auth-alert ${isHidden ? "hidden" : ""}`}>
+          {!isLoggedIn ? (
+            <>
+              <p>You must be logged in to manage your list </p>
+              <span onClick={handleAlert}>
+                <i className="fa-solid fa-xmark"></i>
+              </span>
+            </>
+          ) : (
+            <>
+              <p>
+                The product has been added to your list.{" "}
+                <Link to="/account/wishlist">
+                  <strong>View your list</strong>
+                </Link>
+                .{" "}
+              </p>
+              <span onClick={handleAlert}>
+                <i className="fa-solid fa-xmark"></i>
+              </span>
+            </>
+          )}
+        </div>
       </div>
-    </div>
     </>
-    
   );
 };
 
