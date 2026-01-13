@@ -142,6 +142,7 @@ const Footer = () => {
             <div className="footer-social-icons">
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.facebook.com/sdouma.aydi/"
                 className="facebook"
                 aria-label="Visit our Facebook page"
@@ -150,6 +151,7 @@ const Footer = () => {
               </a>
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.instagram.com/saddemaydi/"
                 className="instagram"
                 aria-label="Visit our Instagram page"
